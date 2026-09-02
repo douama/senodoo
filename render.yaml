@@ -13,6 +13,11 @@ databases:
   - name: senodoo-db
     databaseName: senodoo
     user: senodoo
+    # DOIT correspondre a la region du service web. Le hostname interne d'une
+    # base Render (dpg-xxxx-a) n'est resolvable que depuis la meme region ;
+    # sans cette ligne la base est creee en `oregon` par defaut et le service
+    # en frankfurt ne peut pas s'y connecter (timeout pg_isready au demarrage).
+    region: frankfurt
     # Odoo cree beaucoup de tables et d'index : eviter le plan gratuit, qui
     # expire au bout de 30 jours et plafonne le stockage.
     plan: basic-1gb
