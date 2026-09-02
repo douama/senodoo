@@ -1,0 +1,154 @@
+import { Component, onWillStart, useState } from "@odoo/owl";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { Dropdown } from "@web/core/dropdown/dropdown";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
+import { useDropdownState } from "@web/core/dropdown/dropdown_hooks";
+import { deserializeDateTime } from "@web/core/l10n/dates";
+import { rpc, ConnectionLostError } from "@web/core/network/rpc";
+import { registry } from "@web/core/registry";
+import { formatFloatTime, formatDateTime } from "@web/views/fields/formatters";
+import { useService } from "@web/core/utils/hooks";
+import { _t } from "@web/core/l10n/translation";
+
+export class ActivityMenu extends Component {
+    static components = { Dropdown, DropdownItem };
+    static props = [];
+    static template = "hr_attendance.attendance_menu";
+
+    setup() {
+        this.ui = useService("ui");
+        this.lazySession = useService("lazy_session");
+        this.notification = useService("notification");
+        this.dialogService = useService("dialog");
+        this.employee = false;
+        this.state = useState({
+            checkedIn: false,
+            isDisplayed: false,
+        });
+
+        this.dropdown = useDropdownState();
+
+        onWillStart(() => {
+            this.lazySession.getValue("attendance_user_data", (employee) => {
+                if (employee) {
+                    this.employee = employee;
+                    this._searchReadEmployeeFill();
+                }
+            });
+        });
+    }
+
+    _searchReadEmployeeFill() {
+        if (!this.employee?.id) {
+            this.state.isDisplayed = false;
+            return;
+        }
+
+        this.employeeName = this.employee.name;
+        this.state.isDisplayed = this.employee.display_systray;
+        this.state.checkedIn = this.employee.attendance_state === "checked_in";
+
+        this.hoursToday = formatFloatTime(this.employee.hours_today, { numeric: true });
+
+        this.attendancesToday = (this.employee.today_attendance_ids || []).map((att) => {
+            const checkIn = formatDateTime(
+                deserializeDateTime(att.check_in),
+                { showDate: false }
+            );
+            const checkOut = att.check_out
+                ? formatDateTime(
+                    deserializeDateTime(att.check_out),
+                    { showDate: false }
+                )
+                : null;
+            const duration = att.check_out
+                ? att.worked_hours
+                : this.employee.last_attendance_worked_hours;
+            return {
+                id: att.id,
+                start: checkIn,
+                end: checkOut,
+                duration: formatFloatTime(duration, { numeric: true }),
+            };
+        });
+        this.hasCheckedInToday = this.attendancesToday.length > 0;
+    }
+
+    splitTime(timeStr) {
+        const [h, m] = timeStr.split(":");
+        return { h, m };
+    }
+
+    async checking(latitude = false, longitude = false) {
+        try {
+            this.employee = await rpc("/hr_attendance/systray_check_in_out", {
+                latitude,
+                longitude,
+            });
+            this._searchReadEmployeeFill();
+        } catch (error) {
+            if (error instanceof ConnectionLostError) {
+                this.notification.add(_t("Connection lost. Check in/out could not be recorded."), {
+                    title: _t("Attendance Error"),
+                    type: "danger",
+                    sticky: false,
+                });
+            } else {
+                throw error;
+            }
+        } finally {
+            this._attendanceInProgress = false;
+        }
+    }
+
+    confirmChecking() {
+        this.dialogService.add(ConfirmationDialog, {
+            body: _t("Unable to get a valid location. Do you want to proceed with your check-in/out anyway?"),
+            confirmLabel: _t("Proceed Anyway"),
+            confirm: async () => await this.checking(),
+            cancel: () => this._attendanceInProgress = false,
+        });
+    }
+
+    get closeSystrayOnCheckIn() {
+        return true;
+    }
+
+    async signInOut() {
+        if (this.closeSystrayOnCheckIn) {
+            this.dropdown.close();
+        }
+        if (this._attendanceInProgress) {
+            return;
+        }
+        this._attendanceInProgress = true;
+
+        const trackingEnabled = this.employee && this.employee.device_tracking_enabled;
+        if (trackingEnabled && navigator.geolocation && navigator.onLine) {
+            navigator.geolocation.getCurrentPosition(
+                async ({ coords: { latitude, longitude } }) => {
+                    await this.checking(latitude, longitude);
+                },
+                () => {
+                    this.confirmChecking();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                }
+            );
+        } else if (trackingEnabled) {
+            this.confirmChecking();
+        } else {
+            await this.checking();
+        }
+    }
+}
+
+export const systrayAttendance = {
+    Component: ActivityMenu,
+};
+
+registry
+    .category("systray")
+    .add("hr_attendance.attendance_menu", systrayAttendance, { sequence: 70 });

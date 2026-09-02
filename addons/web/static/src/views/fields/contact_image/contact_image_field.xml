@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <templates id="template" xml:space="preserve">
+    <t t-name="web.ContactImageField" t-inherit="web.ImageField" t-inherit-mode="primary">
+        <xpath expr="//button[hasclass('o_select_file_button')]" position="attributes">
+            <attribute name="t-if">containsValidImage</attribute>
+        </xpath>
+        <xpath expr="//button[hasclass('o_select_file_button')]" position="after">
+            <button t-else="" class="btn border-0 d-flex justify-content-center align-items-center w-100">
+                Add Photo
+            </button>
+        </xpath>
+    </t>
+ </templates>

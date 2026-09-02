@@ -1,0 +1,77 @@
+# ============================================================================
+# Odoo saas~19.2 - pile locale / VPS
+#
+#   docker compose up --build
+#   -> http://localhost:8069
+#
+# Le premier demarrage initialise la base (module `base`) et prend plusieurs
+# minutes. Les demarrages suivants sont rapides.
+#
+# Cette pile sert aussi de cible VPS : ajouter un reverse proxy (Nginx,
+# Traefik, Caddy) devant le service `odoo` pour le TLS.
+# ============================================================================
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo_dev_password}
+      POSTGRES_DB: ${POSTGRES_DB:-odoo}
+      # Odoo trie et compare beaucoup de texte : un collationnement stable
+      # evite les reindexations apres une montee de version de PostgreSQL.
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-odoo} -d ${POSTGRES_DB:-odoo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    # Pas de ports exposes : la base n'est joignable que par le reseau interne.
+    # Pour un acces psql depuis l'hote, decommenter :
+    # ports:
+    #   - "127.0.0.1:5432:5432"
+
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGHOST: db
+      PGPORT: "5432"
+      PGUSER: ${POSTGRES_USER:-odoo}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-odoo_dev_password}
+      PGDATABASE: ${POSTGRES_DB:-odoo}
+      PGSSLMODE: disable
+
+      ODOO_ADMIN_PASSWD: ${ODOO_ADMIN_PASSWD:-changeme_admin_password}
+      # Sur un VPS mono-conteneur on peut passer en prefork (workers > 0).
+      # Ne PAS le faire sur Render/Railway : le worker gevent ecouterait sur
+      # un second port non expose.
+      ODOO_WORKERS: ${ODOO_WORKERS:-0}
+      ODOO_MAX_CRON_THREADS: "1"
+      ODOO_DB_MAXCONN: "16"
+      ODOO_LIST_DB: "False"
+      # proxy_mode n'a de sens que derriere un reverse proxy qui envoie
+      # X-Forwarded-*. En acces direct sur :8069, le laisser a False.
+      ODOO_PROXY_MODE: ${ODOO_PROXY_MODE:-False}
+      ODOO_LOG_LEVEL: ${ODOO_LOG_LEVEL:-info}
+    volumes:
+      - odoo-filestore:/var/lib/odoo
+      # Developpement : decommenter pour recharger le code sans rebuild.
+      # - ./addons:/opt/odoo/addons:ro
+      # - ./odoo:/opt/odoo/odoo:ro
+    ports:
+      - "${ODOO_PORT:-8069}:8069"
+
+volumes:
+  # Contient le filestore Odoo (pieces jointes, assets compiles) et les
+  # sessions. Sa perte entraine celle de tous les fichiers joints.
+  odoo-filestore:
+  pg-data:

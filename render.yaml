@@ -1,0 +1,84 @@
+# ============================================================================
+# Render Blueprint - Odoo saas~19.2
+#
+# Deploiement : Render Dashboard > New > Blueprint > selectionner ce depot.
+# Render lit ce fichier, cree la base PostgreSQL, le disque persistant et le
+# service web, puis construit l'image a partir du Dockerfile.
+#
+# Verifier les noms de plans dans la doc Render avant le premier deploiement :
+# ils evoluent (https://render.com/docs/blueprint-spec).
+# ============================================================================
+
+databases:
+  - name: odoo-db
+    databaseName: odoo
+    user: odoo
+    # Odoo cree beaucoup de tables et d'index : eviter le plan gratuit, qui
+    # expire au bout de 30 jours et plafonne le stockage.
+    plan: basic-1gb
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: odoo
+    runtime: docker
+    # Odoo charge l'ORM complet en memoire : en dessous de 2 Go le processus
+    # est tue pendant la compilation des assets web.
+    plan: standard
+    region: frankfurt
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /web/health
+    autoDeploy: true
+
+    # Disque persistant obligatoire : sans lui, le filestore (pieces jointes,
+    # assets compiles) est perdu a chaque redeploiement.
+    disk:
+      name: odoo-filestore
+      mountPath: /var/lib/odoo
+      sizeGB: 10
+
+    envVars:
+      # Injectee par Render depuis la base ci-dessus ; l'entrypoint la
+      # decompose en PGHOST / PGPORT / PGUSER / PGPASSWORD / PGDATABASE.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: odoo-db
+          property: connectionString
+
+      # Mot de passe maitre (creation/suppression de bases). Genere par Render
+      # et consultable dans l'onglet Environment - jamais stocke dans le depot.
+      - key: ODOO_ADMIN_PASSWD
+        generateValue: true
+
+      # Mode threade impose : en prefork, le worker gevent ecoute sur un second
+      # port (gevent_port) que Render n'expose pas, ce qui casse les websockets.
+      - key: ODOO_WORKERS
+        value: "0"
+
+      - key: ODOO_MAX_CRON_THREADS
+        value: "1"
+
+      # Render termine le TLS en amont : proxy_mode fait confiance aux
+      # en-tetes X-Forwarded-* pour reconstruire les URL absolues.
+      - key: ODOO_PROXY_MODE
+        value: "True"
+
+      # Ferme le gestionnaire de bases (/web/database/manager) en production.
+      - key: ODOO_LIST_DB
+        value: "False"
+
+      # Les plans PostgreSQL manages plafonnent les connexions bien en dessous
+      # du defaut Odoo (64).
+      - key: ODOO_DB_MAXCONN
+        value: "16"
+
+      # Doit correspondre au mountPath du disque.
+      - key: ODOO_DATA_DIR
+        value: /var/lib/odoo
+
+      - key: ODOO_WITHOUT_DEMO
+        value: all
+
+      - key: ODOO_LOG_LEVEL
+        value: info

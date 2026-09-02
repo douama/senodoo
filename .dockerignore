@@ -1,0 +1,48 @@
+# VCS & IDE
+.git
+.github
+.vscode
+.idea
+.DS_Store
+
+# environnements virtuels locaux
+# Motifs ancres a la racine (prefixe /) : sans cela, `src` risquerait de
+# correspondre aux repertoires addons/*/static/src, qui contiennent tout le
+# code du client web.
+.venv
+.venv-win
+/venv/
+/bin/
+/build/
+/dist/
+/include/
+/lib/
+/man/
+/share/
+/src/
+
+# donnees locales (filestore, sessions) - jamais dans l'image
+.odoo_local_data
+odoo/filestore
+
+# config locale (contient des identifiants) - injectee via env vars
+odoo.conf
+odoo.conf.bak-*
+
+# artefacts de build
+*.py[co]
+__pycache__/
+*.egg-info
+node_modules
+
+# non necessaire au runtime serveur
+doc/
+_build/
+windows/
+debian/
+setup/win32/
+install/win32/
+
+# fichiers de deploiement eux-memes
+docker-compose*.yml
+DEPLOY.md
