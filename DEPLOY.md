@@ -145,6 +145,56 @@ railway up
 
 ---
 
+## Étape 4 — Façade Vercel (optionnelle)
+
+Vercel ne peut pas *héberger* Odoo (voir plus haut), mais il peut en être la
+**façade publique** : votre domaine et le réseau edge Vercel devant l'origine
+Odoo hébergée sur Render.
+
+```
+navigateur ──> Vercel (domaine, TLS, WAF) ──> Render (conteneur Odoo) ──> PostgreSQL
+```
+
+### Mise en place
+
+1. Déployer Odoo sur Render (étape 3a) et relever son URL, par exemple
+   `https://odoo-abc123.onrender.com`.
+2. Remplacer le placeholder dans [`vercel.json`](vercel.json) :
+
+   ```json
+   "destination": "https://odoo-abc123.onrender.com/:path*"
+   ```
+
+3. `vercel --prod` (ou brancher le dépôt dans le dashboard Vercel).
+4. Dans Odoo : **Paramètres → Technique → Paramètres système**, régler
+   `web.base.url` sur le domaine Vercel, sinon les liens des courriels et les
+   URL absolues pointeront vers l'URL Render.
+5. Laisser `ODOO_PROXY_MODE = True` sur Render : Odoo reconstruit les URL à
+   partir des en-têtes `X-Forwarded-*` envoyés par Vercel.
+
+### Pourquoi le cache est désactivé
+
+`vercel.json` force `x-vercel-enable-rewrite-caching: 0`. Vercel met en cache
+les réponses des rewrites externes par défaut ; sur une application
+authentifiée comme Odoo, une page mise en cache pour un utilisateur serait
+resservie à un autre — fuite de données entre sessions. **Ne retirez pas cet
+en-tête.** Si vous voulez du cache sur les assets statiques, restreignez-le
+explicitement à `/web/static/:path*`, jamais à `/:path*`.
+
+### Limites à accepter
+
+| Limite | Conséquence |
+|---|---|
+| Websockets non supportés par les rewrites | Le bus Odoo (`/websocket`) échoue : chat interne et notifications temps réel muets. L'ERP reste utilisable. |
+| Corps de requête plafonné à 4,5 Mo | Les pièces jointes plus lourdes sont rejetées. |
+| Tout le trafic transite par Vercel | La bande passante des assets Odoo est facturée par Vercel en plus de Render. |
+| Un saut réseau supplémentaire | Latence accrue par rapport à un accès direct à Render. |
+
+Si le temps réel vous importe, exposez Odoo directement via un domaine
+personnalisé sur Render et n'utilisez pas cette façade.
+
+---
+
 ## Choix techniques et raisons
 
 **`http_interface = 0.0.0.0`** — le défaut d'Odoo est `127.0.0.1`
