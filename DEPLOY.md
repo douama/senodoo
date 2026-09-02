@@ -157,15 +157,26 @@ navigateur ──> Vercel (domaine, TLS, WAF) ──> Render (conteneur Odoo) �
 
 ### Mise en place
 
+La configuration vit dans [`vercel-facade/`](vercel-facade/) et **non à la
+racine** : déployer depuis la racine ferait transférer 1,1 Go de code Odoo à
+Vercel pour une configuration de 20 lignes, alors que la façade n'est qu'un
+proxy sans build.
+
 1. Déployer Odoo sur Render (étape 3a) et relever son URL, par exemple
    `https://odoo-abc123.onrender.com`.
-2. Remplacer le placeholder dans [`vercel.json`](vercel.json) :
+2. Remplacer le placeholder dans
+   [`vercel-facade/vercel.json`](vercel-facade/vercel.json) :
 
    ```json
    "destination": "https://odoo-abc123.onrender.com/:path*"
    ```
 
-3. `vercel --prod` (ou brancher le dépôt dans le dashboard Vercel).
+3. Déployer :
+
+   ```bash
+   cd vercel-facade
+   vercel --prod
+   ```
 4. Dans Odoo : **Paramètres → Technique → Paramètres système**, régler
    `web.base.url` sur le domaine Vercel, sinon les liens des courriels et les
    URL absolues pointeront vers l'URL Render.
