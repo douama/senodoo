@@ -93,9 +93,10 @@ code Odoo ne contient aucun fichier de cette taille, le push passe.
 ## Étape 3a — Render
 
 1. Dashboard Render → **New** → **Blueprint** → sélectionner le dépôt.
-2. Render lit `render.yaml` et crée trois ressources : la base `odoo-db`, le
-   disque `odoo-filestore`, le service web `odoo`.
-3. Récupérer le mot de passe maître généré : service `odoo` → onglet
+2. Render lit `render.yaml` et crée trois ressources : la base `senodoo-db`, le
+   disque `senodoo-filestore`, le service web `senodoo` — servi sur
+   `https://senodoo.onrender.com` si le nom est encore libre.
+3. Récupérer le mot de passe maître généré : service `senodoo` → onglet
    **Environment** → `ODOO_ADMIN_PASSWD`.
 
 Points d'attention :
@@ -163,12 +164,12 @@ Vercel pour une configuration de 20 lignes, alors que la façade n'est qu'un
 proxy sans build.
 
 1. Déployer Odoo sur Render (étape 3a) et relever son URL, par exemple
-   `https://odoo-abc123.onrender.com`.
+   `https://senodoo.onrender.com`.
 2. Remplacer le placeholder dans
    [`vercel-facade/vercel.json`](vercel-facade/vercel.json) :
 
    ```json
-   "destination": "https://odoo-abc123.onrender.com/:path*"
+   "destination": "https://senodoo.onrender.com/:path*"
    ```
 
 3. Déployer :

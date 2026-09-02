@@ -10,9 +10,9 @@
 # ============================================================================
 
 databases:
-  - name: odoo-db
-    databaseName: odoo
-    user: odoo
+  - name: senodoo-db
+    databaseName: senodoo
+    user: senodoo
     # Odoo cree beaucoup de tables et d'index : eviter le plan gratuit, qui
     # expire au bout de 30 jours et plafonne le stockage.
     plan: basic-1gb
@@ -20,7 +20,7 @@ databases:
 
 services:
   - type: web
-    name: odoo
+    name: senodoo
     runtime: docker
     # Odoo charge l'ORM complet en memoire : en dessous de 2 Go le processus
     # est tue pendant la compilation des assets web.
@@ -34,7 +34,7 @@ services:
     # Disque persistant obligatoire : sans lui, le filestore (pieces jointes,
     # assets compiles) est perdu a chaque redeploiement.
     disk:
-      name: odoo-filestore
+      name: senodoo-filestore
       mountPath: /var/lib/odoo
       sizeGB: 10
 
@@ -43,7 +43,7 @@ services:
       # decompose en PGHOST / PGPORT / PGUSER / PGPASSWORD / PGDATABASE.
       - key: DATABASE_URL
         fromDatabase:
-          name: odoo-db
+          name: senodoo-db
           property: connectionString
 
       # Mot de passe maitre (creation/suppression de bases). Genere par Render

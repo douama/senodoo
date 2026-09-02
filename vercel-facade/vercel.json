@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/:path*",
-      "destination": "https://odoo-xxxx.onrender.com/:path*"
+      "destination": "https://senodoo.onrender.com/:path*"
     }
   ],
   "headers": [
