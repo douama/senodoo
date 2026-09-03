@@ -10,16 +10,27 @@
         </xpath>
     </template>
 
-    <!-- Le logo de demonstration "Your Logo" est remplace par une marque
-         typographique nette, independante des images de demo d'Odoo. -->
+    <!--
+      Le logo de l'en-tete vient de `website.logo`, comme dans le template
+      d'origine d'Odoo : il reste donc modifiable depuis l'editeur de site,
+      sans toucher au code. Le fichier livre par le module en fournit la
+      valeur de depart.
+
+      width/height sont poses sur l'image pour reserver la place pendant le
+      chargement : sans eux le menu se decale au moment ou l'image arrive.
+      Le CSS impose ensuite la hauteur reelle et une largeur automatique.
+    -->
     <template id="senace_header_wordmark" inherit_id="website.option_header_brand_logo"
-              name="Signature SENACE" priority="30">
+              name="Logo SENACE" priority="30">
         <xpath expr="//a[@data-name='Navbar Logo']" position="replace">
             <a data-name="Navbar Logo" href="/"
-               t-attf-class="navbar-brand s_senace_wordmark #{_link_class}"
-               aria-label="SENACE — Accueil">
-                <span class="s_senace_wordmark_symbol" aria-hidden="true">S</span>
-                <span class="s_senace_wordmark_name">SENACE</span>
+               t-attf-class="navbar-brand s_senace_logo #{_link_class}">
+                <t t-set="base_options" t-value="{'widget': 'image'}"/>
+                <span t-field="website.logo"
+                      t-options="base_options if editable else dict(base_options, width=152, height=40)"
+                      role="img"
+                      t-att-aria-label="'Logo de %s' % website.name"
+                      t-att-title="website.name"/>
             </a>
         </xpath>
     </template>

@@ -34,6 +34,7 @@ de proposer un parcours de contact coherent sur l'ensemble du site.
     'assets': {
         'web.assets_frontend': [
             'senodoo_website_landing/static/src/scss/landing.scss',
+            'senodoo_website_landing/static/src/scss/header_logo.scss',
         ],
     },
     'installable': True,

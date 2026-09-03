@@ -1,0 +1,17 @@
+// Logo de l'en-tete.
+//
+// Fichier separe de landing.scss : celui-ci est ton design, je n'y touche pas.
+.navbar .s_senace_logo {
+    display: inline-flex;
+    align-items: center;
+
+    img {
+        height: 40px;
+        width: auto;          // preserve le rapport 380x100 du fichier
+        max-width: 100%;
+    }
+
+    @media (max-width: 991.98px) {
+        img { height: 32px; }
+    }
+}
