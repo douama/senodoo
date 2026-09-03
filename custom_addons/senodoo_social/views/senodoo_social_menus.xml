@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_social_root"
+              name="Marketing social"
+              web_icon="base,static/img/icons/social.png"
+              sequence="95"/>
+
+    <menuitem id="menu_social_posts"
+              name="Publications"
+              parent="menu_social_root"
+              action="senodoo_social_post_action"
+              sequence="10"/>
+
+    <menuitem id="menu_social_configuration"
+              name="Configuration"
+              parent="menu_social_root"
+              sequence="90"
+              groups="senodoo_social.group_social_manager"/>
+
+    <menuitem id="menu_social_accounts"
+              name="Comptes"
+              parent="menu_social_configuration"
+              action="senodoo_social_account_action"
+              sequence="10"/>
+</odoo>

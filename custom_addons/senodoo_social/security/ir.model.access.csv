@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_social_account_user,senodoo.social.account.user,model_senodoo_social_account,senodoo_social.group_social_user,1,0,0,0
+access_social_account_manager,senodoo.social.account.manager,model_senodoo_social_account,senodoo_social.group_social_manager,1,1,1,1
+access_social_post_user,senodoo.social.post.user,model_senodoo_social_post,senodoo_social.group_social_user,1,1,1,1
+access_social_post_manager,senodoo.social.post.manager,model_senodoo_social_post,senodoo_social.group_social_manager,1,1,1,1
+access_social_post_line_user,senodoo.social.post.line.user,model_senodoo_social_post_line,senodoo_social.group_social_user,1,1,1,1
+access_social_post_line_manager,senodoo.social.post.line.manager,model_senodoo_social_post_line,senodoo_social.group_social_manager,1,1,1,1

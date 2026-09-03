@@ -257,12 +257,47 @@ if [ "$NEEDS_DB" = true ]; then
         fi
     fi
 
-    # Installation de modules a la demande (ODOO_INSTALL_MODULES="senodoo_app_upgrade").
+    # ---------------------------------------------------------------
+    # Synchronisation des modules maison (custom_addons/)
     #
-    # `-i` est deja idempotent cote Odoo (modules/loading.py : seuls les
-    # modules en etat `uninstalled` sont installes), mais chaque passage coute
-    # un cycle de demarrage complet. On interroge donc d'abord l'etat en base
-    # et on ne relance Odoo que s'il reste quelque chose a faire.
+    # docker/sync_custom_addons.py compare la version de chaque manifeste a
+    # celle enregistree en base et repond quoi installer et quoi mettre a
+    # jour. Sans ce controle il faudrait manipuler ODOO_UPDATE_MODULES a la
+    # main a chaque changement -- et l'oublier laisserait du code neuf avec
+    # des vues et des donnees perimees.
+    #
+    # ODOO_SYNC_CUSTOM_ADDONS=false desactive le mecanisme.
+    # ---------------------------------------------------------------
+    if [ "${ODOO_SYNC_CUSTOM_ADDONS:-true}" = "true" ] \
+       && [ -f "${ODOO_HOME}/docker/sync_custom_addons.py" ]; then
+        sync_output="$(as_odoo python "${ODOO_HOME}/docker/sync_custom_addons.py" 2>&1)" || {
+            log "AVERTISSEMENT: synchronisation des modules maison impossible :"
+            printf '%s\n' "$sync_output" >&2
+            sync_output=""
+        }
+        to_update="$(printf '%s\n' "$sync_output" | sed -n 's/^UPDATE=//p')"
+        available="$(printf '%s\n' "$sync_output" | sed -n 's/^AVAILABLE=//p')"
+
+        if [ -n "${to_update:-}" ]; then
+            log "modules maison a mettre a jour: $to_update"
+            as_odoo "$ODOO_BIN" -c "$ODOO_CONF" \
+                --database "$PGDATABASE" --update "$to_update" --stop-after-init
+        else
+            log "modules maison a jour"
+        fi
+        # Purement informatif : l'installation reste une decision explicite.
+        if [ -n "${available:-}" ]; then
+            log "modules maison disponibles mais non installes: $available"
+        fi
+    fi
+
+    # Installation de modules a la demande (ODOO_INSTALL_MODULES="stock,mrp").
+    #
+    # Complement manuel a la synchronisation ci-dessus, pour un module qui
+    # n'est pas dans custom_addons/. `-i` est deja idempotent cote Odoo
+    # (modules/loading.py : seuls les modules `uninstalled` sont installes),
+    # mais chaque passage coute un cycle de demarrage : on interroge donc
+    # d'abord l'etat en base.
     if [ -n "${ODOO_INSTALL_MODULES:-}" ]; then
         pending=""
         for candidate in $(printf '%s' "$ODOO_INSTALL_MODULES" | tr ',' ' '); do

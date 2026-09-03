@@ -1,6 +1,6 @@
 {
     'name': "Activation des applications Senodoo",
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Administration',
     'summary': "Rend le bouton « Mettre a niveau » fonctionnel : equivalents open source et diagnostic honnete",
     'description': """

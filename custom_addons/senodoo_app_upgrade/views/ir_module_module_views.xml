@@ -19,6 +19,17 @@
                 <field name="senodoo_can_upgrade"/>
                 <field name="senodoo_substitute_installed"/>
                 <field name="senodoo_upgrade_label"/>
+                <field name="senodoo_menu_hint"/>
+            </xpath>
+
+            <!-- Le module installe arrive dans le sidebar sous SON nom.
+                 Sans cette ligne, l'utilisateur active une application et ne
+                 sait pas ou la retrouver. -->
+            <xpath expr="//t[@t-name='card']//small[hasclass('text-muted')]" position="after">
+                <div class="text-muted small mt-1" t-if="record.senodoo_menu_hint.value">
+                    <i class="fa fa-compass me-1" title="Menu"/>
+                    <t t-out="record.senodoo_menu_hint.value"/>
+                </div>
             </xpath>
 
             <xpath expr="//footer/a[hasclass('btn-info')]" position="replace">
@@ -66,6 +77,8 @@
                     <field name="senodoo_substitute_module_ids"
                            widget="many2many_tags"
                            invisible="not senodoo_substitute_module_ids"/>
+                    <field name="senodoo_menu_hint"
+                           invisible="not senodoo_menu_hint"/>
                     <field name="senodoo_upgrade_error"
                            invisible="not senodoo_upgrade_error"/>
                 </group>

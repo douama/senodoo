@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Icone officielle d'Odoo pour cette application : la carte Apps et
+         l'entree du menu principal restent visuellement identiques. -->
+    <menuitem id="menu_knowledge_root"
+              name="Connaissances"
+              web_icon="base,static/img/icons/knowledge.png"
+              sequence="90"/>
+
+    <menuitem id="menu_knowledge_articles"
+              name="Articles"
+              parent="menu_knowledge_root"
+              action="senodoo_knowledge_article_action"
+              sequence="10"/>
+
+    <menuitem id="menu_knowledge_configuration"
+              name="Configuration"
+              parent="menu_knowledge_root"
+              sequence="90"
+              groups="senodoo_knowledge.group_knowledge_manager"/>
+
+    <menuitem id="menu_knowledge_tags"
+              name="Etiquettes"
+              parent="menu_knowledge_configuration"
+              action="senodoo_knowledge_tag_action"
+              sequence="10"/>
+</odoo>

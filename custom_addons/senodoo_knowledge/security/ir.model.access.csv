@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_knowledge_article_user,senodoo.knowledge.article.user,model_senodoo_knowledge_article,base.group_user,1,1,1,1
+access_knowledge_article_manager,senodoo.knowledge.article.manager,model_senodoo_knowledge_article,senodoo_knowledge.group_knowledge_manager,1,1,1,1
+access_knowledge_tag_user,senodoo.knowledge.tag.user,model_senodoo_knowledge_tag,base.group_user,1,0,1,0
+access_knowledge_tag_manager,senodoo.knowledge.tag.manager,model_senodoo_knowledge_tag,senodoo_knowledge.group_knowledge_manager,1,1,1,1

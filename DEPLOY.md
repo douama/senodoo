@@ -40,6 +40,9 @@ est pas un (`git rev-parse` → *not a git repository*). Voir
 | `.env.example` | Modèle de configuration locale |
 | `.dockerignore` | Exclut `.venv` (185 Mo), `.odoo_local_data`, `doc/`, `windows/` du contexte |
 | `custom_addons/senodoo_app_upgrade/` | Rend fonctionnel le bouton « Mettre à niveau » des applications Enterprise |
+| `custom_addons/senodoo_knowledge/` | Application Connaissances : base d'articles hiérarchique |
+| `custom_addons/senodoo_social/` | Application Marketing social : rédaction, planification, publication |
+| `docker/sync_custom_addons.py` | Détecte les modules maison dont la version a changé, pour les mettre à jour au démarrage |
 
 ---
 
@@ -275,8 +278,21 @@ l'entrypoint interroge `ir_module_module` et ne relance Odoo que s'il reste
 un module à installer.
 
 ```
-ODOO_INSTALL_MODULES = senodoo_app_upgrade
+ODOO_INSTALL_MODULES = senodoo_app_upgrade,senodoo_knowledge,senodoo_social
 ```
+
+### Mise à jour automatique des modules maison
+
+Au démarrage, `docker/sync_custom_addons.py` compare la version déclarée dans
+chaque `custom_addons/*/__manifest__.py` à celle enregistrée en base, et
+l'entrypoint met à jour ce qui a changé. **Il suffit donc d'incrémenter la
+version du manifeste** après avoir modifié un module : plus besoin de toucher
+à `ODOO_UPDATE_MODULES`.
+
+Ce mécanisme n'installe jamais rien de lui-même — déposer un répertoire dans
+`custom_addons/` ne doit pas ajouter une application à une base de production
+sans décision explicite. Il journalise les modules disponibles non installés
+et s'arrête là. Désactivable avec `ODOO_SYNC_CUSTOM_ADDONS=false`.
 
 ### Ajouter un dépôt d'addons
 

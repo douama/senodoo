@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_knowledge_article_view_search" model="ir.ui.view">
+        <field name="name">senodoo.knowledge.article.search</field>
+        <field name="model">senodoo.knowledge.article</field>
+        <field name="arch" type="xml">
+            <search string="Articles">
+                <!-- La recherche porte aussi sur le corps : sans cela une base
+                     de connaissances n'a pas d'interet passe 20 articles. -->
+                <field name="name" string="Titre ou contenu"
+                       filter_domain="['|', ('name', 'ilike', self), ('body', 'ilike', self)]"/>
+                <field name="tag_ids"/>
+                <field name="author_id"/>
+                <filter name="my_favorites" string="Mes favoris" domain="[('is_favorite', '=', True)]"/>
+                <filter name="mine" string="Mes articles" domain="[('author_id', '=', uid)]"/>
+                <separator/>
+                <filter name="roots" string="Articles racines" domain="[('parent_id', '=', False)]"/>
+                <separator/>
+                <filter name="archived" string="Archives" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_parent" string="Article parent" context="{'group_by': 'parent_id'}"/>
+                    <filter name="group_author" string="Auteur" context="{'group_by': 'author_id'}"/>
+                    <filter name="group_permission" string="Partage" context="{'group_by': 'internal_permission'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="senodoo_knowledge_article_view_list" model="ir.ui.view">
+        <field name="name">senodoo.knowledge.article.list</field>
+        <field name="model">senodoo.knowledge.article</field>
+        <field name="arch" type="xml">
+            <list string="Articles" multi_edit="1">
+                <field name="is_favorite" widget="boolean_favorite" nolabel="1" optional="show"/>
+                <field name="icon" optional="show" string=" "/>
+                <field name="name"/>
+                <field name="full_path" optional="hide"/>
+                <field name="child_count" string="Sous-articles" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}" optional="show"/>
+                <field name="author_id" optional="show"/>
+                <field name="internal_permission" optional="show"/>
+                <field name="write_date" string="Modifie le" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_knowledge_article_view_kanban" model="ir.ui.view">
+        <field name="name">senodoo.knowledge.article.kanban</field>
+        <field name="model">senodoo.knowledge.article</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_mobile">
+                <field name="icon"/>
+                <field name="is_favorite"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex align-items-center mb-1">
+                            <span class="me-2 fs-4"><field name="icon"/></span>
+                            <strong class="flex-grow-1"><field name="name"/></strong>
+                            <field name="is_favorite" widget="boolean_favorite" nolabel="1"/>
+                        </div>
+                        <div class="text-muted small" invisible="not full_path">
+                            <field name="full_path"/>
+                        </div>
+                        <div class="mt-1">
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </div>
+                        <footer class="pt-2">
+                            <field name="author_id" widget="many2one_avatar_user"/>
+                            <span class="ms-auto text-muted small" invisible="child_count == 0">
+                                <field name="child_count"/> sous-article(s)
+                            </span>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="senodoo_knowledge_article_view_form" model="ir.ui.view">
+        <field name="name">senodoo.knowledge.article.form</field>
+        <field name="model">senodoo.knowledge.article</field>
+        <field name="arch" type="xml">
+            <form string="Article">
+                <header>
+                    <button name="action_create_child" type="object"
+                            string="Nouveau sous-article" class="btn-secondary"
+                            invisible="not id"/>
+                    <button name="action_archive_tree" type="object"
+                            string="Archiver avec ses sous-articles" class="btn-secondary"
+                            invisible="not id or not active"
+                            confirm="Archiver cet article et toute sa descendance ?"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archive" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_toggle_favorite" type="object"
+                                class="oe_stat_button" icon="fa-star">
+                            <field name="is_favorite" widget="boolean_favorite" nolabel="1"/>
+                        </button>
+                    </div>
+                    <div class="oe_title d-flex align-items-center gap-2">
+                        <field name="icon" class="fs-2" placeholder="📄" style="max-width:3rem"/>
+                        <h1 class="flex-grow-1 mb-0">
+                            <field name="name" placeholder="Titre de l'article"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="parent_id"
+                                   options="{'no_create_edit': True}"
+                                   domain="[('id', '!=', id)]"/>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color', 'no_create_edit': True}"/>
+                        </group>
+                        <group>
+                            <field name="author_id" readonly="1"/>
+                            <field name="internal_permission"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contenu" name="content">
+                            <field name="body" placeholder="Redigez votre article…"/>
+                        </page>
+                        <page string="Sous-articles" name="children" invisible="not id">
+                            <field name="child_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="icon" string=" "/>
+                                    <field name="name"/>
+                                    <field name="internal_permission"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_knowledge_article_action" model="ir.actions.act_window">
+        <field name="name">Articles</field>
+        <field name="path">connaissances</field>
+        <field name="res_model">senodoo.knowledge.article</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="senodoo_knowledge_article_view_search"/>
+        <field name="context">{'search_default_roots': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Creer votre premier article</p>
+            <p>Rassemblez ici vos procedures, notes de reunion et documentation
+               interne. Les articles s'imbriquent sans limite de profondeur et la
+               recherche porte aussi sur leur contenu.</p>
+        </field>
+    </record>
+
+    <record id="senodoo_knowledge_tag_action" model="ir.actions.act_window">
+        <field name="name">Etiquettes</field>
+        <field name="res_model">senodoo.knowledge.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+</odoo>

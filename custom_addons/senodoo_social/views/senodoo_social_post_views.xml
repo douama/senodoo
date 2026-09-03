@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_social_post_view_search" model="ir.ui.view">
+        <field name="name">senodoo.social.post.search</field>
+        <field name="model">senodoo.social.post</field>
+        <field name="arch" type="xml">
+            <search string="Publications">
+                <field name="message"/>
+                <field name="account_ids"/>
+                <filter name="draft" string="Brouillons" domain="[('state', '=', 'draft')]"/>
+                <filter name="scheduled" string="Planifiees" domain="[('state', '=', 'scheduled')]"/>
+                <filter name="posted" string="Publiees" domain="[('state', '=', 'posted')]"/>
+                <filter name="failed" string="En echec" domain="[('state', '=', 'failed')]"/>
+                <group>
+                    <filter name="group_state" string="Etat" context="{'group_by': 'state'}"/>
+                    <filter name="group_date" string="Date de publication" context="{'group_by': 'scheduled_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="senodoo_social_post_view_list" model="ir.ui.view">
+        <field name="name">senodoo.social.post.list</field>
+        <field name="model">senodoo.social.post</field>
+        <field name="arch" type="xml">
+            <list string="Publications" decoration-danger="state == 'failed'"
+                  decoration-success="state == 'posted'" decoration-muted="state == 'draft'">
+                <field name="name" string="Message"/>
+                <field name="account_ids" widget="many2many_tags"/>
+                <field name="scheduled_date"/>
+                <field name="posted_count" string="Publiees"/>
+                <field name="failed_count" string="Echecs"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'posted'"
+                       decoration-danger="state == 'failed'"
+                       decoration-info="state == 'scheduled'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_social_post_view_form" model="ir.ui.view">
+        <field name="name">senodoo.social.post.form</field>
+        <field name="model">senodoo.social.post</field>
+        <field name="arch" type="xml">
+            <form string="Publication">
+                <header>
+                    <button name="action_publish_now" type="object" string="Publier maintenant"
+                            class="btn-primary" invisible="state == 'posted'"/>
+                    <button name="action_schedule" type="object" string="Planifier"
+                            class="btn-secondary" invisible="state in ('scheduled', 'posted')"/>
+                    <button name="action_reset_draft" type="object" string="Remettre en brouillon"
+                            invisible="state in ('draft', 'posted')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,scheduled,posted"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="account_ids" widget="many2many_tags"
+                                   options="{'no_create_edit': True}"/>
+                            <field name="scheduled_date"/>
+                            <field name="link_url" widget="url" placeholder="https://…"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <field name="message" placeholder="Que voulez-vous partager ?"
+                           nolabel="1" class="fs-5"/>
+                    <div class="alert alert-warning mt-2" role="alert"
+                         invisible="not over_limit_warning">
+                        <field name="over_limit_warning" nolabel="1" readonly="1"/>
+                    </div>
+                    <div class="alert alert-danger mt-2" role="alert"
+                         invisible="not error_message">
+                        <field name="error_message" nolabel="1" readonly="1"/>
+                    </div>
+                    <notebook invisible="not line_ids">
+                        <page string="Resultat par compte" name="lines">
+                            <field name="line_ids" nolabel="1" readonly="1">
+                                <list decoration-danger="state == 'failed'"
+                                      decoration-success="state == 'posted'">
+                                    <field name="account_id"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="published_url" widget="url"/>
+                                    <field name="error_message"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_social_post_action" model="ir.actions.act_window">
+        <field name="name">Publications</field>
+        <field name="path">marketing-social</field>
+        <field name="res_model">senodoo.social.post</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="senodoo_social_post_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Rediger une publication</p>
+            <p>Ecrivez une fois, diffusez sur plusieurs comptes. Un echec sur un
+               reseau n'empeche pas les autres de partir.</p>
+        </field>
+    </record>
+
+</odoo>

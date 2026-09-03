@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_social_account_view_list" model="ir.ui.view">
+        <field name="name">senodoo.social.account.list</field>
+        <field name="model">senodoo.social.account</field>
+        <field name="arch" type="xml">
+            <list string="Comptes">
+                <field name="name"/>
+                <field name="platform"/>
+                <field name="handle"/>
+                <field name="char_limit" string="Limite"/>
+                <field name="publishing_supported" string="Connecteur"/>
+                <field name="is_configured" string="Pret a publier"
+                       decoration-success="is_configured" widget="boolean_toggle" readonly="1"/>
+                <field name="post_count" string="Publications"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_social_account_view_form" model="ir.ui.view">
+        <field name="name">senodoo.social.account.form</field>
+        <field name="model">senodoo.social.account</field>
+        <field name="arch" type="xml">
+            <form string="Compte">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_posts" type="object"
+                                class="oe_stat_button" icon="fa-paper-plane">
+                            <field name="post_count" widget="statinfo" string="Publications"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Compte principal"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="platform"/>
+                            <field name="handle" placeholder="@masociete"/>
+                            <field name="char_limit" readonly="1"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group string="Connexion">
+                            <field name="base_url" invisible="platform != 'mastodon'"
+                                   required="platform == 'mastodon'"
+                                   placeholder="https://mastodon.social"/>
+                            <field name="access_token" password="True"
+                                   groups="senodoo_social.group_social_manager"/>
+                            <field name="publishing_supported" readonly="1"/>
+                            <field name="is_configured" readonly="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-warning" role="alert"
+                         invisible="publishing_supported">
+                        Le connecteur de cette plateforme n'est pas implemente.
+                        Vous pouvez rediger et planifier des publications, mais
+                        l'envoi echouera avec un message explicite. Mastodon
+                        fonctionne de bout en bout : une instance et un jeton
+                        suffisent.
+                    </div>
+                    <div class="alert alert-info" role="alert"
+                         invisible="not publishing_supported or is_configured">
+                        Renseignez l'URL de l'instance et un jeton d'acces pour
+                        activer la publication.
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_social_account_action" model="ir.actions.act_window">
+        <field name="name">Comptes</field>
+        <field name="res_model">senodoo.social.account</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Ajouter un compte</p>
+            <p>Declarez ici vos comptes de reseaux sociaux. Mastodon publie
+               reellement des l'ajout d'une instance et d'un jeton.</p>
+        </field>
+    </record>
+
+</odoo>

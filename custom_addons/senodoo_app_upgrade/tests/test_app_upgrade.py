@@ -78,7 +78,14 @@ class TestSenodooAppUpgrade(TransactionCase):
                 Manifest.for_addon(module.name, display_warning=False),
                 f"{module.name} a du code sur disque mais reste marque to_buy",
             )
-            self.assertEqual(module.senodoo_status, 'upgrade_required')
+            installed = module.senodoo_substitute_module_ids.filtered(
+                lambda m: m.state == 'installed',
+            )
+            remaining = module.senodoo_substitute_module_ids - installed
+            expected = 'active' if installed and not remaining else 'upgrade_required'
+            self.assertEqual(module.senodoo_status, expected, module.name)
+            if expected == 'active':
+                continue
             # Le libelle doit annoncer si le clic agira : c'est la seule chose
             # qui distingue une carte utile d'une carte sans issue.
             self.assertEqual(

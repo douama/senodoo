@@ -79,6 +79,14 @@ class IrModuleModule(models.Model):
         help="Vrai quand tous les equivalents disponibles sont installes : "
              "il n'y a plus rien a activer pour cette application.",
     )
+    senodoo_menu_hint = fields.Char(
+        string="Ou la trouver",
+        compute='_compute_senodoo_menu_hint',
+        help="Menus du sidebar apportes par les modules installes. Le module "
+             "de remplacement arrive sous SON nom, pas sous celui de "
+             "l'application Enterprise : sans cette indication, l'utilisateur "
+             "ne sait pas ou cliquer apres une activation.",
+    )
     senodoo_upgrade_label = fields.Char(
         string="Libelle du bouton",
         compute='_compute_senodoo_status',
@@ -169,6 +177,28 @@ class IrModuleModule(models.Model):
             else:
                 # Le code du module lui-meme est sur l'addons_path.
                 module.senodoo_upgrade_label = _("Activer")
+
+    @api.depends('senodoo_substitute_module_ids')
+    def _compute_senodoo_menu_hint(self):
+        Menu = self.env['ir.ui.menu'].sudo()
+        Data = self.env['ir.model.data'].sudo()
+        for module in self:
+            installed = module.senodoo_substitute_module_ids.filtered(
+                lambda m: m.state == 'installed',
+            )
+            names = []
+            if installed:
+                data = Data.search([
+                    ('module', 'in', installed.mapped('name')),
+                    ('model', '=', 'ir.ui.menu'),
+                ])
+                # Seules les racines interessent : ce sont elles qui
+                # apparaissent dans le menu principal.
+                roots = Menu.browse(data.mapped('res_id')).exists().filtered(
+                    lambda menu: not menu.parent_id,
+                )
+                names = roots.mapped('name')
+            module.senodoo_menu_hint = ', '.join(names)
 
     # ------------------------------------------------------------------
     # Persistance des erreurs (survit au rollback)

@@ -76,8 +76,9 @@
 
         <record id="substitute_knowledge" model="senodoo.app.substitute">
             <field name="name">knowledge</field>
-            <field name="coverage">none</field>
-            <field name="note">Aucun equivalent en edition Community. project_todo offre des memos personnels, mais pas de base d'articles partagee, versionnee et indexee.</field>
+            <field name="substitute_names">senodoo_knowledge</field>
+            <field name="coverage">partial</field>
+            <field name="note">senodoo_knowledge fournit une base d'articles imbriques sans limite de profondeur, avec contenu riche, etiquettes, favoris par utilisateur, recherche portant aussi sur le contenu et trois niveaux de partage appliques par des regles serveur. Restent propres a Enterprise : l'edition collaborative en temps reel, les modeles d'articles et les vues embarquees.</field>
         </record>
 
         <record id="substitute_planning" model="senodoo.app.substitute">
@@ -124,8 +125,9 @@
 
         <record id="substitute_social" model="senodoo.app.substitute">
             <field name="name">social</field>
-            <field name="coverage">none</field>
-            <field name="note">Aucun equivalent en edition Community. social_media existe mais se limite a afficher des liens vers vos reseaux sur le site web : il ne publie ni ne surveille aucun contenu.</field>
+            <field name="substitute_names">senodoo_social</field>
+            <field name="coverage">partial</field>
+            <field name="note">senodoo_social gere vos comptes de reseaux sociaux, la redaction avec controle de la limite de caracteres, la planification et la publication automatique par cron, avec un suivi du resultat compte par compte. La publication reelle appelle l'API de la plateforme et demande donc son jeton d'acces : Mastodon fonctionne de bout en bout, les autres reseaux exposent le point d'entree a completer. Restent propres a Enterprise : la surveillance des flux et les statistiques d'engagement.</field>
         </record>
 
         <record id="substitute_web_mobile" model="senodoo.app.substitute">
