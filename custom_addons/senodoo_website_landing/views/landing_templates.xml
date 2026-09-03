@@ -87,14 +87,14 @@
                          aria-labelledby="senace-poles-title">
                     <div class="container">
                         <div class="row align-items-end g-4 s_senace_section_head">
-                            <div class="col-lg-7">
+                            <div class="col-lg-8">
                                 <p class="s_senace_kicker">Un partenaire, quatre savoir-faire</p>
                                 <h2 id="senace-poles-title">
                                     Votre besoin ne tient pas toujours dans une case.
                                     <span>Notre accompagnement non plus.</span>
                                 </h2>
                             </div>
-                            <div class="col-lg-4 offset-lg-1">
+                            <div class="col-lg-3 offset-lg-1">
                                 <p class="s_senace_section_intro">
                                     Nos expertises se complètent pour vous proposer le bon appui,
                                     au bon moment, sans multiplier les interlocuteurs.
@@ -214,8 +214,8 @@
                 <section id="approche" class="s_senace_section s_senace_approach"
                          aria-labelledby="senace-approach-title">
                     <div class="container">
-                        <div class="row align-items-center g-5">
-                            <div class="col-lg-5">
+                        <div class="row align-items-center g-4">
+                            <div class="col-lg-4">
                                 <div class="s_senace_approach_media">
                                     <img src="/senodoo_website_landing/static/src/img/senace-coaching.webp"
                                          alt="" width="1122" height="1402" loading="lazy"
@@ -226,16 +226,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 offset-lg-1">
+                            <div class="col-lg-7 offset-lg-1">
                                 <p class="s_senace_kicker">Une expertise qui s'adapte</p>
                                 <h2 id="senace-approach-title">
                                     Des solutions pensées pour votre réalité,
                                     <span>pas pour une situation théorique.</span>
                                 </h2>
                                 <p class="s_senace_approach_lead">
-                                    Les meilleurs résultats commencent par une compréhension fine
-                                    de votre contexte. Nous écoutons, cadrons et avançons avec vous,
-                                    dans une relation simple et directement utile.
+                                    Nous écoutons, cadrons et avançons avec vous, dans une relation
+                                    simple et directement utile.
                                 </p>
                                 <div class="s_senace_benefits">
                                     <div class="s_senace_benefit">
@@ -347,27 +346,22 @@
                                             Nous parler de votre projet
                                             <i class="fa fa-arrow-right" aria-hidden="true"/>
                                         </a>
-                                        <a t-if="res_company.phone"
-                                           t-attf-href="tel:#{res_company.phone}"
+                                        <a href="tel:+221771100301"
                                            class="s_senace_phone_link">
                                             <i class="fa fa-phone" aria-hidden="true"/>
-                                            <span t-field="res_company.phone"/>
+                                            <span class="o_force_ltr">77 110 03 01</span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             <div class="s_senace_contact_meta">
-                                <a t-if="res_company.email"
-                                   t-attf-href="mailto:#{res_company.email}">
+                                <a href="mailto:kadycoulibaly43@yahoo.fr">
                                     <i class="fa fa-envelope-o" aria-hidden="true"/>
-                                    <span t-field="res_company.email"/>
+                                    <span>kadycoulibaly43@yahoo.fr</span>
                                 </a>
-                                <div t-if="res_company.city or res_company.country_id">
+                                <div>
                                     <i class="fa fa-map-marker" aria-hidden="true"/>
-                                    <span t-if="res_company.city" t-field="res_company.city"/>
-                                    <t t-if="res_company.city and res_company.country_id"> · </t>
-                                    <span t-if="res_company.country_id"
-                                          t-field="res_company.country_id.name"/>
+                                    <span>Keur Massar, Dakar · Sénégal</span>
                                 </div>
                                 <div>
                                     <i class="fa fa-handshake-o" aria-hidden="true"/>

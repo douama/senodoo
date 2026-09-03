@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.2.0',
+    'version': '1.3.0',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
@@ -18,15 +18,15 @@ modifiable depuis l'editeur de site d'Odoo, sans toucher au code.
 Les appels a l'action pointent vers /contactus. `website_crm` etant installe,
 chaque formulaire envoye cree une piste dans le CRM.
 
-Toutes les coordonnees affichees proviennent de la fiche societe
-(`res.company`) : changer l'adresse ou le telephone dans Odoo met la page a
-jour, il n'y a rien a coder en dur.
+Les coordonnees publiques sont reprises de l'en-tete et du pied de page afin
+de proposer un parcours de contact coherent sur l'ensemble du site.
 """,
     'author': "Senodoo",
     'license': 'LGPL-3',
     'depends': ['website', 'website_crm'],
     'data': [
         'data/website_data.xml',
+        'data/logo_data.xml',
         'data/ir_asset.xml',
         'views/landing_templates.xml',
         'views/branding_templates.xml',

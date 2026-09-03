@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Appel programmatique et non un <record> : les enregistrements
+             cibles portent noupdate=true en base, ce qui empeche toute
+             reecriture par les donnees. Voir le commentaire du modele. -->
+        <function model="senodoo.website.branding" name="apply_logo"/>
+    </data>
+</odoo>

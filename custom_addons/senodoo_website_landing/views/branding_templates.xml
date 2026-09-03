@@ -82,6 +82,16 @@
         </xpath>
     </template>
 
+    <!--
+      La mention « Genere par Odoo - Creer un site web gratuit » est retiree du
+      pied de page. La licence LGPL-3 d'Odoo l'autorise. On supprime la colonne
+      entiere qui la porte : la colonne « Copyright (c) SENACE » reste seule.
+    -->
+    <template id="senace_no_brand_promotion" inherit_id="website.layout"
+              name="Pied de page sans mention Odoo" priority="99">
+        <xpath expr="//t[@t-call='web.brand_promotion']/.." position="replace"/>
+    </template>
+
     <!-- « Copyright © Company name » -> la marque reelle. -->
     <template id="senace_copyright" inherit_id="website.footer_copyright_company_name"
               name="Copyright SENACE">
