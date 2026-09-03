@@ -44,6 +44,16 @@ class SenodooSocialDashboard(models.TransientModel):
         string="Comptes", compute='_compute_lists',
     )
 
+    def _compute_display_name(self):
+        """Nom affiche dans le fil d'Ariane.
+
+        Sans `_rec_name` ni champ `name`, l'ORM retombe sur la representation
+        technique -- « senodoo.social.dashboard,NewId_0x... » -- qui s'affichait
+        en haut de l'ecran. Le titre de l'action y prend sa place.
+        """
+        for board in self:
+            board.display_name = _("Vue d'ensemble")
+
     @api.depends_context('uid')
     def _compute_counters(self):
         Post = self.env['senodoo.social.post']

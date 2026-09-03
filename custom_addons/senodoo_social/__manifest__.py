@@ -1,6 +1,6 @@
 {
     'name': "Marketing social",
-    'version': '1.1',
+    'version': '1.2',
     'category': 'Marketing/Social Marketing',
     'sequence': 95,
     'summary': "Gerez vos reseaux sociaux et les visiteurs de votre site web",

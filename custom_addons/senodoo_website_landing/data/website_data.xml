@@ -29,4 +29,23 @@
             <field name="sequence" type="int">40</field>
         </record>
     </data>
+
+    <!--
+      website_slides, website_hr_recruitment et website_event ajoutent chacun
+      leur entree au menu principal a l'installation : Cours (/slides),
+      Postes (/jobs), Evenements (/event). SENACE ne publie ni cours en ligne
+      ni offres d'emploi ni evenements : ces entrees menent a des pages vides.
+
+      On supprime les enregistrements plutot que de masquer les liens en CSS :
+      le menu mobile et le plan du site les reprendraient. La recherche porte
+      sur l'URL et non sur l'identifiant XML, pour ne pas echouer si l'un de
+      ces modules n'est pas installe sur la base visee.
+
+      Ce bloc s'execute a chaque mise a jour du module : si l'un de ces
+      modules recree son menu lors de sa propre mise a jour, le deploiement
+      suivant le retirera de nouveau.
+    -->
+    <data>
+        <delete model="website.menu" search="[('url', 'in', ['/slides', '/jobs', '/event'])]"/>
+    </data>
 </odoo>
