@@ -23,11 +23,29 @@
             <field name="sequence" type="int">30</field>
         </record>
         <record id="menu_senace_methode" model="website.menu">
-            <field name="name">Méthode</field>
+            <field name="name">Nos accréditations et agréments</field>
             <field name="url">/#methode</field>
             <field name="parent_id" ref="website.main_menu"/>
             <field name="sequence" type="int">40</field>
         </record>
+    </data>
+
+    <!--
+      Odoo duplique l'arbre de menus par site des la premiere personnalisation
+      (copy-on-write). Le <record> ci-dessus ne touche que l'exemplaire
+      generique portant l'identifiant XML ; la copie rattachee au site, qui est
+      celle reellement affichee, garderait son ancien libelle. On renomme donc
+      par URL, ce qui atteint les deux.
+
+      Contrepartie assumee : un renommage fait depuis l'editeur de site sera
+      ecrase a la prochaine mise a jour du module.
+    -->
+    <data>
+        <function model="website.menu" name="write">
+            <function model="website.menu" name="search"
+                      eval="[[('url', '=', '/#methode')]]"/>
+            <value eval="{'name': 'Nos accréditations et agréments'}"/>
+        </function>
     </data>
 
     <!--

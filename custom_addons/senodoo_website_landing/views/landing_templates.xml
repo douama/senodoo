@@ -47,7 +47,7 @@
                                     <li><span>01</span> Formation</li>
                                     <li><span>02</span> Coaching</li>
                                     <li><span>03</span> Entreprises</li>
-                                    <li><span>04</span> Tourisme</li>
+                                    <li><span>04</span> Éco tourisme durable</li>
                                 </ul>
                             </div>
                         </div>
@@ -184,17 +184,18 @@
                             <article id="tourisme" class="s_senace_pole s_senace_pole--tourisme">
                                 <div class="s_senace_pole_copy">
                                     <p class="s_senace_pole_overline"><span>04</span> Coordonner</p>
-                                    <h3>Services au tourisme</h3>
+                                    <h3>Éco tourisme durable</h3>
                                     <p>
-                                        Des prestations liées au tourisme coordonnées avec soin,
-                                        de la compréhension de votre demande jusqu'à sa réalisation.
+                                        Des prestations d'éco tourisme durable coordonnées avec
+                                        soin, de la compréhension de votre demande jusqu'à sa
+                                        réalisation.
                                     </p>
                                     <ul class="list-unstyled s_senace_pole_points">
                                         <li>Accompagnement de projet</li>
                                         <li>Coordination de prestations</li>
                                         <li>Suivi de bout en bout</li>
                                     </ul>
-                                    <a href="/contactus?subject=Services au tourisme"
+                                    <a href="/contactus?subject=Éco tourisme durable"
                                        class="s_senace_link">
                                         Parler de mon projet
                                         <i class="fa fa-arrow-right" aria-hidden="true"/>
@@ -346,10 +347,10 @@
                                             Nous parler de votre projet
                                             <i class="fa fa-arrow-right" aria-hidden="true"/>
                                         </a>
-                                        <a href="tel:+221762601987"
+                                        <a href="tel:+221771100301"
                                            class="s_senace_phone_link">
                                             <i class="fa fa-phone" aria-hidden="true"/>
-                                            <span class="o_force_ltr">76 260 19 87</span>
+                                            <span class="o_force_ltr">77 110 03 01</span>
                                         </a>
                                     </div>
                                 </div>

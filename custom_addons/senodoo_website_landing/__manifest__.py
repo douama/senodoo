@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.5.0',
+    'version': '1.6.0',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
@@ -10,7 +10,7 @@ Page d'accueil SENACE
 
 Remplace la page d'accueil par defaut d'Odoo (« Home | My Website ») par une
 landing page presentant les quatre poles SENACE : formation professionnelle,
-coaching, services aux entreprises et services au tourisme a Dakar.
+coaching, services aux entreprises et eco tourisme durable a Dakar.
 
 La page reste dans un bloc `oe_structure` : elle demeure entierement
 modifiable depuis l'editeur de site d'Odoo, sans toucher au code.
