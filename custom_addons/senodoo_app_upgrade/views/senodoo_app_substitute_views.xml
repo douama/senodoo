@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_app_substitute_view_list" model="ir.ui.view">
+        <field name="name">senodoo.app.substitute.list</field>
+        <field name="model">senodoo.app.substitute</field>
+        <field name="arch" type="xml">
+            <list string="Equivalents open source" editable="bottom">
+                <field name="name"/>
+                <field name="substitute_names"/>
+                <field name="coverage"/>
+                <field name="note" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_app_substitute_view_form" model="ir.ui.view">
+        <field name="name">senodoo.app.substitute.form</field>
+        <field name="model">senodoo.app.substitute</field>
+        <field name="arch" type="xml">
+            <form string="Equivalent open source">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="substitute_names"
+                               placeholder="module_a,module_b"/>
+                        <field name="coverage"/>
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                    <group string="Explication montree a l'administrateur">
+                        <field name="note" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_app_substitute_action" model="ir.actions.act_window">
+        <field name="name">Equivalents open source</field>
+        <field name="res_model">senodoo.app.substitute</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune correspondance enregistree</p>
+            <p>Associez une application Odoo Enterprise (non livree en Community)
+               aux modules libres qui la remplacent le mieux.</p>
+        </field>
+    </record>
+
+    <menuitem id="senodoo_app_substitute_menu"
+              name="Equivalents open source"
+              parent="base.menu_custom"
+              action="senodoo_app_substitute_action"
+              groups="base.group_system"
+              sequence="90"/>
+
+</odoo>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Correspondances « application Enterprise -> equivalent Community ».
+
+      Chaque nom cite ici a ete verifie comme PRESENT dans addons/ pour
+      saas~19.2. Un nom absent est ignore a l'execution (_resolve_modules),
+      donc ces donnees restent sures si l'addons_path change.
+
+      coverage='none' + substitute_names vide = aucun equivalent honnete.
+      On prefere le dire que proposer une installation sans valeur.
+
+      noupdate n'est pas active : les corrections de cette table doivent se
+      propager lors d'un `-u senodoo_app_upgrade`.
+    -->
+    <data>
+
+        <!-- ============ Equivalents partiels reellement utiles ============ -->
+
+        <record id="substitute_accountant" model="senodoo.app.substitute">
+            <field name="name">accountant</field>
+            <field name="substitute_names">account</field>
+            <field name="coverage">partial</field>
+            <field name="note">Le module Facturation (account) couvre le plan comptable, les taxes, les journaux, les factures clients et fournisseurs et les ecritures. Restent propres a Enterprise : les immobilisations, les budgets, le rapprochement bancaire automatise et les etats financiers dynamiques.</field>
+        </record>
+
+        <record id="substitute_timesheet_grid" model="senodoo.app.substitute">
+            <field name="name">timesheet_grid</field>
+            <field name="substitute_names">hr_timesheet,sale_timesheet,project_timesheet_holidays</field>
+            <field name="coverage">partial</field>
+            <field name="note">hr_timesheet fournit la saisie des temps par tache et par projet, sale_timesheet la refacturation au client et project_timesheet_holidays l'integration des conges. Restent propres a Enterprise : la vue grille, le circuit de validation et la saisie mobile.</field>
+        </record>
+
+        <record id="substitute_mrp_workorder" model="senodoo.app.substitute">
+            <field name="name">mrp_workorder</field>
+            <field name="substitute_names">mrp,mrp_account</field>
+            <field name="coverage">partial</field>
+            <field name="note">mrp couvre les ordres de fabrication, les nomenclatures, les gammes et les postes de travail ; mrp_account y ajoute la valorisation. Reste propre a Enterprise : l'interface tablette atelier et les instructions de travail pas a pas.</field>
+        </record>
+
+        <record id="substitute_marketing_automation" model="senodoo.app.substitute">
+            <field name="name">marketing_automation</field>
+            <field name="substitute_names">mass_mailing,mass_mailing_sms</field>
+            <field name="coverage">partial</field>
+            <field name="note">mass_mailing et mass_mailing_sms permettent de concevoir, envoyer et suivre des campagnes email et SMS avec segmentation des listes. Reste propre a Enterprise : les scenarios automatises multi-etapes declenches par le comportement des contacts.</field>
+        </record>
+
+        <record id="substitute_stock_barcode" model="senodoo.app.substitute">
+            <field name="name">stock_barcode</field>
+            <field name="substitute_names">stock,barcodes_gs1_nomenclature</field>
+            <field name="coverage">partial</field>
+            <field name="note">stock gere les operations logistiques et la lecture de codes-barres dans les formulaires ; barcodes_gs1_nomenclature ajoute le decodage GS1. Reste propre a Enterprise : l'application de scan dediee pour terminaux mobiles.</field>
+        </record>
+
+        <record id="substitute_helpdesk" model="senodoo.app.substitute">
+            <field name="name">helpdesk</field>
+            <field name="substitute_names">project,im_livechat</field>
+            <field name="coverage">partial</field>
+            <field name="note">project permet de traiter les demandes comme des taches dans un pipeline dedie, im_livechat d'ouvrir un canal de discussion sur le site. Restent propres a Enterprise : les SLA, le portail client de tickets et la base de connaissances liee.</field>
+        </record>
+
+        <record id="substitute_hr_appraisal" model="senodoo.app.substitute">
+            <field name="name">hr_appraisal</field>
+            <field name="substitute_names">survey,hr_skills</field>
+            <field name="coverage">partial</field>
+            <field name="note">survey permet de batir des questionnaires d'evaluation et hr_skills de suivre les competences et le CV des employes. Restent propres a Enterprise : les campagnes d'evaluation planifiees, le feedback 360 et les plans d'objectifs.</field>
+        </record>
+
+        <!-- ============ Aucun equivalent open source honnete ============ -->
+
+        <record id="substitute_sale_subscription" model="senodoo.app.substitute">
+            <field name="name">sale_subscription</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : la facturation recurrente, les renouvellements et le suivi du MRR ne sont couverts par aucun module libre livre avec saas~19.2.</field>
+        </record>
+
+        <record id="substitute_knowledge" model="senodoo.app.substitute">
+            <field name="name">knowledge</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community. project_todo offre des memos personnels, mais pas de base d'articles partagee, versionnee et indexee.</field>
+        </record>
+
+        <record id="substitute_planning" model="senodoo.app.substitute">
+            <field name="name">planning</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : la planification de creneaux par employe, la publication des horaires et les modeles de shift n'existent pas dans les modules libres livres.</field>
+        </record>
+
+        <record id="substitute_appointment" model="senodoo.app.substitute">
+            <field name="name">appointment</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community. calendar gere les reunions internes, mais pas les pages de reservation publiques avec regles de disponibilite.</field>
+        </record>
+
+        <record id="substitute_quality_control" model="senodoo.app.substitute">
+            <field name="name">quality_control</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : les points de controle qualite, les alertes et les fiches de mesure ne sont livres qu'en Enterprise.</field>
+        </record>
+
+        <record id="substitute_mrp_plm" model="senodoo.app.substitute">
+            <field name="name">mrp_plm</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : les ordres de modification technique (ECO) et le versionnement des nomenclatures ne sont livres qu'en Enterprise.</field>
+        </record>
+
+        <record id="substitute_sign" model="senodoo.app.substitute">
+            <field name="name">sign</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : la signature electronique de documents avec piste d'audit n'est livree qu'en Enterprise.</field>
+        </record>
+
+        <record id="substitute_voip" model="senodoo.app.substitute">
+            <field name="name">voip</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : l'integration telephonique (softphone, journal d'appels) n'est livree qu'en Enterprise.</field>
+        </record>
+
+        <record id="substitute_sale_amazon" model="senodoo.app.substitute">
+            <field name="name">sale_amazon</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : la synchronisation des commandes et livraisons Amazon Marketplace n'est livree qu'en Enterprise.</field>
+        </record>
+
+        <record id="substitute_social" model="senodoo.app.substitute">
+            <field name="name">social</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community. social_media existe mais se limite a afficher des liens vers vos reseaux sur le site web : il ne publie ni ne surveille aucun contenu.</field>
+        </record>
+
+        <record id="substitute_web_mobile" model="senodoo.app.substitute">
+            <field name="name">web_mobile</field>
+            <field name="coverage">none</field>
+            <field name="note">Rien a activer : ce module est le pont natif utilise par l'application mobile Odoo distribuee sur les stores. L'interface web de cette instance est deja responsive sur mobile.</field>
+        </record>
+
+        <record id="substitute_web_studio" model="senodoo.app.substitute">
+            <field name="name">web_studio</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community. Le mode developpeur (Parametres &gt; Outils du developpeur) permet neanmoins de modifier vues, champs et menus a la main.</field>
+        </record>
+
+        <record id="substitute_payment_sepa_direct_debit" model="senodoo.app.substitute">
+            <field name="name">payment_sepa_direct_debit</field>
+            <field name="coverage">none</field>
+            <field name="note">Aucun equivalent en edition Community : le prelevement SEPA avec gestion des mandats n'est livre qu'en Enterprise. Les autres fournisseurs de paiement du module payment restent disponibles.</field>
+        </record>
+
+    </data>
+</odoo>

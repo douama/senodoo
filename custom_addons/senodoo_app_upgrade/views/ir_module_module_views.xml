@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Remplace le lien mort vers odoo.com/pricing par un vrai bouton serveur.
+
+      Les classes CSS d'origine sont conservees a l'identique
+      (`btn btn-info btn-sm` en kanban, `btn btn-primary me-1` en formulaire) :
+      la carte garde exactement son apparence turquoise actuelle.
+    -->
+    <record id="module_view_kanban_senodoo" model="ir.ui.view">
+        <field name="name">ir.module.module.kanban.senodoo</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_view_kanban"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='to_buy']" position="after">
+                <field name="senodoo_status"/>
+                <field name="senodoo_can_upgrade"/>
+                <field name="senodoo_substitute_installed"/>
+                <field name="senodoo_upgrade_label"/>
+            </xpath>
+
+            <xpath expr="//footer/a[hasclass('btn-info')]" position="replace">
+                <button type="object" name="action_senodoo_upgrade"
+                        class="btn btn-info btn-sm"
+                        invisible="state not in ('uninstalled', 'uninstallable')"
+                        t-if="record.to_buy.raw_value &amp;&amp; !record.senodoo_substitute_installed.raw_value"
+                        groups="base.group_system">
+                    <t t-out="record.senodoo_upgrade_label.value"/>
+                </button>
+                <!-- L'equivalent libre tourne : plus rien a activer. Le
+                     libelle ne dit pas « Activee » : ce serait faux, c'est le
+                     module de remplacement qui est actif, pas celui-ci. -->
+                <button class="btn btn-sm btn-secondary" disabled="1"
+                        t-if="record.to_buy.raw_value &amp;&amp; record.senodoo_substitute_installed.raw_value"
+                        groups="base.group_system">
+                    <t t-out="record.senodoo_upgrade_label.value"/> ✓
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="module_form_senodoo" model="ir.ui.view">
+        <field name="name">ir.module.module.form.senodoo</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//a[@role='button'][@target='_blank']" position="replace">
+                <button type="object" name="action_senodoo_upgrade"
+                        class="btn btn-primary me-1"
+                        invisible="not to_buy or state not in ('uninstalled', 'uninstallable')"
+                        groups="base.group_system">
+                    <field name="senodoo_upgrade_label"/>
+                </button>
+            </xpath>
+
+            <!-- Diagnostic visible sans mode developpeur : c'est la reponse a
+                 « pourquoi cette application ne s'active-t-elle pas ? ». -->
+            <xpath expr="//div[hasclass('clearfix')]" position="before">
+                <group invisible="not to_buy" string="Activation">
+                    <field name="senodoo_status"/>
+                    <field name="senodoo_can_upgrade"/>
+                    <field name="senodoo_substitute_module_ids"
+                           widget="many2many_tags"
+                           invisible="not senodoo_substitute_module_ids"/>
+                    <field name="senodoo_upgrade_error"
+                           invisible="not senodoo_upgrade_error"/>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Resynchronisation manuelle : detecte dynamiquement tout module dont
+         le code vient d'apparaitre sur l'addons_path. -->
+    <record id="action_senodoo_refresh_catalog" model="ir.actions.server">
+        <field name="name">Resynchroniser le catalogue d'applications</field>
+        <field name="model_id" ref="base.model_ir_module_module"/>
+        <field name="binding_model_id" ref="base.model_ir_module_module"/>
+        <field name="binding_view_types">list,kanban</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_senodoo_refresh_catalog_ui()</field>
+        <field name="group_ids" eval="[(4, ref('base.group_system'))]"/>
+    </record>
+
+</odoo>

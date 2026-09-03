@@ -39,6 +39,7 @@ est pas un (`git rev-parse` → *not a git repository*). Voir
 | `railway.json` | Configuration de build et health check Railway |
 | `.env.example` | Modèle de configuration locale |
 | `.dockerignore` | Exclut `.venv` (185 Mo), `.odoo_local_data`, `doc/`, `windows/` du contexte |
+| `custom_addons/senodoo_app_upgrade/` | Rend fonctionnel le bouton « Mettre à niveau » des applications Enterprise |
 
 ---
 
@@ -266,6 +267,31 @@ ODOO_UPDATE_MODULES = base,web
 
 Retirer la variable après le déploiement, sinon la mise à jour est rejouée à
 chaque démarrage.
+
+### Installer des modules
+
+Contrairement à `ODOO_UPDATE_MODULES`, cette variable peut rester en place :
+l'entrypoint interroge `ir_module_module` et ne relance Odoo que s'il reste
+un module à installer.
+
+```
+ODOO_INSTALL_MODULES = senodoo_app_upgrade
+```
+
+### Ajouter un dépôt d'addons
+
+`addons_path` contient `addons/` puis `custom_addons/`. Pour en ajouter un
+troisième — un volume monté, un dépôt tiers, les addons Odoo Enterprise si
+vous disposez d'un abonnement :
+
+```
+ODOO_EXTRA_ADDONS_PATH = /mnt/enterprise
+```
+
+Au démarrage suivant, `update_list()` détecte les manifestes trouvés et
+bascule automatiquement les fiches correspondantes de « Mettre à niveau »
+vers le bouton « Activer » natif (voir
+`custom_addons/senodoo_app_upgrade/README.md`).
 
 ### Console Odoo
 

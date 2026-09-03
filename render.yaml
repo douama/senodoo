@@ -87,3 +87,11 @@ services:
 
       - key: ODOO_LOG_LEVEL
         value: info
+
+      # Installe le module maison qui rend fonctionnel le bouton
+      # « Mettre a niveau » des applications Enterprise non livrees en
+      # Community. L'entrypoint verifie l'etat en base avant d'agir : la
+      # variable peut rester en place, elle ne coute rien aux redemarrages
+      # suivants.
+      - key: ODOO_INSTALL_MODULES
+        value: senodoo_app_upgrade

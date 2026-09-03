@@ -120,6 +120,27 @@ export PGHOST PGPORT PGUSER PGPASSWORD PGDATABASE PGSSLMODE
 #   * admin_passwd doit passer par le fichier : c'est une FileOnlyOption
 #     (odoo/tools/config.py:197), non surchargeable en CLI.
 # ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# addons_path : les addons Community d'origine, puis les modules maison.
+#
+# custom_addons/ contient senodoo_app_upgrade, qui remplace le lien mort vers
+# odoo.com/pricing des applications Enterprise par une vraie operation
+# serveur. Le repertoire est teste avant d'etre ajoute : une image construite
+# sans lui doit continuer a demarrer.
+#
+# ODOO_EXTRA_ADDONS_PATH permet d'ajouter un chemin supplementaire (volume
+# monte, depot d'addons tiers) sans reconstruire l'image.
+# ---------------------------------------------------------------------------
+ODOO_HOME="${ODOO_HOME:-/opt/odoo}"
+ADDONS_PATH="${ODOO_HOME}/addons"
+if [ -d "${ODOO_HOME}/custom_addons" ]; then
+    ADDONS_PATH="${ADDONS_PATH},${ODOO_HOME}/custom_addons"
+fi
+if [ -n "${ODOO_EXTRA_ADDONS_PATH:-}" ]; then
+    ADDONS_PATH="${ADDONS_PATH},${ODOO_EXTRA_ADDONS_PATH}"
+fi
+log "addons_path = ${ADDONS_PATH}"
+
 ADMIN_PASSWD="${ODOO_ADMIN_PASSWD:-}"
 if [ -z "$ADMIN_PASSWD" ]; then
     log "AVERTISSEMENT: ODOO_ADMIN_PASSWD non defini, valeur de repli 'admin'."
@@ -133,7 +154,7 @@ umask 077
 cat > "$ODOO_CONF" <<EOF
 [options]
 ; genere par docker/entrypoint.sh au demarrage - ne pas editer a la main
-addons_path = /opt/odoo/addons
+addons_path = ${ADDONS_PATH}
 data_dir = ${DATA_DIR}
 
 db_host = ${PGHOST}
@@ -233,6 +254,39 @@ if [ "$NEEDS_DB" = true ]; then
             log "initialisation terminee"
         else
             log "schema Odoo deja present, initialisation ignoree"
+        fi
+    fi
+
+    # Installation de modules a la demande (ODOO_INSTALL_MODULES="senodoo_app_upgrade").
+    #
+    # `-i` est deja idempotent cote Odoo (modules/loading.py : seuls les
+    # modules en etat `uninstalled` sont installes), mais chaque passage coute
+    # un cycle de demarrage complet. On interroge donc d'abord l'etat en base
+    # et on ne relance Odoo que s'il reste quelque chose a faire.
+    if [ -n "${ODOO_INSTALL_MODULES:-}" ]; then
+        pending=""
+        for candidate in $(printf '%s' "$ODOO_INSTALL_MODULES" | tr ',' ' '); do
+            # Un nom de module Odoo est [a-z0-9_] : tout le reste est rejete
+            # plutot qu'interpole dans la requete SQL.
+            case "$candidate" in
+                *[!a-z0-9_]*|'')
+                    die "nom de module invalide dans ODOO_INSTALL_MODULES: '$candidate'" ;;
+            esac
+            state="$(psql -d "$PGDATABASE" -tAc \
+                "SELECT state FROM ir_module_module WHERE name = '$candidate'" 2>/dev/null || true)"
+            if [ "$state" != "installed" ]; then
+                pending="${pending:+$pending,}$candidate"
+            fi
+        done
+        if [ -n "$pending" ]; then
+            log "installation des modules: $pending"
+            as_odoo "$ODOO_BIN" -c "$ODOO_CONF" \
+                --database "$PGDATABASE" \
+                --init "$pending" \
+                --stop-after-init
+            log "installation terminee"
+        else
+            log "modules deja installes, rien a faire: $ODOO_INSTALL_MODULES"
         fi
     fi
 
