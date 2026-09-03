@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Icone officielle d'Odoo pour cette application : la carte Apps et
+         l'entree du menu gardent l'apparence attendue. -->
+    <menuitem id="menu_marketing_automation_root"
+              name="Marketing Automation"
+              web_icon="base,static/img/icons/marketing_automation.png"
+              sequence="100"/>
+
+    <menuitem id="menu_marketing_campaigns"
+              name="Campagnes"
+              parent="menu_marketing_automation_root"
+              action="senodoo_marketing_campaign_action"
+              sequence="10"/>
+
+    <menuitem id="menu_marketing_participants"
+              name="Participants"
+              parent="menu_marketing_automation_root"
+              action="senodoo_marketing_participant_action"
+              sequence="20"/>
+</odoo>

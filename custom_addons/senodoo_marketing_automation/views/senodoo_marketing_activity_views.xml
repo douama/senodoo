@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_marketing_activity_view_list" model="ir.ui.view">
+        <field name="name">senodoo.marketing.activity.list</field>
+        <field name="model">senodoo.marketing.activity</field>
+        <field name="arch" type="xml">
+            <list string="Activités">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="activity_type"/>
+                <field name="trigger_type"/>
+                <field name="parent_id"/>
+                <field name="interval_number" string="Délai"/>
+                <field name="interval_type" string="Unité"/>
+                <field name="processed_count" string="Traitées"/>
+                <field name="canceled_count" string="Annulées"/>
+                <field name="rejected_count" string="Rejetées"/>
+                <field name="model_name" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_marketing_activity_view_form" model="ir.ui.view">
+        <field name="name">senodoo.marketing.activity.form</field>
+        <field name="model">senodoo.marketing.activity</field>
+        <field name="arch" type="xml">
+            <form string="Activité">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Relance à J+3"/></h1>
+                    </div>
+                    <group>
+                        <group string="Ce que fait l'activité">
+                            <field name="activity_type" widget="radio"/>
+                            <field name="model_name" invisible="1"/>
+                            <field name="mailing_id" invisible="activity_type != 'email'"
+                                   required="activity_type == 'email'"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="server_action_id" invisible="activity_type != 'action'"
+                                   required="activity_type == 'action'"/>
+                        </group>
+                        <group string="Quand">
+                            <field name="trigger_type"/>
+                            <field name="parent_id"
+                                   invisible="trigger_type == 'begin'"
+                                   required="trigger_type != 'begin'"
+                                   domain="[('campaign_id', '=', campaign_id), ('id', '!=', id)]"/>
+                            <label for="interval_number" string="Délai"/>
+                            <div class="o_row">
+                                <field name="interval_number" class="oe_inline"/>
+                                <field name="interval_type" class="oe_inline"/>
+                            </div>
+                            <field name="campaign_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <div class="alert alert-info" role="alert"
+                         invisible="trigger_type not in ('mail_not_open', 'mail_not_click', 'mail_not_reply')">
+                        Ce déclencheur attend la fin du délai avant de conclure :
+                        sans attente, « pas ouvert » serait vrai pour tout le monde
+                        une seconde après l'envoi.
+                    </div>
+                    <group string="Résultats" invisible="not id">
+                        <group>
+                            <field name="processed_count"/>
+                            <field name="canceled_count"/>
+                        </group>
+                        <group>
+                            <field name="rejected_count"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

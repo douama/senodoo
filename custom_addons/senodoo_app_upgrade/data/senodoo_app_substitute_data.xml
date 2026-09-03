@@ -40,9 +40,9 @@
 
         <record id="substitute_marketing_automation" model="senodoo.app.substitute">
             <field name="name">marketing_automation</field>
-            <field name="substitute_names">mass_mailing,mass_mailing_sms</field>
+            <field name="substitute_names">senodoo_marketing_automation,mass_mailing,mass_mailing_sms</field>
             <field name="coverage">partial</field>
-            <field name="note">mass_mailing et mass_mailing_sms permettent de concevoir, envoyer et suivre des campagnes email et SMS avec segmentation des listes. Reste propre a Enterprise : les scenarios automatises multi-etapes declenches par le comportement des contacts.</field>
+            <field name="note">senodoo_marketing_automation apporte les scenarios automatises qui manquaient : une campagne cible un modele par un filtre, enchaine des activites apres un delai, et reagit au comportement reel des destinataires (ouverture, clic, reponse -- ou leur absence) en s'appuyant sur les traces d'E-mail Marketing. mass_mailing et mass_mailing_sms fournissent l'envoi email et SMS. Restent propres a Enterprise : l'editeur graphique de scenario et les tests A/B.</field>
         </record>
 
         <record id="substitute_stock_barcode" model="senodoo.app.substitute">

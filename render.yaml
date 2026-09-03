@@ -98,5 +98,6 @@ services:
       #   senodoo_knowledge   : application Connaissances
       #   senodoo_social      : application Marketing social
       #   senodoo_documents   : application Documents (GED)
+      #   senodoo_marketing_automation : scenarios de campagne automatises
       - key: ODOO_INSTALL_MODULES
-        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents
+        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation

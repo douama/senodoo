@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_marketing_campaign_view_search" model="ir.ui.view">
+        <field name="name">senodoo.marketing.campaign.search</field>
+        <field name="model">senodoo.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <search string="Campagnes">
+                <field name="name"/>
+                <field name="model_id"/>
+                <filter name="running" string="En cours" domain="[('state', '=', 'running')]"/>
+                <filter name="draft" string="Brouillons" domain="[('state', '=', 'draft')]"/>
+                <filter name="stopped" string="Arrêtées" domain="[('state', '=', 'stopped')]"/>
+                <separator/>
+                <filter name="archived" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_model" string="Cible" context="{'group_by': 'model_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="senodoo_marketing_campaign_view_list" model="ir.ui.view">
+        <field name="name">senodoo.marketing.campaign.list</field>
+        <field name="model">senodoo.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <list string="Campagnes" decoration-muted="state == 'stopped'">
+                <field name="name"/>
+                <field name="model_id" string="Cible"/>
+                <field name="activity_count" string="Activités"/>
+                <field name="participant_count" string="Participants"/>
+                <field name="running_count" string="En cours"/>
+                <field name="completed_count" string="Terminés"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'running'"
+                       decoration-info="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_marketing_campaign_view_form" model="ir.ui.view">
+        <field name="name">senodoo.marketing.campaign.form</field>
+        <field name="model">senodoo.marketing.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Campagne">
+                <header>
+                    <button name="action_start" type="object" string="Démarrer"
+                            class="btn-primary" invisible="state == 'running'"/>
+                    <button name="action_sync_participants" type="object"
+                            string="Rechercher de nouveaux participants"
+                            invisible="state != 'running'"/>
+                    <button name="action_stop" type="object" string="Arrêter"
+                            invisible="state != 'running'"
+                            confirm="Arrêter la campagne ? Les envois déjà partis ne peuvent pas être repris ; seuls les envois planifiés seront annulés."/>
+                    <button name="action_reset" type="object" string="Remettre en brouillon"
+                            invisible="state != 'stopped'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,running,stopped"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_participants" type="object"
+                                class="oe_stat_button" icon="fa-users">
+                            <field name="participant_count" widget="statinfo" string="Participants"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Réactivation des clients dormants"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="model_id" options="{'no_create': True}"
+                                   readonly="state != 'draft'"/>
+                            <field name="model_name" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="running_count"/>
+                            <field name="completed_count"/>
+                        </group>
+                    </group>
+                    <group string="Qui entre dans la campagne">
+                        <field name="domain" widget="domain"
+                               options="{'model': 'model_name'}" nolabel="1"/>
+                    </group>
+                    <notebook>
+                        <page string="Activités" name="activities">
+                            <field name="activity_ids" nolabel="1"
+                                   context="{'default_campaign_id': id}"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_marketing_campaign_action" model="ir.actions.act_window">
+        <field name="name">Campagnes</field>
+        <field name="path">marketing-automation</field>
+        <field name="res_model">senodoo.marketing.campaign</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="senodoo_marketing_campaign_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créer une campagne</p>
+            <p>Une campagne cible des enregistrements, puis enchaîne des envois
+               selon ce que font vraiment les destinataires : ouverture, clic,
+               réponse — ou leur absence.</p>
+        </field>
+    </record>
+
+</odoo>
