@@ -1,0 +1,36 @@
+// ===========================================================================
+// Charte SENACE : bleu et blanc, appliquee aux variables primaires d'Odoo.
+//
+// Ce fichier est PREPEND au bundle `web._assets_primary_variables`
+// (data/ir_asset.xml). Les variables ci-dessous sont declarees `!default`
+// dans les fichiers d'Odoo : en passant avant eux, nos valeurs l'emportent.
+//
+// Pourquoi le SCSS plutot que `make_scss_customization` :
+// cette API ecrit un ir.attachment, qui ne prend effet qu'au redemarrage
+// suivant, et Odoo 19 n'a pas de hook de mise a jour pour la declencher.
+// Le SCSS, lui, s'applique a chaque deploiement, a l'installation comme a la
+// mise a jour, sans code d'amorcage.
+//
+// Une modification faite depuis l'editeur de site reste prioritaire : elle
+// s'ecrit dans user_color_palette.scss, charge APRES ce fichier.
+// ===========================================================================
+
+// --- Interface Odoo -------------------------------------------------------
+// `web/static/src/scss/primary_variables.scss` : $o-community-color #71639e,
+// dont derivent $o-brand-odoo et $o-brand-primary.
+$o-community-color: #0a4da3;
+$o-enterprise-color: #0a4da3;
+
+// --- Site web -------------------------------------------------------------
+// `website/static/src/scss/primary_variables.scss` : $o-user-color-palette ().
+// Ces cinq couleurs sont fusionnees sur la palette de base, puis Odoo bascule
+// systematiquement sur 'user-palette' (secondary_variables.scss:214).
+//   1 : accent (boutons, liens)   2 : accent fonce   3 : fond teinte
+//   4 : fond clair                5 : texte
+$o-user-color-palette: (
+    'o-color-1': #0a4da3,
+    'o-color-2': #063a7d,
+    'o-color-3': #e8f0fb,
+    'o-color-4': #ffffff,
+    'o-color-5': #12253d,
+);

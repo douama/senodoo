@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <asset id="senace_backend_primary_variables" name="Variables primaires SENACE">
+            <!-- prepend : nos definitions doivent passer AVANT celles d'Odoo,
+                 qui sont marquees !default. -->
+            <bundle directive="prepend">web._assets_primary_variables</bundle>
+            <path>senodoo_website_landing/static/src/scss/senace_variables.scss</path>
+        </asset>
+    </data>
+</odoo>

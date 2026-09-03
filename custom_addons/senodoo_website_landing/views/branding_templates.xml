@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Une classe stable permet de donner a l'en-tete Odoo une finition
+         SENACE sans dependre du theme actif. -->
+    <template id="senace_layout_branding" inherit_id="website.layout"
+              name="Identité visuelle SENACE">
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-class" add="s_senace_site_header" separator=" "/>
+        </xpath>
+    </template>
+
+    <!-- Le logo de demonstration "Your Logo" est remplace par une marque
+         typographique nette, independante des images de demo d'Odoo. -->
+    <template id="senace_header_wordmark" inherit_id="website.option_header_brand_logo"
+              name="Signature SENACE" priority="30">
+        <xpath expr="//a[@data-name='Navbar Logo']" position="replace">
+            <a data-name="Navbar Logo" href="/"
+               t-attf-class="navbar-brand s_senace_wordmark #{_link_class}"
+               aria-label="SENACE — Accueil">
+                <span class="s_senace_wordmark_symbol" aria-hidden="true">S</span>
+                <span class="s_senace_wordmark_name">SENACE</span>
+            </a>
+        </xpath>
+    </template>
+
     <!--
       Le bloc #footer d'Odoo porte t-ignore="true" : les directives QWeb n'y
       sont pas evaluees, `t-field` n'y fonctionnerait pas. Les coordonnees y
@@ -15,17 +38,18 @@
                         <div class="col-lg-4 pt24 pb24">
                             <h5>SENACE</h5>
                             <p>
-                                Formation professionnelle, coaching et services aux
-                                entreprises et au tourisme. Un seul interlocuteur, du
-                                premier échange jusqu'aux résultats.
+                                Quatre expertises complémentaires : formation professionnelle,
+                                coaching, services aux entreprises et services au tourisme.
+                                Un seul interlocuteur, du premier échange jusqu'au bilan.
                             </p>
                         </div>
                         <div class="col-lg-3 offset-lg-1 pt24 pb24">
                             <h5>Nos pôles</h5>
                             <ul class="list-unstyled">
-                                <li><a href="/#poles">Formation professionnelle</a></li>
-                                <li><a href="/#poles">Coaching professionnel</a></li>
-                                <li><a href="/#poles">Services aux entreprises et tourisme</a></li>
+                                <li><a href="/#formation">Formation professionnelle</a></li>
+                                <li><a href="/#coaching">Coaching professionnel</a></li>
+                                <li><a href="/#entreprises">Services aux entreprises</a></li>
+                                <li><a href="/#tourisme">Services au tourisme</a></li>
                                 <li><a href="/contactus">Demander un devis</a></li>
                             </ul>
                         </div>
@@ -86,6 +110,17 @@
                     </a>
                 </div>
             </li>
+        </xpath>
+    </template>
+
+    <!-- Le CTA fourni par Odoo est en anglais par defaut. -->
+    <template id="senace_header_cta" inherit_id="website.header_call_to_action"
+              name="Appel à l'action SENACE">
+        <xpath expr="//a[hasclass('btn_cta')]" position="replace">
+            <a href="/contactus"
+               class="oe_unremovable btn btn_cta s_senace_header_cta">
+                Démarrer un projet
+            </a>
         </xpath>
     </template>
 

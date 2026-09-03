@@ -3,140 +3,269 @@
 
     <template id="landing_homepage" inherit_id="website.homepage" name="Accueil SENACE">
         <!--
-          On remplace la structure vide par le contenu en conservant la classe
-          `oe_structure` : la page reste modifiable depuis l'editeur de site,
-          on ne verrouille rien.
-
-          Les coordonnees viennent de `res_company` : changer l'adresse ou le
-          telephone dans Odoo met la page a jour, rien n'est code en dur.
+          La classe `oe_structure` est volontairement conservee : le contenu
+          reste accessible depuis l'editeur de site Odoo.
         -->
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="oe_structure s_senace">
 
-                <!-- ============ Hero ============ -->
-                <section class="s_senace_hero">
-                    <div class="container">
-                        <div class="row align-items-center g-5">
-                            <div class="col-lg-7">
+                <!-- ============ Hero editorial ============ -->
+                <section class="s_senace_hero" aria-labelledby="senace-hero-title">
+                    <div class="s_senace_hero_media" aria-hidden="true">
+                        <img src="/senodoo_website_landing/static/src/img/senace-hero.webp"
+                             alt="" width="1536" height="1024" fetchpriority="high"
+                             decoding="async" loading="eager"/>
+                    </div>
+                    <div class="container s_senace_hero_inner">
+                        <div class="row">
+                            <div class="col-lg-9 col-xl-8">
                                 <p class="s_senace_eyebrow">
-                                    <span t-field="res_company.city"/>, <span t-field="res_company.country_id.name"/>
+                                    <span class="s_senace_eyebrow_mark" aria-hidden="true"/>
+                                    Dakar · Sénégal
                                 </p>
-                                <h1 class="s_senace_title">
-                                    Former, accompagner,<br/>
-                                    <span class="s_senace_accent">faire grandir vos projets.</span>
+                                <h1 id="senace-hero-title" class="s_senace_title">
+                                    Quatre expertises pour
+                                    <span>donner de l'élan</span>
+                                    à vos ambitions.
                                 </h1>
                                 <p class="s_senace_lead">
-                                    SENACE intervient sur trois pôles : la formation
-                                    professionnelle, le coaching et les services aux
-                                    entreprises et au tourisme. Un même interlocuteur,
-                                    du premier échange jusqu'aux résultats.
+                                    SENACE forme, conseille et accompagne les professionnels,
+                                    les organisations et les porteurs de projet avec une approche
+                                    claire, humaine et résolument tournée vers l'action.
                                 </p>
-                                <div class="d-flex flex-wrap gap-3 mt-4">
-                                    <a href="/contactus" class="btn btn-lg s_senace_btn_primary">
-                                        Demander un devis gratuit
+                                <div class="s_senace_hero_actions">
+                                    <a href="/contactus" class="btn s_senace_btn_primary">
+                                        Parler de mon projet
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
                                     </a>
-                                    <a href="#poles" class="btn btn-lg s_senace_btn_ghost">
-                                        Découvrir nos pôles
+                                    <a href="#poles" class="btn s_senace_btn_ghost">
+                                        Découvrir nos expertises
                                     </a>
                                 </div>
-                                <p class="s_senace_reassure mt-4">
-                                    Réponse sous 24 h ouvrées · Échange sans engagement
-                                </p>
+                                <ul class="s_senace_hero_poles list-unstyled"
+                                    aria-label="Les quatre pôles SENACE">
+                                    <li><span>01</span> Formation</li>
+                                    <li><span>02</span> Coaching</li>
+                                    <li><span>03</span> Entreprises</li>
+                                    <li><span>04</span> Tourisme</li>
+                                </ul>
                             </div>
-                            <div class="col-lg-5">
-                                <div class="s_senace_card_contact">
-                                    <h2 class="h5 mb-3">Parlons de votre besoin</h2>
-                                    <ul class="list-unstyled mb-4">
-                                        <li class="d-flex gap-3 mb-3" t-if="res_company.phone">
-                                            <i class="fa fa-phone mt-1" role="img" aria-label="Téléphone"/>
-                                            <span>
-                                                <span class="d-block small text-uppercase opacity-75">Téléphone</span>
-                                                <span t-field="res_company.phone"/>
-                                            </span>
-                                        </li>
-                                        <li class="d-flex gap-3 mb-3" t-if="res_company.email">
-                                            <i class="fa fa-envelope mt-1" role="img" aria-label="E-mail"/>
-                                            <span>
-                                                <span class="d-block small text-uppercase opacity-75">E-mail</span>
-                                                <span t-field="res_company.email"/>
-                                            </span>
-                                        </li>
-                                        <li class="d-flex gap-3">
-                                            <i class="fa fa-map-marker mt-1" role="img" aria-label="Adresse"/>
-                                            <span>
-                                                <span class="d-block small text-uppercase opacity-75">Adresse</span>
-                                                <span t-field="res_company.street"/>,
-                                                <span t-field="res_company.city"/>
-                                            </span>
-                                        </li>
-                                    </ul>
-                                    <a href="/contactus" class="btn w-100 s_senace_btn_primary">
-                                        Nous écrire
-                                    </a>
-                                </div>
+                        </div>
+                    </div>
+                    <a href="#poles" class="s_senace_scroll" aria-label="Aller aux expertises">
+                        <span>Explorer</span>
+                        <i class="fa fa-arrow-down" aria-hidden="true"/>
+                    </a>
+                </section>
+
+                <!-- ============ Reassurance ============ -->
+                <section class="s_senace_trust" aria-label="Les engagements SENACE">
+                    <div class="container">
+                        <div class="s_senace_trust_inner">
+                            <div class="s_senace_trust_intro">
+                                <span>Notre engagement</span>
+                                <strong>Vous faire avancer, avec méthode.</strong>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">01</span>
+                                <p><strong>Un interlocuteur dédié</strong> du premier échange au bilan.</p>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">02</span>
+                                <p><strong>Une proposition lisible</strong> avant chaque intervention.</p>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">03</span>
+                                <p><strong>Un suivi continu</strong> pour transformer l'élan en résultats.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- ============ Les trois poles ============ -->
-                <section id="poles" class="s_senace_section">
+                <!-- ============ Les quatre poles ============ -->
+                <section id="poles" class="s_senace_section s_senace_expertises"
+                         aria-labelledby="senace-poles-title">
                     <div class="container">
-                        <div class="s_senace_head">
-                            <p class="s_senace_kicker">Nos pôles</p>
-                            <h2>Trois métiers, une même exigence</h2>
-                            <p class="s_senace_sub">
-                                Chaque intervention part de votre situation réelle et se
-                                conclut par un résultat que vous pouvez constater.
-                            </p>
+                        <div class="row align-items-end g-4 s_senace_section_head">
+                            <div class="col-lg-7">
+                                <p class="s_senace_kicker">Un partenaire, quatre savoir-faire</p>
+                                <h2 id="senace-poles-title">
+                                    Votre besoin ne tient pas toujours dans une case.
+                                    <span>Notre accompagnement non plus.</span>
+                                </h2>
+                            </div>
+                            <div class="col-lg-4 offset-lg-1">
+                                <p class="s_senace_section_intro">
+                                    Nos expertises se complètent pour vous proposer le bon appui,
+                                    au bon moment, sans multiplier les interlocuteurs.
+                                </p>
+                            </div>
                         </div>
-                        <div class="row g-4">
-                            <div class="col-lg-4">
-                                <div class="s_senace_pole">
-                                    <span class="s_senace_icon"><i class="fa fa-graduation-cap" role="img" aria-label="Formation"/></span>
+
+                        <div class="s_senace_poles_grid">
+                            <article id="formation" class="s_senace_pole s_senace_pole--formation">
+                                <div class="s_senace_pole_copy">
+                                    <p class="s_senace_pole_overline"><span>01</span> Développer</p>
                                     <h3>Formation professionnelle</h3>
                                     <p>
-                                        Des formations conçues pour être appliquées dès le
-                                        retour au poste : montée en compétences des équipes,
-                                        reconversion, perfectionnement.
+                                        Des parcours conçus pour devenir rapidement utiles :
+                                        apprendre, pratiquer et appliquer dès le retour au poste.
                                     </p>
+                                    <ul class="list-unstyled s_senace_pole_points">
+                                        <li>Montée en compétences</li>
+                                        <li>Perfectionnement</li>
+                                        <li>Reconversion professionnelle</li>
+                                    </ul>
                                     <a href="/contactus?subject=Formation professionnelle"
                                        class="s_senace_link">
                                         Demander le programme
-                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
                                     </a>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="s_senace_pole">
-                                    <span class="s_senace_icon"><i class="fa fa-compass" role="img" aria-label="Coaching"/></span>
+                                <div class="s_senace_pole_visual" aria-hidden="true">
+                                    <img src="/senodoo_website_landing/static/src/img/icon-formation.webp"
+                                         alt="" width="512" height="512" loading="lazy"
+                                         decoding="async"/>
+                                </div>
+                            </article>
+
+                            <article id="coaching" class="s_senace_pole s_senace_pole--coaching">
+                                <div class="s_senace_pole_copy">
+                                    <p class="s_senace_pole_overline"><span>02</span> Clarifier</p>
                                     <h3>Coaching professionnel</h3>
                                     <p>
-                                        Un accompagnement individuel ou d'équipe pour clarifier
-                                        des objectifs, franchir un cap ou traverser une période
-                                        de changement.
+                                        Un espace exigeant et bienveillant pour prendre du recul,
+                                        franchir un cap et agir avec davantage de justesse.
                                     </p>
+                                    <ul class="list-unstyled s_senace_pole_points">
+                                        <li>Accompagnement individuel</li>
+                                        <li>Dynamique d'équipe</li>
+                                        <li>Conduite du changement</li>
+                                    </ul>
                                     <a href="/contactus?subject=Coaching professionnel"
                                        class="s_senace_link">
-                                        Prendre rendez-vous
-                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                        Réserver un échange
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
                                     </a>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="s_senace_pole">
-                                    <span class="s_senace_icon"><i class="fa fa-briefcase" role="img" aria-label="Entreprises et tourisme"/></span>
-                                    <h3>Services aux entreprises et tourisme</h3>
+                                <div class="s_senace_pole_visual" aria-hidden="true">
+                                    <img src="/senodoo_website_landing/static/src/img/icon-coaching.webp"
+                                         alt="" width="512" height="512" loading="lazy"
+                                         decoding="async"/>
+                                </div>
+                            </article>
+
+                            <article id="entreprises" class="s_senace_pole s_senace_pole--entreprises">
+                                <div class="s_senace_pole_copy">
+                                    <p class="s_senace_pole_overline"><span>03</span> Structurer</p>
+                                    <h3>Services aux entreprises</h3>
                                     <p>
-                                        Assistance administrative, appui à la création
-                                        d'entreprise et prestations liées au tourisme, prises
-                                        en charge et suivies jusqu'à leur aboutissement.
+                                        Un soutien fiable pour simplifier vos démarches, structurer
+                                        l'administratif et laisser plus de place à votre activité.
                                     </p>
-                                    <a href="/contactus?subject=Services aux entreprises et tourisme"
+                                    <ul class="list-unstyled s_senace_pole_points">
+                                        <li>Assistance administrative</li>
+                                        <li>Appui à la création</li>
+                                        <li>Organisation et suivi</li>
+                                    </ul>
+                                    <a href="/contactus?subject=Services aux entreprises"
                                        class="s_senace_link">
-                                        Exposer votre besoin
-                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                        Exposer mon besoin
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
                                     </a>
+                                </div>
+                                <div class="s_senace_pole_visual" aria-hidden="true">
+                                    <img src="/senodoo_website_landing/static/src/img/icon-entreprises.webp"
+                                         alt="" width="512" height="512" loading="lazy"
+                                         decoding="async"/>
+                                </div>
+                            </article>
+
+                            <article id="tourisme" class="s_senace_pole s_senace_pole--tourisme">
+                                <div class="s_senace_pole_copy">
+                                    <p class="s_senace_pole_overline"><span>04</span> Coordonner</p>
+                                    <h3>Services au tourisme</h3>
+                                    <p>
+                                        Des prestations liées au tourisme coordonnées avec soin,
+                                        de la compréhension de votre demande jusqu'à sa réalisation.
+                                    </p>
+                                    <ul class="list-unstyled s_senace_pole_points">
+                                        <li>Accompagnement de projet</li>
+                                        <li>Coordination de prestations</li>
+                                        <li>Suivi de bout en bout</li>
+                                    </ul>
+                                    <a href="/contactus?subject=Services au tourisme"
+                                       class="s_senace_link">
+                                        Parler de mon projet
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                    </a>
+                                </div>
+                                <div class="s_senace_pole_visual" aria-hidden="true">
+                                    <img src="/senodoo_website_landing/static/src/img/icon-tourisme.webp"
+                                         alt="" width="512" height="512" loading="lazy"
+                                         decoding="async"/>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Approche ============ -->
+                <section id="approche" class="s_senace_section s_senace_approach"
+                         aria-labelledby="senace-approach-title">
+                    <div class="container">
+                        <div class="row align-items-center g-5">
+                            <div class="col-lg-5">
+                                <div class="s_senace_approach_media">
+                                    <img src="/senodoo_website_landing/static/src/img/senace-coaching.webp"
+                                         alt="" width="1122" height="1402" loading="lazy"
+                                         decoding="async" aria-hidden="true"/>
+                                    <div class="s_senace_media_note">
+                                        <span>Notre parti pris</span>
+                                        <strong>L'humain d'abord.</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 offset-lg-1">
+                                <p class="s_senace_kicker">Une expertise qui s'adapte</p>
+                                <h2 id="senace-approach-title">
+                                    Des solutions pensées pour votre réalité,
+                                    <span>pas pour une situation théorique.</span>
+                                </h2>
+                                <p class="s_senace_approach_lead">
+                                    Les meilleurs résultats commencent par une compréhension fine
+                                    de votre contexte. Nous écoutons, cadrons et avançons avec vous,
+                                    dans une relation simple et directement utile.
+                                </p>
+                                <div class="s_senace_benefits">
+                                    <div class="s_senace_benefit">
+                                        <span>01</span>
+                                        <div>
+                                            <h3>Sur mesure</h3>
+                                            <p>Chaque mission part de vos priorités réelles.</p>
+                                        </div>
+                                    </div>
+                                    <div class="s_senace_benefit">
+                                        <span>02</span>
+                                        <div>
+                                            <h3>Lisible</h3>
+                                            <p>Le périmètre et les prochaines étapes sont clairs.</p>
+                                        </div>
+                                    </div>
+                                    <div class="s_senace_benefit">
+                                        <span>03</span>
+                                        <div>
+                                            <h3>Proche</h3>
+                                            <p>Un interlocuteur unique, disponible à Dakar.</p>
+                                        </div>
+                                    </div>
+                                    <div class="s_senace_benefit">
+                                        <span>04</span>
+                                        <div>
+                                            <h3>Suivi</h3>
+                                            <p>Nous restons présents jusqu'au bilan.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -144,121 +273,107 @@
                 </section>
 
                 <!-- ============ Methode ============ -->
-                <section class="s_senace_section s_senace_section--muted">
+                <section id="methode" class="s_senace_section s_senace_method"
+                         aria-labelledby="senace-method-title">
                     <div class="container">
-                        <div class="s_senace_head">
-                            <p class="s_senace_kicker">Notre méthode</p>
-                            <h2>Quatre étapes, un seul interlocuteur</h2>
+                        <div class="row align-items-end g-4 s_senace_method_head">
+                            <div class="col-lg-7">
+                                <p class="s_senace_kicker">Notre méthode</p>
+                                <h2 id="senace-method-title">
+                                    Une trajectoire claire,<br/>
+                                    du besoin au résultat.
+                                </h2>
+                            </div>
+                            <div class="col-lg-4 offset-lg-1">
+                                <p>
+                                    Quatre étapes structurent chaque intervention et vous donnent
+                                    de la visibilité, sans alourdir le projet.
+                                </p>
+                            </div>
                         </div>
-                        <div class="row g-4 s_senace_steps">
-                            <div class="col-md-6 col-lg-3">
-                                <div class="s_senace_step">
-                                    <span class="s_senace_step_num">1</span>
+                        <ol class="row g-0 list-unstyled s_senace_steps">
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">01</span>
                                     <h3>Échange</h3>
-                                    <p>Nous prenons le temps de comprendre votre situation et ce que vous visez.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="s_senace_step">
-                                    <span class="s_senace_step_num">2</span>
+                                    <p>Votre contexte, vos objectifs et vos priorités sont posés sans jargon.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">02</span>
                                     <h3>Proposition</h3>
-                                    <p>Vous recevez un programme et un devis clairs avant tout engagement.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="s_senace_step">
-                                    <span class="s_senace_step_num">3</span>
+                                    <p>Un périmètre, un programme et un devis clairs avant le démarrage.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">03</span>
                                     <h3>Réalisation</h3>
-                                    <p>Nous menons l'intervention et vous tenons informé de son avancement.</p>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-lg-3">
-                                <div class="s_senace_step">
-                                    <span class="s_senace_step_num">4</span>
+                                    <p>L'intervention avance avec des points d'étape utiles et concrets.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">04</span>
                                     <h3>Suivi</h3>
-                                    <p>Nous restons joignables après l'intervention pour consolider les acquis.</p>
-                                </div>
-                            </div>
-                        </div>
+                                    <p>Nous faisons le bilan et restons disponibles pour consolider la suite.</p>
+                                </article>
+                            </li>
+                        </ol>
                     </div>
                 </section>
 
-                <!-- ============ Pourquoi nous ============ -->
-                <section class="s_senace_section">
+                <!-- ============ Conversion ============ -->
+                <section id="contact" class="s_senace_section s_senace_contact"
+                         aria-labelledby="senace-contact-title">
                     <div class="container">
-                        <div class="row g-5 align-items-center">
-                            <div class="col-lg-6">
-                                <p class="s_senace_kicker">Pourquoi SENACE</p>
-                                <h2 class="mb-4">Vous avancez sur votre métier, nous portons le reste.</h2>
-                                <ul class="s_senace_points list-unstyled">
-                                    <li>
-                                        <i class="fa fa-check" role="img" aria-label="Point"/>
-                                        <span>
-                                            <strong>Un seul interlocuteur.</strong>
-                                            Vous n'exposez pas votre besoin trois fois : la même
-                                            personne vous suit du premier échange au bilan.
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-check" role="img" aria-label="Point"/>
-                                        <span>
-                                            <strong>Trois pôles complémentaires.</strong>
-                                            Former une équipe, accompagner un dirigeant et
-                                            traiter l'administratif relèvent souvent du même
-                                            projet : ici, c'est la même maison.
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-check" role="img" aria-label="Point"/>
-                                        <span>
-                                            <strong>Une proximité réelle.</strong>
-                                            Nous recevons à <span t-field="res_company.street"/>,
-                                            <span t-field="res_company.city"/> — et restons
-                                            joignables par téléphone.
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-check" role="img" aria-label="Point"/>
-                                        <span>
-                                            <strong>Un devis avant de commencer.</strong>
-                                            Vous savez ce que vous payez et ce qui est inclus
-                                            avant que nous engagions quoi que ce soit.
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="s_senace_quote">
-                                    <i class="fa fa-quote-left" role="img" aria-label="Citation"/>
+                        <div class="s_senace_contact_panel">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7">
+                                    <p class="s_senace_kicker">Passons à l'action</p>
+                                    <h2 id="senace-contact-title">
+                                        Votre prochain cap commence<br/>
+                                        par une conversation.
+                                    </h2>
                                     <p>
-                                        Une compétence qui ne se transmet pas se perd, et un
-                                        projet qui n'est pas accompagné s'essouffle. Notre
-                                        métier est d'éviter les deux.
+                                        Quelques lignes suffisent pour nous présenter votre besoin.
+                                        Nous vous recontactons avec une proposition adaptée.
                                     </p>
-                                    <span class="s_senace_quote_by">SENACE</span>
+                                </div>
+                                <div class="col-lg-4 offset-lg-1">
+                                    <div class="s_senace_contact_actions">
+                                        <a href="/contactus" class="btn s_senace_btn_light">
+                                            Nous parler de votre projet
+                                            <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                        </a>
+                                        <a t-if="res_company.phone"
+                                           t-attf-href="tel:#{res_company.phone}"
+                                           class="s_senace_phone_link">
+                                            <i class="fa fa-phone" aria-hidden="true"/>
+                                            <span t-field="res_company.phone"/>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- ============ Appel a l'action ============ -->
-                <section class="s_senace_cta">
-                    <div class="container text-center">
-                        <h2>Parlons de votre projet</h2>
-                        <p>
-                            Décrivez-nous votre besoin en quelques lignes. Nous revenons
-                            vers vous avec une proposition adaptée et un devis.
-                        </p>
-                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
-                            <a href="/contactus" class="btn btn-lg s_senace_btn_light">
-                                Demander un devis gratuit
-                            </a>
-                            <a t-if="res_company.phone" t-attf-href="tel:#{res_company.phone}"
-                               class="btn btn-lg s_senace_btn_outline_light">
-                                <i class="fa fa-phone me-2" role="img" aria-label="Appeler"/>
-                                <span t-field="res_company.phone"/>
-                            </a>
+                            <div class="s_senace_contact_meta">
+                                <a t-if="res_company.email"
+                                   t-attf-href="mailto:#{res_company.email}">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"/>
+                                    <span t-field="res_company.email"/>
+                                </a>
+                                <div t-if="res_company.city or res_company.country_id">
+                                    <i class="fa fa-map-marker" aria-hidden="true"/>
+                                    <span t-if="res_company.city" t-field="res_company.city"/>
+                                    <t t-if="res_company.city and res_company.country_id"> · </t>
+                                    <span t-if="res_company.country_id"
+                                          t-field="res_company.country_id.name"/>
+                                </div>
+                                <div>
+                                    <i class="fa fa-handshake-o" aria-hidden="true"/>
+                                    <span>Premier échange sans engagement</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

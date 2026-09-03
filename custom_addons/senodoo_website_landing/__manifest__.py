@@ -1,16 +1,16 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.0',
+    'version': '1.2.0',
     'category': 'Website',
     'sequence': 200,
-    'summary': "Page d'accueil professionnelle pour Sen Assistance Administrative",
+    'summary': "Landing page premium des quatre pôles SENACE",
     'description': """
 Page d'accueil SENACE
 ======================
 
 Remplace la page d'accueil par defaut d'Odoo (« Home | My Website ») par une
-landing page presentant l'activite : creation d'entreprise et assistance
-administrative a Dakar.
+landing page presentant les quatre poles SENACE : formation professionnelle,
+coaching, services aux entreprises et services au tourisme a Dakar.
 
 La page reste dans un bloc `oe_structure` : elle demeure entierement
 modifiable depuis l'editeur de site d'Odoo, sans toucher au code.
@@ -27,6 +27,7 @@ jour, il n'y a rien a coder en dur.
     'depends': ['website', 'website_crm'],
     'data': [
         'data/website_data.xml',
+        'data/ir_asset.xml',
         'views/landing_templates.xml',
         'views/branding_templates.xml',
     ],
