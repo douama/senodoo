@@ -58,7 +58,7 @@
                             <ul class="list-unstyled">
                                 <li>
                                     <i class="fa fa-phone fa-fw me-2"/>
-                                    <a href="tel:+221771100301"><span class="o_force_ltr">77 110 03 01</span></a>
+                                    <a href="tel:+221762601987"><span class="o_force_ltr">76 260 19 87</span></a>
                                     <span class="mx-1">·</span>
                                     <a href="tel:+221774315931"><span class="o_force_ltr">77 431 59 31</span></a>
                                 </li>
@@ -114,9 +114,9 @@
         <xpath expr="." position="inside">
             <li t-attf-class="#{_item_class}">
                 <div t-attf-class="s_text_block d-flex align-items-center #{_div_class}" data-name="Text">
-                    <a href="tel:+221771100301" class="d-flex align-items-center text-reset text-decoration-none">
+                    <a href="tel:+221762601987" class="d-flex align-items-center text-reset text-decoration-none">
                         <i class="fa fa-fw fa-phone me-2" role="img" aria-label="Téléphone"/>
-                        <span class="o_force_ltr">77 110 03 01</span>
+                        <span class="o_force_ltr">76 260 19 87</span>
                     </a>
                 </div>
             </li>
