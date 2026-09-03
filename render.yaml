@@ -99,5 +99,6 @@ services:
       #   senodoo_social      : application Marketing social
       #   senodoo_documents   : application Documents (GED)
       #   senodoo_marketing_automation : scenarios de campagne automatises
+      #   senodoo_website_landing      : page d'accueil et identite SENACE
       - key: ODOO_INSTALL_MODULES
-        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation
+        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing

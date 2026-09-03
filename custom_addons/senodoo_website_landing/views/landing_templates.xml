@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="landing_homepage" inherit_id="website.homepage" name="Accueil SENACE">
+        <!--
+          On remplace la structure vide par le contenu en conservant la classe
+          `oe_structure` : la page reste modifiable depuis l'editeur de site,
+          on ne verrouille rien.
+
+          Les coordonnees viennent de `res_company` : changer l'adresse ou le
+          telephone dans Odoo met la page a jour, rien n'est code en dur.
+        -->
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="oe_structure s_senace">
+
+                <!-- ============ Hero ============ -->
+                <section class="s_senace_hero">
+                    <div class="container">
+                        <div class="row align-items-center g-5">
+                            <div class="col-lg-7">
+                                <p class="s_senace_eyebrow">
+                                    <span t-field="res_company.city"/>, <span t-field="res_company.country_id.name"/>
+                                </p>
+                                <h1 class="s_senace_title">
+                                    Former, accompagner,<br/>
+                                    <span class="s_senace_accent">faire grandir vos projets.</span>
+                                </h1>
+                                <p class="s_senace_lead">
+                                    SENACE intervient sur trois pôles : la formation
+                                    professionnelle, le coaching et les services aux
+                                    entreprises et au tourisme. Un même interlocuteur,
+                                    du premier échange jusqu'aux résultats.
+                                </p>
+                                <div class="d-flex flex-wrap gap-3 mt-4">
+                                    <a href="/contactus" class="btn btn-lg s_senace_btn_primary">
+                                        Demander un devis gratuit
+                                    </a>
+                                    <a href="#poles" class="btn btn-lg s_senace_btn_ghost">
+                                        Découvrir nos pôles
+                                    </a>
+                                </div>
+                                <p class="s_senace_reassure mt-4">
+                                    Réponse sous 24 h ouvrées · Échange sans engagement
+                                </p>
+                            </div>
+                            <div class="col-lg-5">
+                                <div class="s_senace_card_contact">
+                                    <h2 class="h5 mb-3">Parlons de votre besoin</h2>
+                                    <ul class="list-unstyled mb-4">
+                                        <li class="d-flex gap-3 mb-3" t-if="res_company.phone">
+                                            <i class="fa fa-phone mt-1" role="img" aria-label="Téléphone"/>
+                                            <span>
+                                                <span class="d-block small text-uppercase opacity-75">Téléphone</span>
+                                                <span t-field="res_company.phone"/>
+                                            </span>
+                                        </li>
+                                        <li class="d-flex gap-3 mb-3" t-if="res_company.email">
+                                            <i class="fa fa-envelope mt-1" role="img" aria-label="E-mail"/>
+                                            <span>
+                                                <span class="d-block small text-uppercase opacity-75">E-mail</span>
+                                                <span t-field="res_company.email"/>
+                                            </span>
+                                        </li>
+                                        <li class="d-flex gap-3">
+                                            <i class="fa fa-map-marker mt-1" role="img" aria-label="Adresse"/>
+                                            <span>
+                                                <span class="d-block small text-uppercase opacity-75">Adresse</span>
+                                                <span t-field="res_company.street"/>,
+                                                <span t-field="res_company.city"/>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    <a href="/contactus" class="btn w-100 s_senace_btn_primary">
+                                        Nous écrire
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Les trois poles ============ -->
+                <section id="poles" class="s_senace_section">
+                    <div class="container">
+                        <div class="s_senace_head">
+                            <p class="s_senace_kicker">Nos pôles</p>
+                            <h2>Trois métiers, une même exigence</h2>
+                            <p class="s_senace_sub">
+                                Chaque intervention part de votre situation réelle et se
+                                conclut par un résultat que vous pouvez constater.
+                            </p>
+                        </div>
+                        <div class="row g-4">
+                            <div class="col-lg-4">
+                                <div class="s_senace_pole">
+                                    <span class="s_senace_icon"><i class="fa fa-graduation-cap" role="img" aria-label="Formation"/></span>
+                                    <h3>Formation professionnelle</h3>
+                                    <p>
+                                        Des formations conçues pour être appliquées dès le
+                                        retour au poste : montée en compétences des équipes,
+                                        reconversion, perfectionnement.
+                                    </p>
+                                    <a href="/contactus?subject=Formation professionnelle"
+                                       class="s_senace_link">
+                                        Demander le programme
+                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="s_senace_pole">
+                                    <span class="s_senace_icon"><i class="fa fa-compass" role="img" aria-label="Coaching"/></span>
+                                    <h3>Coaching professionnel</h3>
+                                    <p>
+                                        Un accompagnement individuel ou d'équipe pour clarifier
+                                        des objectifs, franchir un cap ou traverser une période
+                                        de changement.
+                                    </p>
+                                    <a href="/contactus?subject=Coaching professionnel"
+                                       class="s_senace_link">
+                                        Prendre rendez-vous
+                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="s_senace_pole">
+                                    <span class="s_senace_icon"><i class="fa fa-briefcase" role="img" aria-label="Entreprises et tourisme"/></span>
+                                    <h3>Services aux entreprises et tourisme</h3>
+                                    <p>
+                                        Assistance administrative, appui à la création
+                                        d'entreprise et prestations liées au tourisme, prises
+                                        en charge et suivies jusqu'à leur aboutissement.
+                                    </p>
+                                    <a href="/contactus?subject=Services aux entreprises et tourisme"
+                                       class="s_senace_link">
+                                        Exposer votre besoin
+                                        <i class="fa fa-arrow-right ms-1" role="img" aria-label=""/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Methode ============ -->
+                <section class="s_senace_section s_senace_section--muted">
+                    <div class="container">
+                        <div class="s_senace_head">
+                            <p class="s_senace_kicker">Notre méthode</p>
+                            <h2>Quatre étapes, un seul interlocuteur</h2>
+                        </div>
+                        <div class="row g-4 s_senace_steps">
+                            <div class="col-md-6 col-lg-3">
+                                <div class="s_senace_step">
+                                    <span class="s_senace_step_num">1</span>
+                                    <h3>Échange</h3>
+                                    <p>Nous prenons le temps de comprendre votre situation et ce que vous visez.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="s_senace_step">
+                                    <span class="s_senace_step_num">2</span>
+                                    <h3>Proposition</h3>
+                                    <p>Vous recevez un programme et un devis clairs avant tout engagement.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="s_senace_step">
+                                    <span class="s_senace_step_num">3</span>
+                                    <h3>Réalisation</h3>
+                                    <p>Nous menons l'intervention et vous tenons informé de son avancement.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-lg-3">
+                                <div class="s_senace_step">
+                                    <span class="s_senace_step_num">4</span>
+                                    <h3>Suivi</h3>
+                                    <p>Nous restons joignables après l'intervention pour consolider les acquis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Pourquoi nous ============ -->
+                <section class="s_senace_section">
+                    <div class="container">
+                        <div class="row g-5 align-items-center">
+                            <div class="col-lg-6">
+                                <p class="s_senace_kicker">Pourquoi SENACE</p>
+                                <h2 class="mb-4">Vous avancez sur votre métier, nous portons le reste.</h2>
+                                <ul class="s_senace_points list-unstyled">
+                                    <li>
+                                        <i class="fa fa-check" role="img" aria-label="Point"/>
+                                        <span>
+                                            <strong>Un seul interlocuteur.</strong>
+                                            Vous n'exposez pas votre besoin trois fois : la même
+                                            personne vous suit du premier échange au bilan.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check" role="img" aria-label="Point"/>
+                                        <span>
+                                            <strong>Trois pôles complémentaires.</strong>
+                                            Former une équipe, accompagner un dirigeant et
+                                            traiter l'administratif relèvent souvent du même
+                                            projet : ici, c'est la même maison.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check" role="img" aria-label="Point"/>
+                                        <span>
+                                            <strong>Une proximité réelle.</strong>
+                                            Nous recevons à <span t-field="res_company.street"/>,
+                                            <span t-field="res_company.city"/> — et restons
+                                            joignables par téléphone.
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-check" role="img" aria-label="Point"/>
+                                        <span>
+                                            <strong>Un devis avant de commencer.</strong>
+                                            Vous savez ce que vous payez et ce qui est inclus
+                                            avant que nous engagions quoi que ce soit.
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="s_senace_quote">
+                                    <i class="fa fa-quote-left" role="img" aria-label="Citation"/>
+                                    <p>
+                                        Une compétence qui ne se transmet pas se perd, et un
+                                        projet qui n'est pas accompagné s'essouffle. Notre
+                                        métier est d'éviter les deux.
+                                    </p>
+                                    <span class="s_senace_quote_by">SENACE</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Appel a l'action ============ -->
+                <section class="s_senace_cta">
+                    <div class="container text-center">
+                        <h2>Parlons de votre projet</h2>
+                        <p>
+                            Décrivez-nous votre besoin en quelques lignes. Nous revenons
+                            vers vous avec une proposition adaptée et un devis.
+                        </p>
+                        <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+                            <a href="/contactus" class="btn btn-lg s_senace_btn_light">
+                                Demander un devis gratuit
+                            </a>
+                            <a t-if="res_company.phone" t-attf-href="tel:#{res_company.phone}"
+                               class="btn btn-lg s_senace_btn_outline_light">
+                                <i class="fa fa-phone me-2" role="img" aria-label="Appeler"/>
+                                <span t-field="res_company.phone"/>
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

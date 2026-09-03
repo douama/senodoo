@@ -44,6 +44,7 @@ est pas un (`git rev-parse` → *not a git repository*). Voir
 | `custom_addons/senodoo_social/` | Application Marketing social : rédaction, planification, publication |
 | `custom_addons/senodoo_documents/` | Application Documents : espaces de travail, fichiers et liens |
 | `custom_addons/senodoo_marketing_automation/` | Application Marketing Automation : campagnes réactives au comportement |
+| `custom_addons/senodoo_website_landing/` | Page d'accueil SENACE, pied de page et en-tête aux vraies coordonnées |
 | `docker/sync_custom_addons.py` | Détecte les modules maison dont la version a changé, pour les mettre à jour au démarrage |
 
 ---
@@ -280,7 +281,7 @@ l'entrypoint interroge `ir_module_module` et ne relance Odoo que s'il reste
 un module à installer.
 
 ```
-ODOO_INSTALL_MODULES = senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation
+ODOO_INSTALL_MODULES = senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing
 ```
 
 ### Mise à jour automatique des modules maison

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate : valeur de depart seulement. Si vous renommez le site
+         depuis Odoo, une mise a jour du module ne l'ecrasera pas. -->
+    <data noupdate="1">
+        <record id="website.default_website" model="website">
+            <field name="name">SENACE</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Le bloc #footer d'Odoo porte t-ignore="true" : les directives QWeb n'y
+      sont pas evaluees, `t-field` n'y fonctionnerait pas. Les coordonnees y
+      sont donc ecrites litteralement, exactement comme l'editeur de site les
+      enregistrerait. Elles restent modifiables dans le builder.
+    -->
+    <template id="senace_footer" inherit_id="website.footer_custom" name="Pied de page SENACE">
+        <xpath expr="//div[@id='footer']/section[1]" position="replace">
+            <section class="s_text_block pt40 pb16 s_senace_footer" data-snippet="s_text_block" data-name="Container">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4 pt24 pb24">
+                            <h5>SENACE</h5>
+                            <p>
+                                Formation professionnelle, coaching et services aux
+                                entreprises et au tourisme. Un seul interlocuteur, du
+                                premier échange jusqu'aux résultats.
+                            </p>
+                        </div>
+                        <div class="col-lg-3 offset-lg-1 pt24 pb24">
+                            <h5>Nos pôles</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="/#poles">Formation professionnelle</a></li>
+                                <li><a href="/#poles">Coaching professionnel</a></li>
+                                <li><a href="/#poles">Services aux entreprises et tourisme</a></li>
+                                <li><a href="/contactus">Demander un devis</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4 pt24 pb24">
+                            <h5>Nous joindre</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                    <i class="fa fa-phone fa-fw me-2"/>
+                                    <a href="tel:+221771100301"><span class="o_force_ltr">77 110 03 01</span></a>
+                                    <span class="mx-1">·</span>
+                                    <a href="tel:+221774315931"><span class="o_force_ltr">77 431 59 31</span></a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope fa-fw me-2"/>
+                                    <a href="mailto:kadycoulibaly43@yahoo.fr">kadycoulibaly43@yahoo.fr</a>
+                                </li>
+                                <li>
+                                    <i class="fa fa-map-marker fa-fw me-2"/>
+                                    Keur Massar, Dakar — Sénégal
+                                </li>
+                                <li class="mt-2">
+                                    <i class="fa fa-comment fa-fw me-2"/>
+                                    <a href="/contactus">Nous écrire</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+
+    <!-- « Copyright © Company name » -> la marque reelle. -->
+    <template id="senace_copyright" inherit_id="website.footer_copyright_company_name"
+              name="Copyright SENACE">
+        <xpath expr="//span[hasclass('o_footer_copyright_name')]" position="replace">
+            <span class="o_footer_copyright_name me-2 small">Copyright © SENACE</span>
+        </xpath>
+    </template>
+
+    <!--
+      Le telephone de l'en-tete est un exemple d'Odoo (+1 555-555-5556).
+      On desactive le bloc d'origine et on fournit le notre : une inheritance
+      par xpath profond dans ce template serait fragile.
+    -->
+    <record id="website.header_text_element" model="ir.ui.view">
+        <field name="active" eval="False"/>
+    </record>
+
+    <template id="senace_header_phone" inherit_id="website.placeholder_header_text_element"
+              name="Téléphone SENACE dans l'en-tête">
+        <xpath expr="." position="inside">
+            <li t-attf-class="#{_item_class}">
+                <div t-attf-class="s_text_block d-flex align-items-center #{_div_class}" data-name="Text">
+                    <a href="tel:+221771100301" class="d-flex align-items-center text-reset text-decoration-none">
+                        <i class="fa fa-fw fa-phone me-2" role="img" aria-label="Téléphone"/>
+                        <span class="o_force_ltr">77 110 03 01</span>
+                    </a>
+                </div>
+            </li>
+        </xpath>
+    </template>
+
+</odoo>

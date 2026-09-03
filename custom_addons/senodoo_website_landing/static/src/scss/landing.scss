@@ -1,0 +1,311 @@
+// ===========================================================================
+// Page d'accueil SENACE
+//
+// Charte : bleu et blanc, sans autre couleur d'accent. Les nuances employees
+// sont toutes des declinaisons du meme bleu (assombri, eclairci, transparent)
+// pour que la page reste lisible sans introduire de teinte etrangere.
+// ===========================================================================
+
+.s_senace {
+    --senace-blue: #0a4da3;
+    --senace-blue-dark: #063a7d;
+    --senace-blue-deep: #052c5e;
+    --senace-blue-soft: #e8f0fb;
+    --senace-blue-line: #cfe0f6;
+    --senace-ink: #12253d;
+    --senace-muted: #5a6f89;
+
+    color: var(--senace-ink);
+    background-color: #fff;
+
+    h1, h2, h3 { color: var(--senace-ink); }
+    p { color: var(--senace-muted); }
+
+    // --- Boutons ----------------------------------------------------------
+    .s_senace_btn_primary {
+        background-color: var(--senace-blue);
+        border: 1px solid var(--senace-blue);
+        color: #fff;
+        font-weight: 600;
+        padding: .75rem 1.75rem;
+        border-radius: .5rem;
+        transition: background-color .15s ease, transform .15s ease;
+
+        &:hover, &:focus {
+            background-color: var(--senace-blue-dark);
+            border-color: var(--senace-blue-dark);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+    }
+
+    .s_senace_btn_ghost {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, .55);
+        color: #fff;
+        font-weight: 600;
+        padding: .75rem 1.75rem;
+        border-radius: .5rem;
+
+        &:hover, &:focus { background-color: rgba(255, 255, 255, .12); color: #fff; }
+    }
+
+    .s_senace_btn_light {
+        background-color: #fff;
+        color: var(--senace-blue);
+        font-weight: 600;
+        padding: .75rem 1.75rem;
+        border-radius: .5rem;
+
+        &:hover, &:focus { background-color: var(--senace-blue-soft); color: var(--senace-blue-dark); }
+    }
+
+    .s_senace_btn_outline_light {
+        background-color: transparent;
+        border: 1px solid rgba(255, 255, 255, .6);
+        color: #fff;
+        font-weight: 600;
+        padding: .75rem 1.75rem;
+        border-radius: .5rem;
+
+        &:hover, &:focus { background-color: rgba(255, 255, 255, .12); color: #fff; }
+    }
+
+    // Le focus clavier ne doit jamais disparaitre : ces elements sont des
+    // liens et des boutons reels.
+    a:focus-visible, .btn:focus-visible {
+        outline: 3px solid rgba(255, 255, 255, .85);
+        outline-offset: 2px;
+    }
+
+    // --- Hero -------------------------------------------------------------
+    .s_senace_hero {
+        position: relative;
+        padding: 5.5rem 0 5rem;
+        background: linear-gradient(135deg, var(--senace-blue-deep) 0%, var(--senace-blue) 100%);
+        color: #fff;
+        overflow: hidden;
+
+        // Voile geometrique tres discret : donne de la profondeur sans
+        // recourir a une photo d'illustration generique.
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 85% 15%, rgba(255, 255, 255, .10) 0 28%, transparent 29%),
+                radial-gradient(circle at 12% 88%, rgba(255, 255, 255, .07) 0 22%, transparent 23%);
+            pointer-events: none;
+        }
+
+        > .container { position: relative; z-index: 1; }
+        h1, p { color: #fff; }
+    }
+
+    .s_senace_eyebrow {
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        font-size: .8125rem;
+        font-weight: 600;
+        opacity: .85;
+        margin-bottom: 1rem;
+    }
+
+    .s_senace_title {
+        font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+        font-weight: 700;
+        line-height: 1.15;
+        margin-bottom: 1.25rem;
+    }
+
+    // L'accent reste dans la charte : du blanc translucide, pas une teinte
+    // supplementaire.
+    .s_senace_accent { color: rgba(255, 255, 255, .78); }
+
+    .s_senace_lead {
+        font-size: 1.125rem;
+        line-height: 1.7;
+        max-width: 34rem;
+        opacity: .92;
+    }
+
+    .s_senace_reassure {
+        font-size: .875rem;
+        opacity: .8;
+        margin-bottom: 0;
+    }
+
+    .s_senace_card_contact {
+        background-color: rgba(255, 255, 255, .10);
+        border: 1px solid rgba(255, 255, 255, .22);
+        border-radius: .75rem;
+        padding: 1.75rem;
+        backdrop-filter: blur(6px);
+
+        h2, span, i { color: #fff; }
+        i { width: 1.1rem; text-align: center; opacity: .85; }
+    }
+
+    // --- Sections ---------------------------------------------------------
+    .s_senace_section {
+        padding: 4.5rem 0;
+
+        &--muted { background-color: var(--senace-blue-soft); }
+    }
+
+    .s_senace_head {
+        max-width: 42rem;
+        margin: 0 auto 3rem;
+        text-align: center;
+    }
+
+    .s_senace_kicker {
+        text-transform: uppercase;
+        letter-spacing: .12em;
+        font-size: .8125rem;
+        font-weight: 700;
+        color: var(--senace-blue);
+        margin-bottom: .5rem;
+    }
+
+    .s_senace_head h2,
+    h2 { font-size: clamp(1.6rem, 2.8vw, 2.25rem); font-weight: 700; }
+
+    .s_senace_sub { font-size: 1.0625rem; line-height: 1.7; }
+
+    // --- Poles ------------------------------------------------------------
+    .s_senace_pole {
+        height: 100%;
+        padding: 2rem 1.75rem;
+        background-color: #fff;
+        border: 1px solid var(--senace-blue-line);
+        border-top: 3px solid var(--senace-blue);
+        border-radius: .75rem;
+        transition: box-shadow .18s ease, transform .18s ease;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 .75rem 1.75rem rgba(10, 77, 163, .12);
+        }
+
+        h3 { font-size: 1.1875rem; font-weight: 700; margin: 1rem 0 .625rem; }
+        p { line-height: 1.7; }
+    }
+
+    .s_senace_icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 3rem;
+        height: 3rem;
+        border-radius: .625rem;
+        background-color: var(--senace-blue-soft);
+        color: var(--senace-blue);
+        font-size: 1.375rem;
+    }
+
+    .s_senace_link {
+        display: inline-flex;
+        align-items: center;
+        margin-top: .5rem;
+        font-weight: 600;
+        color: var(--senace-blue);
+        text-decoration: none;
+
+        &:hover { color: var(--senace-blue-dark); text-decoration: underline; }
+    }
+
+    // --- Etapes -----------------------------------------------------------
+    .s_senace_step {
+        height: 100%;
+        padding: 1.75rem 1.5rem;
+        background-color: #fff;
+        border: 1px solid var(--senace-blue-line);
+        border-radius: .75rem;
+
+        h3 { font-size: 1.0625rem; font-weight: 700; margin: .875rem 0 .5rem; }
+        p { font-size: .9375rem; line-height: 1.65; margin-bottom: 0; }
+    }
+
+    .s_senace_step_num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 50%;
+        background-color: var(--senace-blue);
+        color: #fff;
+        font-weight: 700;
+        font-variant-numeric: tabular-nums;
+    }
+
+    // --- Arguments --------------------------------------------------------
+    .s_senace_points li {
+        display: flex;
+        gap: .875rem;
+        margin-bottom: 1.25rem;
+        line-height: 1.7;
+        color: var(--senace-muted);
+
+        strong { color: var(--senace-ink); }
+
+        > i {
+            flex: 0 0 1.5rem;
+            height: 1.5rem;
+            margin-top: .15rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--senace-blue-soft);
+            color: var(--senace-blue);
+            font-size: .75rem;
+        }
+    }
+
+    .s_senace_quote {
+        padding: 2.5rem;
+        background-color: var(--senace-blue-soft);
+        border-left: 4px solid var(--senace-blue);
+        border-radius: .75rem;
+
+        > i { font-size: 1.5rem; color: var(--senace-blue); opacity: .55; }
+
+        p {
+            font-size: 1.1875rem;
+            line-height: 1.75;
+            color: var(--senace-ink);
+            margin: 1rem 0 1.25rem;
+        }
+    }
+
+    .s_senace_quote_by {
+        font-weight: 700;
+        color: var(--senace-blue);
+    }
+
+    // --- Appel a l'action --------------------------------------------------
+    .s_senace_cta {
+        padding: 4.5rem 0;
+        background: linear-gradient(135deg, var(--senace-blue) 0%, var(--senace-blue-deep) 100%);
+        color: #fff;
+
+        h2 { color: #fff; }
+
+        p {
+            color: rgba(255, 255, 255, .9);
+            max-width: 38rem;
+            margin: 1rem auto 0;
+            font-size: 1.0625rem;
+            line-height: 1.7;
+        }
+    }
+
+    // --- Mobile ------------------------------------------------------------
+    @media (max-width: 991.98px) {
+        .s_senace_hero { padding: 3.5rem 0; }
+        .s_senace_section { padding: 3rem 0; }
+        .s_senace_lead { max-width: none; }
+    }
+}
