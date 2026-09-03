@@ -118,7 +118,9 @@ class IrModuleModule(models.Model):
                 self._senodoo_code_present(module.name) or remaining,
             )
 
-    @api.depends('state', 'to_buy', 'senodoo_upgrade_error', 'senodoo_substitute_installed')
+    @api.depends('state', 'to_buy', 'senodoo_upgrade_error',
+                 'senodoo_substitute_installed', 'senodoo_can_upgrade',
+                 'senodoo_substitute_module_ids')
     def _compute_senodoo_status(self):
         for module in self:
             state = module.state
@@ -143,6 +145,10 @@ class IrModuleModule(models.Model):
                 status = 'inactive'
             module.senodoo_status = status
 
+            # Le libelle doit dire si le clic fera quelque chose. « Mettre a
+            # niveau » partout etait indistinguable de l'ancien lien mort :
+            # rien ne separait les cartes qui installent vraiment un module de
+            # celles qui ne peuvent rien faire.
             if status == 'upgrading':
                 module.senodoo_upgrade_label = _("Mise a niveau…")
             elif status == 'upgrade_failed':
@@ -153,8 +159,16 @@ class IrModuleModule(models.Model):
                 module.senodoo_upgrade_label = _("Equivalent active")
             elif status == 'active':
                 module.senodoo_upgrade_label = _("Activee")
-            else:
+            elif not module.to_buy:
                 module.senodoo_upgrade_label = _("Mettre a niveau")
+            elif not module.senodoo_can_upgrade:
+                # Le clic reste actif : il explique precisement pourquoi.
+                module.senodoo_upgrade_label = _("Non disponible")
+            elif module.senodoo_substitute_module_ids:
+                module.senodoo_upgrade_label = _("Activer l'equivalent")
+            else:
+                # Le code du module lui-meme est sur l'addons_path.
+                module.senodoo_upgrade_label = _("Activer")
 
     # ------------------------------------------------------------------
     # Persistance des erreurs (survit au rollback)

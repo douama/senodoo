@@ -79,7 +79,13 @@ class TestSenodooAppUpgrade(TransactionCase):
                 f"{module.name} a du code sur disque mais reste marque to_buy",
             )
             self.assertEqual(module.senodoo_status, 'upgrade_required')
-            self.assertEqual(module.senodoo_upgrade_label, "Mettre a niveau")
+            # Le libelle doit annoncer si le clic agira : c'est la seule chose
+            # qui distingue une carte utile d'une carte sans issue.
+            self.assertEqual(
+                module.senodoo_upgrade_label,
+                "Activer l'equivalent" if module.senodoo_can_upgrade else "Non disponible",
+                f"libelle trompeur pour {module.name}",
+            )
 
     # -- 2. le clic declenche une vraie operation serveur -----------------
     def test_02_click_calls_native_install(self):
@@ -245,6 +251,21 @@ class TestSenodooAppUpgrade(TransactionCase):
         self.assertFalse(mocked.called, "rien a reinstaller")
         self.assertEqual(action['params']['type'], 'info',
                          "un equivalent deja actif est un succes, pas une erreur")
+
+    def test_18_label_never_promises_an_impossible_action(self):
+        """« Activer » ne doit apparaitre que si un module est reellement installable."""
+        for module in self.Module.search([('to_buy', '=', True)]):
+            label = module.senodoo_upgrade_label
+            if label.startswith("Activer"):
+                self.assertTrue(
+                    module.senodoo_can_upgrade,
+                    f"{module.name} promet une activation sans cible installable",
+                )
+            elif label == "Non disponible":
+                self.assertFalse(
+                    module.senodoo_can_upgrade,
+                    f"{module.name} se dit indisponible alors qu'il peut agir",
+                )
 
     # -- non-regression sur les applications deja fonctionnelles -----------
     def test_15_existing_activate_button_is_untouched(self):

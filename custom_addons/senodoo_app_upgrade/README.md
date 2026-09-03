@@ -75,6 +75,21 @@ restant accepté comme alias pour les appels externes. L'état `upgrading`
 n'est pas un drapeau maison mais les états natifs `to install` / `to upgrade`,
 que `button_reset_state()` sait déjà débloquer si un processus meurt.
 
+## Libellés du bouton
+
+Le bouton garde son apparence turquoise d'origine, mais son texte annonce ce
+que le clic va faire — sans quoi une carte utile est indistinguable d'une
+carte sans issue :
+
+| Libellé | Signification |
+|---|---|
+| **Activer l'équivalent** | Un module Community va réellement s'installer |
+| **Activer** | Le code du module lui-même est sur l'`addons_path` |
+| **Non disponible** | Aucune cible installable ; le clic explique pourquoi |
+| **Mise à niveau…** | Opération en cours (états natifs `to install` / `to upgrade`) |
+| **Réessayer** | Échec précédent, persisté en base |
+| **Équivalent activé** | Terminé. Pas « Activée » : c'est le module libre qui tourne |
+
 ## Ce que le module ne fait pas
 
 Il **ne fournit pas** les applications Enterprise. Leur code est propriétaire
