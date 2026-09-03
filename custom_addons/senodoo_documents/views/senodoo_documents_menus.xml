@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_documents_root"
+              name="Documents"
+              web_icon="senodoo_documents,static/description/icon.png"
+              sequence="85"/>
+
+    <menuitem id="menu_documents_all"
+              name="Documents"
+              parent="menu_documents_root"
+              action="senodoo_document_action"
+              sequence="10"/>
+
+    <menuitem id="menu_documents_configuration"
+              name="Configuration"
+              parent="menu_documents_root"
+              sequence="90"
+              groups="senodoo_documents.group_documents_manager"/>
+
+    <menuitem id="menu_documents_folders"
+              name="Espaces de travail"
+              parent="menu_documents_configuration"
+              action="senodoo_document_folder_action"
+              sequence="10"/>
+
+    <menuitem id="menu_documents_tags"
+              name="Étiquettes"
+              parent="menu_documents_configuration"
+              action="senodoo_document_tag_action"
+              sequence="20"/>
+</odoo>

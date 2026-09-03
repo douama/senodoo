@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_document_view_search" model="ir.ui.view">
+        <field name="name">senodoo.document.search</field>
+        <field name="model">senodoo.document</field>
+        <field name="arch" type="xml">
+            <search string="Documents">
+                <!-- La description est indexee comme le nom : retrouver un
+                     document sur son seul titre exact est illusoire. -->
+                <field name="name" string="Nom ou description"
+                       filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"/>
+                <field name="folder_id"/>
+                <field name="tag_ids"/>
+                <field name="owner_id"/>
+                <field name="extension"/>
+                <filter name="mine" string="Mes documents" domain="[('owner_id', '=', uid)]"/>
+                <separator/>
+                <filter name="files" string="Fichiers" domain="[('type', '=', 'file')]"/>
+                <filter name="urls" string="Liens" domain="[('type', '=', 'url')]"/>
+                <separator/>
+                <filter name="recent" string="Ajoutés ce mois-ci"
+                        domain="[('create_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-%d'))]"/>
+                <separator/>
+                <filter name="archived" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_folder" string="Espace de travail" context="{'group_by': 'folder_id'}"/>
+                    <filter name="group_owner" string="Propriétaire" context="{'group_by': 'owner_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'type'}"/>
+                    <filter name="group_extension" string="Extension" context="{'group_by': 'extension'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="senodoo_document_view_kanban" model="ir.ui.view">
+        <field name="name">senodoo.document.kanban</field>
+        <field name="model">senodoo.document</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="folder_id" quick_create="false">
+                <field name="type"/>
+                <field name="extension"/>
+                <templates>
+                    <t t-name="menu">
+                        <a type="edit" class="dropdown-item">Modifier</a>
+                        <a type="delete" class="dropdown-item">Supprimer</a>
+                    </t>
+                    <t t-name="card">
+                        <div class="d-flex align-items-start gap-2">
+                            <i t-attf-class="fa fa-2x #{record.type.raw_value === 'url' ? 'fa-link text-info' : 'fa-file-o text-muted'}"
+                               role="img" aria-label="Type"/>
+                            <div class="flex-grow-1 overflow-hidden">
+                                <strong class="d-block text-truncate"><field name="name"/></strong>
+                                <span class="text-muted small">
+                                    <t t-if="record.extension.value">
+                                        <span class="badge text-bg-light text-uppercase me-1">
+                                            <field name="extension"/>
+                                        </span>
+                                    </t>
+                                    <field name="file_size_human"/>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                        </div>
+                        <footer class="pt-2">
+                            <field name="owner_id" widget="many2one_avatar_user"/>
+                            <span class="ms-auto text-muted small">
+                                <field name="create_date" widget="date"/>
+                            </span>
+                        </footer>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="senodoo_document_view_list" model="ir.ui.view">
+        <field name="name">senodoo.document.list</field>
+        <field name="model">senodoo.document</field>
+        <field name="arch" type="xml">
+            <list string="Documents" multi_edit="1">
+                <field name="name"/>
+                <field name="folder_id"/>
+                <field name="type"/>
+                <field name="extension" string="Ext." optional="show"/>
+                <field name="file_size_human" string="Taille" optional="show"/>
+                <field name="tag_ids" widget="many2many_tags"
+                       options="{'color_field': 'color'}" optional="show"/>
+                <field name="owner_id" optional="show"/>
+                <field name="partner_id" optional="hide"/>
+                <field name="create_date" string="Ajouté le" optional="show"/>
+                <field name="mimetype" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="senodoo_document_view_form" model="ir.ui.view">
+        <field name="name">senodoo.document.form</field>
+        <field name="model">senodoo.document</field>
+        <field name="arch" type="xml">
+            <form string="Document">
+                <header>
+                    <button name="action_open_url" type="object" string="Ouvrir le lien"
+                            class="btn-primary" invisible="type != 'url'"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger"
+                            invisible="active"/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom du document"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="type" widget="radio" options="{'horizontal': true}"/>
+                            <field name="datas" filename="file_name"
+                                   invisible="type != 'file'"
+                                   required="type == 'file'"/>
+                            <field name="file_name" invisible="1"/>
+                            <field name="url" widget="url" invisible="type != 'url'"
+                                   required="type == 'url'" placeholder="https://…"/>
+                            <field name="folder_id" options="{'no_quick_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="tag_ids" widget="many2many_tags"
+                                   options="{'color_field': 'color'}"/>
+                            <field name="owner_id"/>
+                            <field name="partner_id"/>
+                            <field name="file_size_human" string="Taille"
+                                   invisible="type != 'file'"/>
+                            <field name="mimetype" invisible="type != 'file'" readonly="1"/>
+                            <field name="extension" invisible="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" nolabel="1"
+                               placeholder="À quoi sert ce document ?"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_document_action" model="ir.actions.act_window">
+        <field name="name">Documents</field>
+        <field name="path">documents</field>
+        <field name="res_model">senodoo.document</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="senodoo_document_view_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Déposer un premier document</p>
+            <p>Centralisez ici contrats, factures et procédures. Chaque document
+               vit dans un espace de travail, qui peut être réservé à certains
+               groupes. La recherche porte aussi sur la description.</p>
+        </field>
+    </record>
+
+</odoo>

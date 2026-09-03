@@ -42,6 +42,7 @@ est pas un (`git rev-parse` → *not a git repository*). Voir
 | `custom_addons/senodoo_app_upgrade/` | Rend fonctionnel le bouton « Mettre à niveau » des applications Enterprise |
 | `custom_addons/senodoo_knowledge/` | Application Connaissances : base d'articles hiérarchique |
 | `custom_addons/senodoo_social/` | Application Marketing social : rédaction, planification, publication |
+| `custom_addons/senodoo_documents/` | Application Documents : espaces de travail, fichiers et liens |
 | `docker/sync_custom_addons.py` | Détecte les modules maison dont la version a changé, pour les mettre à jour au démarrage |
 
 ---
@@ -278,7 +279,7 @@ l'entrypoint interroge `ir_module_module` et ne relance Odoo que s'il reste
 un module à installer.
 
 ```
-ODOO_INSTALL_MODULES = senodoo_app_upgrade,senodoo_knowledge,senodoo_social
+ODOO_INSTALL_MODULES = senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents
 ```
 
 ### Mise à jour automatique des modules maison

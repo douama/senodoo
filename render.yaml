@@ -97,5 +97,6 @@ services:
       #   senodoo_app_upgrade : rend fonctionnel le bouton « Mettre a niveau »
       #   senodoo_knowledge   : application Connaissances
       #   senodoo_social      : application Marketing social
+      #   senodoo_documents   : application Documents (GED)
       - key: ODOO_INSTALL_MODULES
-        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social
+        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_document_folder_user,senodoo.document.folder.user,model_senodoo_document_folder,senodoo_documents.group_documents_user,1,0,0,0
+access_document_folder_manager,senodoo.document.folder.manager,model_senodoo_document_folder,senodoo_documents.group_documents_manager,1,1,1,1
+access_document_tag_user,senodoo.document.tag.user,model_senodoo_document_tag,senodoo_documents.group_documents_user,1,0,1,0
+access_document_tag_manager,senodoo.document.tag.manager,model_senodoo_document_tag,senodoo_documents.group_documents_manager,1,1,1,1
+access_document_user,senodoo.document.user,model_senodoo_document,senodoo_documents.group_documents_user,1,1,1,1
+access_document_manager,senodoo.document.manager,model_senodoo_document,senodoo_documents.group_documents_manager,1,1,1,1
