@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="senodoo_social_dashboard_view_form" model="ir.ui.view">
+        <field name="name">senodoo.social.dashboard.form</field>
+        <field name="model">senodoo.social.dashboard</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false" class="o_senodoo_dashboard">
+                <sheet class="pt-0">
+
+                    <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+                        <h1 class="mb-0">Vue d'ensemble</h1>
+                        <button name="action_new_post" type="object"
+                                class="btn btn-primary">
+                            <i class="fa fa-plus me-1" role="img" aria-label="Ajouter"/>
+                            Nouvelle publication
+                        </button>
+                    </div>
+
+                    <!-- Indicateurs. Chaque carte est un bouton : un chiffre
+                         qu'on ne peut pas ouvrir n'aide pas a agir. -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-6 col-lg-3">
+                            <button name="action_open_posted" type="object"
+                                    class="o_senodoo_kpi o_senodoo_kpi--success w-100 text-start">
+                                <span class="o_senodoo_kpi_value"><field name="posted_count"/></span>
+                                <span class="o_senodoo_kpi_label">Publiées</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <button name="action_open_scheduled" type="object"
+                                    class="o_senodoo_kpi o_senodoo_kpi--info w-100 text-start">
+                                <span class="o_senodoo_kpi_value"><field name="scheduled_count"/></span>
+                                <span class="o_senodoo_kpi_label">Planifiées</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <button name="action_open_failed" type="object"
+                                    class="o_senodoo_kpi o_senodoo_kpi--danger w-100 text-start">
+                                <span class="o_senodoo_kpi_value"><field name="failed_count"/></span>
+                                <span class="o_senodoo_kpi_label">En échec</span>
+                            </button>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <button name="action_open_accounts" type="object"
+                                    class="o_senodoo_kpi o_senodoo_kpi--neutral w-100 text-start">
+                                <span class="o_senodoo_kpi_value">
+                                    <field name="success_rate"/><span class="fs-4">%</span>
+                                </span>
+                                <span class="o_senodoo_kpi_label">Taux de réussite</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Alertes : ce qui demande une action, en haut. -->
+                    <div class="alert alert-danger d-flex align-items-center gap-2"
+                         role="alert" invisible="not has_failures">
+                        <i class="fa fa-exclamation-triangle" role="img" aria-label="Alerte"/>
+                        <span>
+                            <field name="failed_count" class="fw-bold"/> publication(s) n'ont pas pu partir.
+                        </span>
+                        <button name="action_open_failed" type="object"
+                                class="btn btn-sm btn-danger ms-auto">Traiter</button>
+                    </div>
+                    <div class="alert alert-warning d-flex align-items-center gap-2"
+                         role="alert" invisible="not has_unconfigured">
+                        <i class="fa fa-plug" role="img" aria-label="Configuration"/>
+                        <span>
+                            Comptes sans jeton d'accès : <field name="unconfigured_names" class="fw-bold"/>.
+                            Aucune publication ne partira vers eux.
+                        </span>
+                        <button name="action_open_accounts" type="object"
+                                class="btn btn-sm btn-warning ms-auto">Configurer</button>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-12 col-lg-7">
+                            <div class="o_senodoo_panel h-100">
+                                <h3 class="o_senodoo_panel_title">
+                                    <i class="fa fa-calendar me-2" role="img" aria-label="Planning"/>
+                                    Les 7 prochains jours
+                                </h3>
+                                <field name="upcoming_ids" nolabel="1" readonly="1"
+                                       invisible="not upcoming_ids">
+                                    <list create="false" delete="false">
+                                        <field name="scheduled_date" string="Le"/>
+                                        <field name="name" string="Message"/>
+                                        <field name="account_ids" widget="many2many_tags"/>
+                                    </list>
+                                </field>
+                                <div class="text-muted text-center py-4" invisible="upcoming_ids">
+                                    Rien de planifié cette semaine.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-5">
+                            <div class="o_senodoo_panel h-100">
+                                <h3 class="o_senodoo_panel_title">
+                                    <i class="fa fa-share-alt me-2" role="img" aria-label="Comptes"/>
+                                    Comptes
+                                    <span class="badge text-bg-secondary ms-2">
+                                        <field name="ready_account_count"/> / <field name="account_count"/> prêts
+                                    </span>
+                                </h3>
+                                <field name="account_ids" nolabel="1" readonly="1"
+                                       invisible="not account_ids">
+                                    <list create="false" delete="false">
+                                        <field name="name"/>
+                                        <field name="platform"/>
+                                        <field name="is_configured" string="Prêt" widget="boolean_toggle"/>
+                                        <field name="post_count" string="Publications"/>
+                                    </list>
+                                </field>
+                                <div class="text-muted text-center py-4" invisible="account_ids">
+                                    Aucun compte déclaré.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="o_senodoo_panel mt-4" invisible="not failed_ids">
+                        <h3 class="o_senodoo_panel_title text-danger">
+                            <i class="fa fa-exclamation-circle me-2" role="img" aria-label="Échecs"/>
+                            À traiter
+                        </h3>
+                        <field name="failed_ids" nolabel="1" readonly="1">
+                            <list create="false" delete="false" decoration-danger="1">
+                                <field name="name" string="Message"/>
+                                <field name="account_ids" widget="many2many_tags"/>
+                                <field name="error_message" string="Cause"/>
+                            </list>
+                        </field>
+                    </div>
+
+                    <field name="draft_count" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="senodoo_social_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Vue d'ensemble</field>
+        <field name="path">marketing-social</field>
+        <field name="res_model">senodoo.social.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="senodoo_social_dashboard_view_form"/>
+    </record>
+
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': "Marketing social",
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Marketing/Social Marketing',
     'sequence': 95,
     'summary': "Gerez vos reseaux sociaux et les visiteurs de votre site web",
@@ -18,7 +18,8 @@ Perimetre couvert
 * redaction avec compteur de caracteres par plateforme
 * planification a date et heure, publication automatique par cron
 * suivi par compte : publie / echec, URL publiee, message d'erreur
-* statistiques de base (nombre de publications par etat et par compte)
+* tableau de bord : indicateurs cliquables, alertes, planning a sept jours
+* vues calendrier, graphique et tableau croise pour l'analyse
 
 Ce qui exige une configuration
 ------------------------------
@@ -37,8 +38,14 @@ plateformes exposent le point d'entree a completer avec vos identifiants.
         'data/senodoo_social_cron.xml',
         'views/senodoo_social_account_views.xml',
         'views/senodoo_social_post_views.xml',
+        'views/senodoo_social_dashboard_views.xml',
         'views/senodoo_social_menus.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'senodoo_social/static/src/scss/dashboard.scss',
+        ],
+    },
     'installable': True,
     'application': True,
 }

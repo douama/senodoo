@@ -5,6 +5,14 @@
               web_icon="base,static/img/icons/social.png"
               sequence="95"/>
 
+    <!-- Le tableau de bord est la porte d'entree : on ouvre l'application sur
+         ce qui demande une action, pas sur une liste brute. -->
+    <menuitem id="menu_social_dashboard"
+              name="Vue d'ensemble"
+              parent="menu_social_root"
+              action="senodoo_social_dashboard_action"
+              sequence="5"/>
+
     <menuitem id="menu_social_posts"
               name="Publications"
               parent="menu_social_root"

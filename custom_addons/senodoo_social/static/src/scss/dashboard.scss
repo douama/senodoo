@@ -1,0 +1,73 @@
+// Tableau de bord Marketing social.
+//
+// On s'appuie sur les variables Bootstrap fournies par Odoo plutot que sur
+// des couleurs en dur : le tableau de bord suit ainsi le theme de l'instance,
+// y compris en mode sombre.
+
+.o_senodoo_dashboard {
+
+    .o_senodoo_kpi {
+        display: flex;
+        flex-direction: column;
+        gap: .15rem;
+        padding: 1rem 1.25rem;
+        border: 1px solid var(--bs-border-color);
+        border-left-width: 4px;
+        border-radius: var(--bs-border-radius-lg, .5rem);
+        background-color: var(--bs-body-bg);
+        transition: transform .12s ease, box-shadow .12s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .08);
+        }
+
+        // Le focus clavier doit rester visible : ces cartes sont des boutons.
+        &:focus-visible {
+            outline: 2px solid var(--bs-primary);
+            outline-offset: 2px;
+        }
+
+        &--success { border-left-color: var(--bs-success); }
+        &--info    { border-left-color: var(--bs-info); }
+        &--danger  { border-left-color: var(--bs-danger); }
+        &--neutral { border-left-color: var(--bs-secondary); }
+    }
+
+    .o_senodoo_kpi_value {
+        font-size: 2.25rem;
+        font-weight: 600;
+        line-height: 1.1;
+        // Empeche les chiffres de sauter quand la valeur change.
+        font-variant-numeric: tabular-nums;
+    }
+
+    .o_senodoo_kpi_label {
+        font-size: .8125rem;
+        text-transform: uppercase;
+        letter-spacing: .04em;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .o_senodoo_panel {
+        padding: 1.25rem;
+        border: 1px solid var(--bs-border-color);
+        border-radius: var(--bs-border-radius-lg, .5rem);
+        background-color: var(--bs-body-bg);
+    }
+
+    .o_senodoo_panel_title {
+        display: flex;
+        align-items: center;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: .75rem;
+        padding-bottom: .75rem;
+        border-bottom: 1px solid var(--bs-border-color);
+    }
+
+    // Les listes imbriquees n'ont pas besoin de leur propre cadre.
+    .o_senodoo_panel .o_list_renderer {
+        border: 0;
+    }
+}

@@ -6,6 +6,7 @@ avant toute requete HTTP, et le chemin nominal est intercepte a la frontiere
 """
 from unittest.mock import patch
 
+from odoo import fields as odoo_fields
 from odoo.exceptions import UserError
 from odoo.tests.common import TransactionCase
 
@@ -115,6 +116,65 @@ class TestSenodooSocial(TransactionCase):
             self.Post._cron_publish_scheduled()
         self.assertEqual(due.state, 'posted')
         self.assertEqual(later.state, 'scheduled', "une publication future ne doit pas partir")
+
+    # ------------------------------------------------------------------
+    # Tableau de bord
+    # ------------------------------------------------------------------
+    def test_09_dashboard_counts_and_rate(self):
+        Dashboard = self.env['senodoo.social.dashboard']
+        board = Dashboard.create({})
+        self.assertEqual(board.posted_count, 0)
+        self.assertEqual(board.failed_count, 0)
+        # Sans aucune tentative, 0 % laisserait croire a une panne.
+        self.assertEqual(board.success_rate, 100)
+
+        published = self.Post.create({
+            'message': "OK", 'account_ids': [(6, 0, [self.mastodon.id])],
+        })
+        with patch.object(type(published), '_publish_on', return_value="https://url/1"):
+            published.action_publish_now()
+        self.Post.create({
+            'message': "KO", 'account_ids': [(6, 0, [self.linkedin.id])],
+        }).action_publish_now()
+
+        board = Dashboard.create({})
+        self.assertEqual(board.posted_count, 1)
+        self.assertEqual(board.failed_count, 1)
+        self.assertEqual(board.success_rate, 50)
+        self.assertTrue(board.has_failures)
+
+    def test_10_dashboard_flags_unconfigured_accounts(self):
+        board = self.env['senodoo.social.dashboard'].create({})
+        self.assertTrue(board.has_unconfigured, "LinkedIn n'a pas de connecteur")
+        self.assertIn("LinkedIn", board.unconfigured_names)
+        self.assertEqual(board.ready_account_count, 1, "seul Mastodon est pret")
+        self.assertGreaterEqual(board.account_count, 2)
+
+    def test_11_dashboard_upcoming_window_is_bounded(self):
+        """Le planning affiche la semaine, pas tout l'historique futur."""
+        soon = odoo_fields.Datetime.add(odoo_fields.Datetime.now(), days=2)
+        far = odoo_fields.Datetime.add(odoo_fields.Datetime.now(), days=30)
+        near = self.Post.create({
+            'message': "Bientot", 'account_ids': [(6, 0, [self.mastodon.id])],
+            'scheduled_date': soon, 'state': 'scheduled',
+        })
+        distant = self.Post.create({
+            'message': "Lointain", 'account_ids': [(6, 0, [self.mastodon.id])],
+            'scheduled_date': far, 'state': 'scheduled',
+        })
+        board = self.env['senodoo.social.dashboard'].create({})
+        self.assertIn(near, board.upcoming_ids)
+        self.assertNotIn(distant, board.upcoming_ids)
+
+    def test_12_dashboard_actions_target_the_right_records(self):
+        board = self.env['senodoo.social.dashboard'].create({})
+        for method, state in (('action_open_posted', 'posted'),
+                              ('action_open_scheduled', 'scheduled'),
+                              ('action_open_draft', 'draft'),
+                              ('action_open_failed', 'failed')):
+            action = getattr(board, method)()
+            self.assertEqual(action['res_model'], 'senodoo.social.post')
+            self.assertEqual(action['domain'], [('state', '=', state)], method)
 
     def test_08_empty_target_is_refused(self):
         post = self.Post.create({
