@@ -99,7 +99,7 @@
       entiere qui la porte : la colonne « Copyright (c) SENACE » reste seule.
     -->
     <template id="senace_no_brand_promotion" inherit_id="website.layout"
-              name="Pied de page sans mention Odoo" priority="99">
+              name="Pied de page sans marque éditeur" priority="99">
         <xpath expr="//t[@t-call='web.brand_promotion']/.." position="replace"/>
     </template>
 

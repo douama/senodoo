@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      /cookie-policy est une page publique, et la seule du site a nommer le
+      logiciel : la colonne « Cookies utilises » de la ligne Session annonce
+      « session_id (Odoo) ». Le nom technique du cookie, lui, reste exact.
+    -->
+    <template id="senace_cookie_policy" inherit_id="website.cookie_policy"
+              name="Politique de cookies SEN ACE">
+        <xpath expr="//td[contains(text(), 'session_id')]" position="replace">
+            <td>
+                session_id<br/>
+            </td>
+        </xpath>
+    </template>
+
+    <!--
+      Page publique d'un canal de discussion partage : son titre d'onglet
+      retombe sur « Odoo » comme le client web, et elle sert son propre
+      gabarit, hors de `web.layout`.
+    -->
+    <template id="senace_discuss_public" inherit_id="mail.discuss_public_channel_template"
+              name="Discussion publique SEN ACE">
+        <xpath expr="//head/title" position="replace">
+            <title t-out="title or 'SEN ACE'"/>
+        </xpath>
+        <xpath expr="//head/link[@rel='shortcut icon']" position="attributes">
+            <attribute name="t-att-href">x_icon or '/senace_branding/static/src/img/favicon.png'</attribute>
+        </xpath>
+    </template>
+
+    <!--
+      Nom du bloc dans le selecteur de mega-menu de l'editeur de site. C'est
+      le champ `name` de la vue qui s'affiche, pas son contenu : un heritage
+      par xpath ne l'atteindrait pas.
+    -->
+    <record id="website.s_mega_menu_odoo_menu" model="ir.ui.view">
+        <field name="name">Menu en colonnes</field>
+    </record>
+
+</odoo>

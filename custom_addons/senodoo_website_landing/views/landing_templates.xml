@@ -4,7 +4,7 @@
     <template id="landing_homepage" inherit_id="website.homepage" name="Accueil SENACE">
         <!--
           La classe `oe_structure` est volontairement conservee : le contenu
-          reste accessible depuis l'editeur de site Odoo.
+          reste accessible depuis l'editeur de site.
         -->
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="oe_structure s_senace">

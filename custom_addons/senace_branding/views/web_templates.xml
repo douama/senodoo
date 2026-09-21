@@ -42,7 +42,7 @@
       s'affiche pas du tout ; il reste utile sur un poste de developpement.
     -->
     <template id="senace_login_no_brand" inherit_id="web.login_layout"
-              name="Connexion sans mention Odoo">
+              name="Connexion sans marque éditeur">
         <xpath expr="//div[@t-if='not disable_footer']" position="replace">
             <div class="text-center small mt-4 pt-3 border-top"
                  t-if="not disable_footer and not disable_database_manager">
@@ -60,7 +60,7 @@
       affichee ne coute rien.
     -->
     <template id="senace_no_brand_promotion_message" inherit_id="web.brand_promotion_message"
-              name="Pied de page sans mention Odoo" priority="99">
+              name="Pied de page sans marque éditeur" priority="99">
         <xpath expr="//t[@t-out]" position="replace">
             <t/>
         </xpath>

@@ -55,6 +55,56 @@ class TestBrandingRendu(odoo.tests.TransactionCase):
         self.assertNotRegex(robot.email or '', MARQUE_EDITEUR)
         self.assertFalse(self.env.ref('website.show_website_info').active)
 
+    def test_courriels_dans_toutes_les_langues(self):
+        """Ces champs sont traduisibles : une seule langue propre ne suffit pas.
+
+        C'est le piege de cette reprise. Odoo stocke `subject` et `body_html`
+        en jsonb, une entree par langue ; une ecriture faite en anglais laisse
+        « Odoo » intact dans la version francaise, qui est justement celle que
+        recoivent les destinataires.
+        """
+        langues = self.env['res.lang'].sudo().search([]).mapped('code')
+        self.assertTrue(langues)
+        for xmlid in ('auth_signup.set_password_email',
+                      'auth_totp_mail.mail_template_totp_invite'):
+            modele = self.env.ref(xmlid, raise_if_not_found=False)
+            if not modele:
+                continue
+            for langue in langues:
+                traduit = modele.with_context(lang=langue)
+                for champ in ('subject', 'body_html'):
+                    self.assertNotRegex(str(traduit[champ] or ''), MARQUE_EDITEUR,
+                                        f"{xmlid}.{champ} en {langue}")
+
+    def test_resume_periodique(self):
+        """Les trois blocs de marque du resume sont retires de l'arbre."""
+        arch = str(self.env.ref('digest.digest_mail_main')._get_combined_arch())
+        for bloc in ('by_odoo', 'id="powered"', 'digest_section_mobile'):
+            self.assertNotIn(bloc, arch, bloc)
+
+    def test_fiches_de_modules_et_libelles(self):
+        Modules = self.env['ir.module.module'].sudo()
+        sales = Modules.search(['|', ('shortdesc', 'ilike', 'odoo'),
+                                ('summary', 'ilike', 'odoo')])
+        self.assertFalse(sales, sales.mapped('name'))
+        champs = self.env['ir.model.fields'].sudo().search(
+            [('field_description', 'ilike', 'odoo')])
+        self.assertFalse(champs, champs.mapped('name'))
+
+
+@tagged('post_install', '-at_install')
+class TestBrandingManifeste(odoo.tests.HttpCase):
+    """L'application installable : nom, couleurs et icone d'ecran d'accueil."""
+
+    def test_manifeste_pwa(self):
+        manifeste = self.url_open('/web/manifest.webmanifest').json()
+        self.assertEqual(manifeste['name'], "SEN ACE")
+        self.assertEqual(manifeste['theme_color'], '#0a4da3')
+        self.assertEqual(manifeste['background_color'], '#0a4da3')
+        for icone in manifeste['icons']:
+            self.assertIn('senace_branding', icone['src'])
+            self.assertEqual(self.url_open(icone['src']).status_code, 200)
+
 
 @tagged('post_install', '-at_install')
 class TestBrandingClientWeb(odoo.tests.HttpCase):

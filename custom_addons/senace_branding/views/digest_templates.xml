@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Le resume periodique part par courriel a chaque collaborateur abonne.
+      Trois blocs y portent la marque de l'editeur.
+    -->
+
+    <!--
+      Pied du corps : « Sent by Odoo – Se desabonner ». Le lien de
+      desabonnement est conserve : le retirer transformerait un courriel
+      interne en envoi dont on ne peut pas sortir.
+    -->
+    <template id="senace_digest_sent_by" inherit_id="digest.digest_mail_main"
+              name="Résumé sans mention de l'éditeur">
+        <xpath expr="//div[hasclass('by_odoo')]" position="replace">
+            <div style="margin-bottom: 15px;">
+                <t t-if="unsubscribe_token">
+                    <a t-attf-href="/digest/#{object.id}/unsubscribe?token=#{unsubscribe_token}&amp;user_id=#{user.id}"
+                       target="_blank" style="text-decoration: none;">
+                        <span style="color: #878d97;">Se désabonner</span>
+                    </a>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+      Section entiere de promotion de l'application mobile de l'editeur, avec
+      les liens Play Store et App Store. Elle n'a pas d'equivalent SEN ACE :
+      on la vide plutot que de la remplacer par du vide habille.
+    -->
+    <template id="senace_digest_no_mobile" inherit_id="digest.digest_mail_main"
+              name="Résumé sans promotion mobile">
+        <xpath expr="//t[@t-call='digest.digest_section_mobile']" position="replace"/>
+    </template>
+
+    <!--
+      « Powered by Odoo » sous le nom de la societe, tout en bas du courriel.
+      Le bloc est dans `digest_mail_main` et non dans `digest_mail_layout` :
+      le gabarit ne porte que la feuille de style de la classe `by_odoo`.
+    -->
+    <template id="senace_digest_footer" inherit_id="digest.digest_mail_main"
+              name="Pied de résumé sans mention de l'éditeur">
+        <xpath expr="//p[@id='powered']" position="replace"/>
+    </template>
+
+</odoo>

@@ -8,7 +8,7 @@
       « Powered by » orphelin resterait affiche.
     -->
     <template id="senace_portal_sidebar" inherit_id="portal.portal_record_sidebar"
-              name="Portail sans mention Odoo">
+              name="Portail sans marque éditeur">
         <xpath expr="//a[contains(@href, 'odoo.com')]/.." position="replace"/>
     </template>
 
