@@ -34,7 +34,12 @@ from odoo import api, models
 _logger = logging.getLogger(__name__)
 
 MARQUE = "SEN ACE"
+BOT = "%s Bot" % MARQUE
 SITE = "https://senace.sn"
+
+# Libelles a reprendre : celui de l'editeur, et celui que ce module posait
+# avant que le robot ne s'appelle « SEN ACE Bot ».
+RECHERCHES = ('odoo', 'Assistant SEN ACE')
 
 # (motif, remplacement). L'ordre compte : les formulations precises passent
 # avant les generiques. Les espaces sont souples (\s+) parce que ces chaines
@@ -61,7 +66,11 @@ REMPLACEMENTS = [
     (r'\bOdoo\s+Logo\b', "Logo %s" % MARQUE),
     (r'\bOdoo\s+Apps\b', "Applications"),
     (r'\bOdoo\s+S\.A\.', MARQUE),
-    (r'\bOdooBot\b', "Assistant %s" % MARQUE),
+    (r'\bOdooBot\b', BOT),
+    # Transition : une version anterieure de ce module posait « Assistant
+    # SEN ACE ». Les bases deja deployees le portent, et plus aucune regle
+    # ancree sur OdooBot ne les rattraperait.
+    (r'Assistant\s+SEN\s+ACE\b', BOT),
 
     # --- Politique de cookies : « session_id (Odoo) » et ses cinq voisines.
     # La parenthese nommait l'editeur ; le nom technique du cookie reste exact.
@@ -220,7 +229,14 @@ class SenaceViews(models.AbstractModel):
         Vues = self.env['ir.ui.view'].sudo()
         # `with_context(active_test=False)` volontairement absent : une vue
         # desactivee n'est pas rendue, donc rien n'en sort.
-        cibles = Vues.search([('active', '=', True), ('arch_db', 'ilike', 'odoo')])
+        # On cherche aussi « Assistant SEN ACE » : une version anterieure de ce
+        # module posait ce libelle pour le robot, et les bases deja deployees
+        # le portent. Ancre sur le seul mot « odoo », la reprise le manquerait.
+        cibles = Vues.search([
+            ('active', '=', True),
+            '|', ('arch_db', 'ilike', 'odoo'),
+            ('arch_db', 'ilike', 'Assistant SEN ACE'),
+        ])
 
         corrigees = invalides = 0
         for vue in cibles:
@@ -232,7 +248,10 @@ class SenaceViews(models.AbstractModel):
             for langue in self._langues():
                 cible = vue.with_context(lang=langue, active_test=False)
                 arch = cible.arch_db
-                if not arch or 'odoo' not in arch.lower():
+                if not arch:
+                    continue
+                minuscules = arch.lower()
+                if not any(m.lower() in minuscules for m in RECHERCHES):
                     continue
                 try:
                     nouveau = self._nettoyer(arch)

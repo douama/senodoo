@@ -51,8 +51,11 @@ class TestBrandingRendu(odoo.tests.TransactionCase):
         parametres = self.env['ir.config_parameter'].sudo()
         self.assertEqual(parametres.get_str('web.web_app_name'), "SEN ACE")
         robot = self.env.ref('base.partner_root')
-        self.assertNotRegex(robot.name, MARQUE_EDITEUR)
         self.assertNotRegex(robot.email or '', MARQUE_EDITEUR)
+        # Le nom du robot est verifie dans chaque langue : c'est un champ
+        # traduisible, et il s'affiche dans le chatter de chaque fiche.
+        for langue in self.env['res.lang'].sudo().search([]).mapped('code'):
+            self.assertEqual(robot.with_context(lang=langue).name, "SEN ACE Bot")
         self.assertFalse(self.env.ref('website.show_website_info').active)
 
     def test_courriels_dans_toutes_les_langues(self):
@@ -81,6 +84,26 @@ class TestBrandingRendu(odoo.tests.TransactionCase):
         arch = str(self.env.ref('digest.digest_mail_main')._get_combined_arch())
         for bloc in ('by_odoo', 'id="powered"', 'digest_section_mobile'):
             self.assertNotIn(bloc, arch, bloc)
+
+    def test_ancien_libelle_du_robot(self):
+        """« Assistant SEN ACE » ne doit plus trainer nulle part.
+
+        Ce libelle a ete pose par une version anterieure du module. Les bases
+        deja deployees le portent, et aucune regle ancree sur « OdooBot » ne
+        le rattraperait : la reprise cherche donc les deux.
+        """
+        for modele, champs in (('ir.module.module', ('shortdesc', 'summary')),
+                               ('ir.model.fields', ('field_description', 'help')),
+                               ('ir.actions.act_window', ('help',)),
+                               ('digest.tip', ('name', 'tip_description'))):
+            if modele not in self.env:
+                continue
+            for champ in champs:
+                if champ not in self.env[modele]._fields:
+                    continue
+                for motif in ('OdooBot', 'Assistant SEN ACE'):
+                    restes = self.env[modele].sudo().search([(champ, 'ilike', motif)])
+                    self.assertFalse(restes, f"{modele}.{champ} ~ {motif}")
 
     def test_aides_et_ecrans_vides(self):
         """Info-bulles des champs et texte affiche au milieu d'une liste vide.

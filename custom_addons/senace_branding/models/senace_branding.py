@@ -15,6 +15,12 @@ _logger = logging.getLogger(__name__)
 
 FAVICON = 'senace_branding/static/src/img/favicon.png'
 BRAND = "SEN ACE"
+BOT = "%s Bot" % BRAND
+
+# Noms sous lesquels le robot a pu etre enregistre : celui d'origine, et ceux
+# que des versions anterieures de ce module ont poses. Sert a ne rebaptiser
+# qu'un robot encore au nom « d'usine », sans ecraser un choix fait a la main.
+NOMS_CONNUS = {'OdooBot', "Assistant %s" % BRAND, BOT}
 
 
 class SenaceBranding(models.AbstractModel):
@@ -62,18 +68,24 @@ class SenaceBranding(models.AbstractModel):
 
     @api.model
     def apply_bot_name(self):
-        """Renomme OdooBot, l'auteur des messages automatiques du chatter.
+        """Renomme le robot auteur des messages automatiques du chatter.
 
         Ce nom s'affiche dans le fil de discussion de chaque fiche et dans
         Discuss, a cote de l'avatar du robot. `mail/data/res_partner_data.xml`
         le cree sous `mail.partner_root` avec noupdate=true.
+
+        Le renommage n'a lieu que si le nom courant est l'un de ceux que nous
+        connaissons : celui d'origine, ou l'un de ceux que ce module a poses
+        dans une version anterieure. Un nom choisi a la main depuis l'interface
+        est donc respecte, et une base deja passee par « Assistant SEN ACE »
+        bascule tout de meme sur le libelle courant.
         """
         robot = self.env.ref('base.partner_root', raise_if_not_found=False)
         if not robot:
             return False
         valeurs = {}
-        if robot.name == 'OdooBot':
-            valeurs['name'] = "Assistant %s" % BRAND
+        if robot.name in NOMS_CONNUS and robot.name != BOT:
+            valeurs['name'] = BOT
         # L'adresse sert d'expediteur aux messages automatiques du chatter et
         # s'affiche sur la fiche du robot. On reste sur example.com, domaine
         # reserve par la RFC 2606 qui n'accepte aucun courrier : une vraie

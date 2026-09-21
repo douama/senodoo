@@ -23,6 +23,11 @@ from odoo import api, models
 _logger = logging.getLogger(__name__)
 
 MARQUE = "SEN ACE"
+BOT = "%s Bot" % MARQUE
+
+# Libelles a reprendre : celui de l'editeur, et celui que ce module posait
+# avant que le robot ne s'appelle « SEN ACE Bot ».
+RECHERCHES = ('odoo', 'Assistant SEN ACE')
 
 # Invitation envoyee a chaque nouvel utilisateur. Le corps d'origine est une
 # publicite pour l'editeur (« Never heard of Odoo? It's an all-in-one business
@@ -104,8 +109,8 @@ ASTUCES = [
 LIBELLES = [
     ('ir.module.module', 'to_buy', "Module sous licence éditeur"),
     ('payment.provider', 'module_to_buy', "Module sous licence éditeur"),
-    ('res.users', 'odoobot_state', "État de l'assistant"),
-    ('res.users', 'odoobot_failed', "Échec de l'assistant"),
+    ('res.users', 'odoobot_state', "État de %s" % BOT),
+    ('res.users', 'odoobot_failed', "Échec de %s" % BOT),
 ]
 
 
@@ -119,6 +124,18 @@ class SenaceTexts(models.AbstractModel):
     @api.model
     def _langues(self):
         return self.env['res.lang'].sudo().search([]).mapped('code') or ['en_US']
+
+    @api.model
+    def _domaine_a_reprendre(self, champs):
+        """Domaine OU sur plusieurs champs, pour chacun des libelles a reprendre.
+
+        On ne cherche pas que « odoo » : une version anterieure de ce module
+        posait « Assistant SEN ACE » pour le robot, et les bases deja
+        deployees le portent. Ancre sur le seul mot « odoo », la reprise ne
+        les trouverait jamais.
+        """
+        conditions = [(c, 'ilike', motif) for c in champs for motif in RECHERCHES]
+        return ['|'] * (len(conditions) - 1) + conditions
 
     @api.model
     def _poser(self, enregistrement, champ, valeur):
@@ -170,7 +187,8 @@ class SenaceTexts(models.AbstractModel):
         substituer = self.env['senace.views']._substituer
         cibles = [('ir.model.fields', 'help'), ('ir.actions.act_window', 'help')]
         for modele, champ in cibles:
-            enrs = self.env[modele].sudo().search([(champ, 'ilike', 'odoo')])
+            enrs = self.env[modele].sudo().search(
+                self._domaine_a_reprendre((champ,)))
             touches = 0
             for enr in enrs:
                 for langue in self._langues():
@@ -203,16 +221,17 @@ class SenaceTexts(models.AbstractModel):
     @api.model
     def _appliquer_astuces(self):
         """Le resume periodique cite l'editeur et son robot par leur nom."""
-        motifs = [(r'\bOdooBot\b', "l'assistant"), (r'\bOdoo\b', MARQUE)]
+        motifs = [(r'\bOdooBot\b', BOT),
+                  (r'Assistant\s+SEN\s+ACE\b', BOT),
+                  (r'\bOdoo\b', MARQUE)]
         for modele, champs in ASTUCES:
             if modele not in self.env:
                 continue
             champs = [c for c in champs if c in self.env[modele]._fields]
             if not champs:
                 continue
-            domaine = ['|'] * (len(champs) - 1)
-            domaine += [(c, 'ilike', 'odoo') for c in champs]
-            for enr in self.env[modele].sudo().search(domaine):
+            for enr in self.env[modele].sudo().search(
+                    self._domaine_a_reprendre(champs)):
                 for champ in champs:
                     self._retoucher(enr, champ, motifs)
 
@@ -233,10 +252,11 @@ class SenaceTexts(models.AbstractModel):
     @api.model
     def _appliquer_modules(self):
         """Nom et resume des modules tels qu'ils s'affichent dans Applications."""
-        motifs = [(r'\bOdooBot\b', "Assistant %s" % MARQUE), (r'\bOdoo\b', MARQUE)]
-        modules = self.env['ir.module.module'].sudo().search([
-            '|', ('shortdesc', 'ilike', 'odoo'), ('summary', 'ilike', 'odoo'),
-        ])
+        motifs = [(r'\bOdooBot\b', BOT),
+                  (r'Assistant\s+SEN\s+ACE\b', BOT),
+                  (r'\bOdoo\b', MARQUE)]
+        modules = self.env['ir.module.module'].sudo().search(
+            self._domaine_a_reprendre(('shortdesc', 'summary')))
         for module in modules:
             for champ in ('shortdesc', 'summary'):
                 self._retoucher(module, champ, motifs)
