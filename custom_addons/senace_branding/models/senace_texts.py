@@ -152,7 +152,38 @@ class SenaceTexts(models.AbstractModel):
         self._appliquer_astuces()
         self._appliquer_libelles()
         self._appliquer_modules()
+        self._appliquer_aides()
         return True
+
+    @api.model
+    def _appliquer_aides(self):
+        """Info-bulles des champs et textes d'ecran vide des actions.
+
+        Le second se voit plus qu'on ne croit : c'est le paragraphe affiche
+        au milieu d'une liste encore vide (« Odoo vous aide a suivre toutes
+        les activites liees a vos contacts »), donc la premiere chose que lit
+        un utilisateur qui ouvre une application neuve.
+
+        La table de substitution est celle de `senace.views` : meme marque,
+        memes tournures, un seul endroit a maintenir.
+        """
+        substituer = self.env['senace.views']._substituer
+        cibles = [('ir.model.fields', 'help'), ('ir.actions.act_window', 'help')]
+        for modele, champ in cibles:
+            enrs = self.env[modele].sudo().search([(champ, 'ilike', 'odoo')])
+            touches = 0
+            for enr in enrs:
+                for langue in self._langues():
+                    cible = enr.with_context(lang=langue)
+                    valeur = cible[champ]
+                    if not valeur or 'odoo' not in valeur.lower():
+                        continue
+                    nouveau = substituer(valeur)
+                    if nouveau != valeur:
+                        cible.write({champ: nouveau})
+                        touches += 1
+            if touches:
+                _logger.info("senace: %s aides corrigees sur %s", touches, modele)
 
     @api.model
     def _appliquer_courriels(self):

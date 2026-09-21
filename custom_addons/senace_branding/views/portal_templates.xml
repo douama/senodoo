@@ -2,14 +2,20 @@
 <odoo>
 
     <!--
-      « Powered by » suivi du logo Odoo, dans la colonne laterale de chaque
-      document du portail client (devis, facture, bon de commande). Le lien
-      est le seul repere stable du bloc ; on supprime son conteneur, sinon un
-      « Powered by » orphelin resterait affiche.
+      « Powered by » suivi du logo de l'editeur, dans la colonne laterale de
+      chaque document du portail client (devis, facture, bon de commande). On
+      supprime le conteneur entier, sinon un « Powered by » orphelin resterait
+      affiche.
+
+      Le bloc est vise par ses classes et non par le lien qu'il contient : le
+      correcteur de `senace.views` reecrit justement les adresses de
+      l'editeur, et un xpath ancre dessus ne trouverait plus rien au
+      redemarrage suivant.
     -->
     <template id="senace_portal_sidebar" inherit_id="portal.portal_record_sidebar"
               name="Portail sans marque éditeur">
-        <xpath expr="//a[contains(@href, 'odoo.com')]/.." position="replace"/>
+        <xpath expr="//div[hasclass('o_portal_sidebar_content')]/div[hasclass('text-muted')]"
+               position="replace"/>
     </template>
 
 </odoo>

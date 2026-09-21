@@ -13,5 +13,6 @@
         <function model="senace.branding" name="apply_favicon"/>
         <function model="senace.branding" name="apply_bot_name"/>
         <function model="senace.texts" name="apply_texts"/>
+        <function model="senace.views" name="apply_views"/>
     </data>
 </odoo>

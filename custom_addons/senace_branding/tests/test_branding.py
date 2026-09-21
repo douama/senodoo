@@ -82,6 +82,52 @@ class TestBrandingRendu(odoo.tests.TransactionCase):
         for bloc in ('by_odoo', 'id="powered"', 'digest_section_mobile'):
             self.assertNotIn(bloc, arch, bloc)
 
+    def test_aides_et_ecrans_vides(self):
+        """Info-bulles des champs et texte affiche au milieu d'une liste vide.
+
+        Le second est la premiere phrase que lit un utilisateur qui ouvre une
+        application encore vierge : « Odoo vous aide a suivre toutes les
+        activites liees a vos contacts ».
+        """
+        for modele in ('ir.model.fields', 'ir.actions.act_window'):
+            restes = self.env[modele].sudo().search([('help', 'ilike', 'odoo')])
+            self.assertFalse(restes, f"{modele} : {restes[:5]}")
+
+    def test_vues_du_coeur(self):
+        """Le correcteur doit etre arrive a son point fixe.
+
+        On ne cherche pas « odoo » dans l'arch : la chaine y apparait pour des
+        raisons techniques -- `var odoo` dans un <script>, la classe
+        `s_mega_menu_odoo_menu`, l'identifiant d'un template. On repasse le
+        nettoyeur de production sur chaque vue : s'il trouve encore quelque
+        chose a changer, c'est qu'une mention visible a echappe au premier
+        passage, et le test nomme la vue.
+
+        Les exceptions sont nommees plutot que tues : deux exemples de code
+        qui citent une variable SCSS definie par le coeur, et deux blocs que
+        nos heritances retirent du rendu sans toucher a leur source.
+        """
+        Vues = self.env['senace.views']
+        admises = {
+            'website.default_less', 'website.default_scss',
+            'digest.digest_section_mobile', 'web.brand_promotion_message',
+        }
+        epargnees = Vues._vues_heritees_maison()
+
+        inattendues = []
+        for vue in self.env['ir.ui.view'].sudo().search(
+                [('active', '=', True), ('arch_db', 'ilike', 'odoo')]):
+            xmlid = vue.xml_id or ''
+            if (xmlid in admises or xmlid.startswith('senace_branding.')
+                    or vue.id in epargnees):
+                continue
+            try:
+                if Vues._nettoyer(vue.arch_db):
+                    inattendues.append(xmlid or vue.id)
+            except Exception:  # noqa: BLE001
+                continue  # arch illisible : le correcteur l'ignore aussi
+        self.assertFalse(sorted(inattendues), sorted(inattendues))
+
     def test_fiches_de_modules_et_libelles(self):
         Modules = self.env['ir.module.module'].sudo()
         sales = Modules.search(['|', ('shortdesc', 'ilike', 'odoo'),

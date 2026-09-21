@@ -1,6 +1,6 @@
 {
     'name': "Identité SEN ACE",
-    'version': '1.2.1',
+    'version': '1.4.2',
     'category': 'Website',
     'sequence': 201,
     'summary': "Retire la marque de l'editeur de toutes les surfaces visibles",

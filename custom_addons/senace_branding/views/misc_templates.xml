@@ -2,15 +2,34 @@
 <odoo>
 
     <!--
-      /cookie-policy est une page publique, et la seule du site a nommer le
-      logiciel : la colonne « Cookies utilises » de la ligne Session annonce
-      « session_id (Odoo) ». Le nom technique du cookie, lui, reste exact.
+      /cookie-policy est une page publique. Sa colonne « Cookies utilises »
+      nomme l'editeur six fois, une par cookie : « session_id (Odoo) »,
+      « frontend_lang (Odoo) », et les quatre de la ligne suivante. Seule la
+      parenthese part ; le nom technique du cookie reste exact, sinon le
+      tableau ne documenterait plus rien.
+
+      Les trois cellules sont reprises ici plutot que laissees au correcteur
+      de `senace.views` : celui-ci epargne les vues que nous heritons
+      nous-memes, pour ne pas desancrer nos propres xpath.
     -->
     <template id="senace_cookie_policy" inherit_id="website.cookie_policy"
               name="Politique de cookies SEN ACE">
         <xpath expr="//td[contains(text(), 'session_id')]" position="replace">
             <td>
                 session_id<br/>
+            </td>
+        </xpath>
+        <xpath expr="//td[contains(text(), 'frontend_lang')]" position="replace">
+            <td>
+                frontend_lang
+            </td>
+        </xpath>
+        <xpath expr="//td[contains(text(), 'im_livechat_previous_operator')]" position="replace">
+            <td>
+                im_livechat_previous_operator<br/>
+                utm_campaign<br/>
+                utm_source<br/>
+                utm_medium
             </td>
         </xpath>
     </template>
