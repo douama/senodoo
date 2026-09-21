@@ -3,6 +3,21 @@
 // Identite : bleu profond, cobalt, ivoire et accent solaire.
 // ===========================================================================
 
+// ---------------------------------------------------------------------------
+// Dimensions des images : pourquoi `!important` ici, et seulement ici.
+//
+// La page reste editable depuis l'editeur de site (classe `oe_structure`).
+// Or, au premier enregistrement depuis l'editeur, Odoo reecrit les attributs
+// `width`/`height` de chaque <img> en style inline -- `style="width: 1122px"`.
+// Un style inline l'emporte sur toute feuille de style : sans `!important`,
+// l'image reprend sa taille native, deborde de sa colonne et recouvre le
+// texte voisin. C'est arrive en production, ou les six images de la page
+// portent un tel style alors que le gabarit du module n'en contient aucun.
+//
+// `!important` est donc porte par les seules declarations que la mise en page
+// doit imposer, la ou l'editeur ecrit. Le reste du fichier s'en passe.
+// ---------------------------------------------------------------------------
+
 .s_senace {
     --senace-navy: #071a33;
     --senace-navy-soft: #102b4c;
@@ -173,8 +188,9 @@
         inset: 0;
 
         img {
-            width: 100%;
-            height: 100%;
+            // dimensions imposees : voir la note en tete de fichier
+            width: 100% !important;
+            height: 100% !important;
             object-fit: cover;
             object-position: 52% center;
             filter: saturate(.9) contrast(1.02);
@@ -557,8 +573,9 @@
         transition: transform .4s cubic-bezier(.2, .8, .2, 1);
 
         img {
-            width: 100%;
-            height: 100%;
+            // dimensions imposees : voir la note en tete de fichier
+            width: 100% !important;
+            height: 100% !important;
             object-fit: contain;
             filter: drop-shadow(0 14px 18px rgba(7, 26, 51, .12));
         }
@@ -638,8 +655,9 @@
         > img {
             position: relative;
             z-index: 1;
-            width: 100%;
-            height: auto;
+            // dimensions imposees : voir la note en tete de fichier
+            width: 100% !important;
+            height: auto !important;
             aspect-ratio: 4 / 3.9;
             object-fit: cover;
             object-position: center 62%;
