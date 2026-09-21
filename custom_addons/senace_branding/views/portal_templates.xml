@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      « Powered by » suivi du logo Odoo, dans la colonne laterale de chaque
+      document du portail client (devis, facture, bon de commande). Le lien
+      est le seul repere stable du bloc ; on supprime son conteneur, sinon un
+      « Powered by » orphelin resterait affiche.
+    -->
+    <template id="senace_portal_sidebar" inherit_id="portal.portal_record_sidebar"
+              name="Portail sans mention Odoo">
+        <xpath expr="//a[contains(@href, 'odoo.com')]/.." position="replace"/>
+    </template>
+
+</odoo>

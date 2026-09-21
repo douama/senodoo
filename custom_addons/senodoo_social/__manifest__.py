@@ -1,6 +1,6 @@
 {
     'name': "Marketing social",
-    'version': '1.2',
+    'version': '1.3',
     'category': 'Marketing/Social Marketing',
     'sequence': 95,
     'summary': "Gerez vos reseaux sociaux et les visiteurs de votre site web",
@@ -29,7 +29,7 @@ message explicite nommant le compte concerne -- jamais un faux succes.
 Mastodon est fourni cle en main (API simple, jeton unique) ; les autres
 plateformes exposent le point d'entree a completer avec vos identifiants.
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['base', 'mail'],
     'data': [

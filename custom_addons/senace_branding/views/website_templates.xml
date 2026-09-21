@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      <meta name="generator" content="Odoo"> est pose sur toutes les pages du
+      site. Invisible a l'ecran, mais c'est ce que lisent les outils de
+      detection de technologies et les extensions de navigateur.
+    -->
+    <template id="senace_generator_meta" inherit_id="website.layout"
+              name="Balise generator SEN ACE">
+        <xpath expr="//meta[@name='generator']" position="attributes">
+            <attribute name="content">SEN ACE</attribute>
+        </xpath>
+    </template>
+
+    <!--
+      Info-bulle du bouton flottant qui ramene au backend depuis le site.
+      Visible par tout utilisateur interne en visite sur senace.sn.
+    -->
+    <template id="senace_backend_nav" inherit_id="website.layout"
+              name="Bouton Applications SEN ACE">
+        <xpath expr="//a[hasclass('o_frontend_to_backend_apps_btn')]" position="attributes">
+            <attribute name="title">Aller à vos applications SEN ACE</attribute>
+        </xpath>
+    </template>
+
+    <!--
+      /website/info est en auth="public" : n'importe qui pouvait l'ouvrir et y
+      lire « instance of Odoo, the Open Source ERP », un lien vers odoo.com et,
+      en mode developpeur, le numero de version exact du serveur.
+
+      On desactive la vue qui porte ce contenu : exactement ce que fait la
+      case « Website Information » de l'onglet Personnaliser de l'editeur.
+      La route repond toujours, mais sur une page vide : rien a divulguer.
+    -->
+    <record id="website.show_website_info" model="ir.ui.view">
+        <field name="active" eval="False"/>
+        <field name="name">Informations du site (masqué)</field>
+    </record>
+
+    <!--
+      Le nom de la vue n'est pas que technique ici : `website.layout` reprend
+      `main_object.name` comme titre de page quand la route n'en fournit pas.
+      Laisse tel quel, l'onglet afficherait « Odoo Information | SENACE ».
+    -->
+    <record id="website.website_info" model="ir.ui.view">
+        <field name="name">Informations du site</field>
+    </record>
+
+    <!--
+      Pied de page « call to action » livre par Odoo : inactif par defaut,
+      mais un clic dans l'editeur de site suffit a l'activer, et il affiche
+      « 50,000+ companies run Odoo to grow their businesses. »
+    -->
+    <template id="senace_footer_cta" inherit_id="website.template_footer_call_to_action"
+              name="Pied de page CTA SEN ACE">
+        <xpath expr="//h2[hasclass('h3-fs')]" position="replace">
+            <h2 class="h3-fs">Parlons de votre projet avec SEN ACE.</h2>
+        </xpath>
+    </template>
+
+</odoo>

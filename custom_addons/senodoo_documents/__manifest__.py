@@ -1,6 +1,6 @@
 {
     'name': "Documents",
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Productivity/Documents',
     'sequence': 85,
     'summary': "Centralisez, classez et partagez les fichiers de l'entreprise",
@@ -22,7 +22,7 @@ Enterprise `documents`, absente de l'edition Community.
 Le stockage s'appuie sur `ir.attachment` : les fichiers suivent le filestore
 et les sauvegardes existantes, sans mecanisme paralle.
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['base', 'mail'],
     'data': [

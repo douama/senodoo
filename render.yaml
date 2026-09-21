@@ -107,5 +107,7 @@ services:
       #   senodoo_documents   : application Documents (GED)
       #   senodoo_marketing_automation : scenarios de campagne automatises
       #   senodoo_website_landing      : page d'accueil et identite SENACE
+      #   senace_branding     : retire la marque Odoo des pages, des
+      #                         e-mails et du client web
       - key: ODOO_INSTALL_MODULES
-        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing
+        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing,senace_branding

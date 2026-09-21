@@ -1,6 +1,6 @@
 {
     'name': "Marketing Automation",
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Marketing/Marketing Automation',
     'sequence': 100,
     'summary': "Construisez des campagnes de mailing automatisees",
@@ -35,7 +35,7 @@ Une activite envoie un mailing existant ou execute une action serveur.
 Chaque passage laisse une *trace* : planifiee, traitee, annulee ou rejetee,
 avec le motif. Rien ne s'execute deux fois.
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['mass_mailing'],
     'data': [

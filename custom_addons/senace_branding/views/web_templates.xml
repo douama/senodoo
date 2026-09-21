@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Titre de l'onglet avant que le client web ne prenne la main : page de
+      connexion, portail, rapports HTML, amorcage du backend. Le client web
+      ecrase ensuite ce titre avec le nom de l'action en cours ; le repli
+      « Odoo » qu'il utilise entre deux actions est traite cote JavaScript
+      (static/src/js/branding.js).
+    -->
+    <template id="senace_layout_title" inherit_id="web.layout" name="Titre SEN ACE">
+        <xpath expr="//head/title" position="replace">
+            <title t-out="title or 'SEN ACE'"/>
+        </xpath>
+    </template>
+
+    <!--
+      Titre des PDF. Visible dans la barre de titre de la visionneuse et,
+      surtout, propose comme nom de fichier par le navigateur a
+      l'enregistrement d'un devis ou d'une facture.
+    -->
+    <template id="senace_report_title" inherit_id="web.report_layout"
+              name="Titre des rapports SEN ACE">
+        <xpath expr="//head/title" position="replace">
+            <title><t t-out="title or 'SEN ACE'"/></title>
+        </xpath>
+    </template>
+
+    <template id="senace_report_preview_title" inherit_id="web.report_preview_layout"
+              name="Titre des apercus de rapport SEN ACE">
+        <xpath expr="//head/title" position="replace">
+            <title><t t-out="title or 'SEN ACE'"/></title>
+        </xpath>
+    </template>
+
+    <!--
+      « Powered by Odoo » sous le formulaire de connexion.
+
+      Le bloc entier est remplace plutot que le seul lien : sans lui il
+      resterait un filet horizontal au-dessus du vide. `list_db` valant False
+      en production, `disable_database_manager` est vrai et le bloc ne
+      s'affiche pas du tout ; il reste utile sur un poste de developpement.
+    -->
+    <template id="senace_login_no_brand" inherit_id="web.login_layout"
+              name="Connexion sans mention Odoo">
+        <xpath expr="//div[@t-if='not disable_footer']" position="replace">
+            <div class="text-center small mt-4 pt-3 border-top"
+                 t-if="not disable_footer and not disable_database_manager">
+                <a href="/web/database/manager">Gérer les bases de données</a>
+            </div>
+        </xpath>
+    </template>
+
+    <!--
+      Source unique du « Powered by Odoo » du pied de page : le portail client,
+      la page de connexion et les enquetes appellent tous ce template, soit
+      directement, soit via `web.brand_promotion`. On neutralise la sortie
+      plutot que de supprimer les `t-set` : `website` en surcharge un pour y
+      glisser « Create a free website », et une variable qui n'est jamais
+      affichee ne coute rien.
+    -->
+    <template id="senace_no_brand_promotion_message" inherit_id="web.brand_promotion_message"
+              name="Pied de page sans mention Odoo" priority="99">
+        <xpath expr="//t[@t-out]" position="replace">
+            <t/>
+        </xpath>
+    </template>
+
+    <!-- Page affichee quand le navigateur perd le reseau. -->
+    <template id="senace_offline" inherit_id="web.webclient_offline"
+              name="Page hors ligne SEN ACE">
+        <xpath expr="//img" position="attributes">
+            <attribute name="alt">Logo SEN ACE</attribute>
+        </xpath>
+        <xpath expr="//h1" position="replace">
+            <h1>Vous êtes hors ligne</h1>
+        </xpath>
+        <xpath expr="//p" position="replace">
+            <p>Vérifiez votre connexion réseau, puis revenez ici. SEN ACE se chargera dès le retour en ligne.</p>
+        </xpath>
+        <xpath expr="//button" position="replace">
+            <button onclick="location.reload()">Réessayer</button>
+        </xpath>
+    </template>
+
+    <!--
+      Icone d'accueil iOS et couleur de la barre du navigateur sur mobile.
+      Le defaut sert `/web/static/img/odoo-icon-ios.png` et le violet Odoo
+      #71639e : c'est ce que voit un utilisateur qui ajoute le client web a
+      son ecran d'accueil, et ce dont se teinte la barre d'adresse sur
+      Android. Le bleu repris ici est celui de la charte, defini dans
+      senodoo_website_landing/static/src/scss/senace_variables.scss.
+    -->
+    <template id="senace_webclient_icons" inherit_id="web.webclient_bootstrap"
+              name="Icône et couleur SEN ACE">
+        <xpath expr="//link[@rel='apple-touch-icon']" position="attributes">
+            <attribute name="href">/senace_branding/static/src/img/favicon.png</attribute>
+        </xpath>
+        <xpath expr="//meta[@name='theme-color']" position="attributes">
+            <attribute name="content">#0a4da3</attribute>
+        </xpath>
+    </template>
+
+</odoo>

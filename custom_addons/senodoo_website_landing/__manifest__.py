@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.8.0',
+    'version': '1.8.1',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
@@ -8,12 +8,12 @@
 Page d'accueil SENACE
 ======================
 
-Remplace la page d'accueil par defaut d'Odoo (« Home | My Website ») par une
+Remplace la page d'accueil par defaut (« Home | My Website ») par une
 landing page presentant les quatre poles SENACE : formation professionnelle,
 coaching, services aux entreprises et eco tourisme durable a Dakar.
 
 La page reste dans un bloc `oe_structure` : elle demeure entierement
-modifiable depuis l'editeur de site d'Odoo, sans toucher au code.
+modifiable depuis l'editeur de site, sans toucher au code.
 
 Les appels a l'action pointent vers /contactus. `website_crm` etant installe,
 chaque formulaire envoye cree une piste dans le CRM.
@@ -21,7 +21,7 @@ chaque formulaire envoye cree une piste dans le CRM.
 Les coordonnees publiques sont reprises de l'en-tete et du pied de page afin
 de proposer un parcours de contact coherent sur l'ensemble du site.
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['website', 'website_crm'],
     'data': [

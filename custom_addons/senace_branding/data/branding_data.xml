@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+      Appels programmatiques et non des <record> : les trois cibles portent
+      noupdate=true en base (pose par `website` et par `mail`), Odoo refuserait
+      donc de les reecrire par les donnees. Le detail est dans le modele.
+
+      Ce bloc est rejoue a chaque mise a jour du module, ce qui est voulu :
+      une reinstallation de `mail` remettrait « OdooBot » en place.
+    -->
+    <data>
+        <function model="senace.branding" name="apply_app_name"/>
+        <function model="senace.branding" name="apply_favicon"/>
+        <function model="senace.branding" name="apply_bot_name"/>
+    </data>
+</odoo>

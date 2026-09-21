@@ -1,6 +1,6 @@
 {
-    'name': "Activation des applications Senodoo",
-    'version': '1.2',
+    'name': "Activation des applications SEN ACE",
+    'version': '1.3',
     'category': 'Administration',
     'summary': "Rend le bouton « Mettre a niveau » fonctionnel : equivalents open source et diagnostic honnete",
     'description': """
@@ -19,7 +19,7 @@ Ce module remplace ce lien mort par une vraie operation serveur :
   liste codee en dur ;
 * verification de la presence reelle du code sur l'`addons_path` ;
 * si le code est present, delegation a `update_list()` puis au bouton
-  « Activer » natif d'Odoo ;
+  « Activer » natif du serveur ;
 * sinon, installation en un clic du meilleur equivalent Community
   reellement disponible, avec resolution complete des dependances ;
 * si aucun equivalent n'existe, message d'erreur precis et persiste --
@@ -27,9 +27,9 @@ Ce module remplace ce lien mort par une vraie operation serveur :
 
 Aucun systeme parallele : les permissions (`assert_log_admin_access`), le
 verrou anti-concurrence (`LOCK ir_module_module IN EXCLUSIVE MODE`), la
-resolution de dependances et la persistance restent ceux d'Odoo.
+resolution de dependances et la persistance restent ceux du serveur.
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['base'],
     'data': [

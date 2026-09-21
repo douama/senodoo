@@ -1,6 +1,6 @@
 {
     'name': "Connaissances",
-    'version': '1.0',
+    'version': '1.1',
     'category': 'Productivity/Knowledge',
     'sequence': 90,
     'summary': "Centralisez, gerez, partagez et developpez votre bibliotheque de connaissances",
@@ -18,7 +18,7 @@ l'application Enterprise `knowledge`, absente de l'edition Community.
 * trois niveaux de partage : prive, interne (lecture), interne (edition)
 * corbeille : un article supprime est archive, jamais perdu
 """,
-    'author': "Senodoo",
+    'author': "SEN ACE",
     'license': 'LGPL-3',
     'depends': ['base', 'mail'],
     'data': [
