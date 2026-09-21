@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.6.0',
+    'version': '1.7.0',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
@@ -27,6 +27,7 @@ de proposer un parcours de contact coherent sur l'ensemble du site.
     'data': [
         'data/website_data.xml',
         'data/logo_data.xml',
+        'data/base_url_data.xml',
         'data/ir_asset.xml',
         'views/landing_templates.xml',
         'views/branding_templates.xml',

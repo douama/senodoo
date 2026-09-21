@@ -82,6 +82,13 @@ services:
       - key: ODOO_DATA_DIR
         value: /var/lib/odoo
 
+      # Domaine public servi par Render. Le module senodoo_website_landing le
+      # recopie dans `web.base.url` et le gele, sinon Odoo reecrirait ce
+      # parametre avec l'hote de la prochaine connexion administrateur et les
+      # liens des e-mails repartiraient vers *.onrender.com.
+      - key: ODOO_BASE_URL
+        value: https://senace.sn
+
       - key: ODOO_WITHOUT_DEMO
         value: all
 

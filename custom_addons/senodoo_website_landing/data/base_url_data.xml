@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Appel programmatique et non un <record> : la valeur depend de
+             l'environnement de deploiement, elle ne peut pas etre figee dans
+             les donnees du module. Voir apply_base_url pour le detail. -->
+        <function model="senodoo.website.branding" name="apply_base_url"/>
+    </data>
+</odoo>
