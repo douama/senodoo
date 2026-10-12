@@ -408,6 +408,11 @@
         <field name="website_meta_description">Employeur, 3FPT, programmes d'appui ou financement personnel : SENACE vous aide à financer votre formation professionnelle à Dakar et à constituer votre dossier.</field>
     </record>
 
+    <!-- Une page creee depuis l'editeur sur la meme URL passerait devant
+         celle-ci (voir release_page_url) : elle est deplacee, pas supprimee. -->
+    <function model="senodoo.website.branding" name="release_page_url"
+              eval="['senodoo_website_landing.financer_formation_page']"/>
+
     <!--
       Entree du menu principal, apres « Nos accreditations et agrements ».
       Rattachee a website.main_menu, elle est dupliquee par Odoo dans le menu

@@ -86,3 +86,39 @@ class SenodooWebsiteBranding(models.AbstractModel):
             site.domain = base_url
         _logger.info("senace: URL publique fixee sur %s", base_url)
         return True
+
+    @api.model
+    def release_page_url(self, xmlid):
+        """Libere l'URL d'une page du module en deplacant ses doublons.
+
+        Odoo sert, pour une URL donnee, la page propre au site AVANT la page
+        generique (website.page._get_page_info, tri website_id asc). Une page
+        creee depuis l'editeur sur la meme URL masque donc celle du module ;
+        non publiee, elle fait meme repondre une 404 aux visiteurs. C'est ce
+        qui s'est produit en production pour /financer-sa-formation.
+
+        Rien n'est supprime : chaque doublon passe sur `<url>-brouillon`
+        (suffixe numerote par Odoo si besoin) et reste modifiable depuis
+        l'editeur. Les menus qui pointaient vers lui suivent.
+        """
+        page = self.env.ref(xmlid, raise_if_not_found=False)
+        if not page:
+            return False
+        doublons = self.env['website.page'].with_context(active_test=False).search([
+            ('url', '=', page.url),
+            ('id', '!=', page.id),
+        ])
+        for doublon in doublons:
+            ancienne = doublon.url
+            doublon.write({'url': f'{page.url}-brouillon'})
+            _logger.warning(
+                "senace: page %s (id %s, site %s) deplacee de %s vers %s "
+                "pour liberer l'URL de %s",
+                doublon.name, doublon.id, doublon.website_id.id or '-',
+                ancienne, doublon.url, xmlid)
+        if doublons:
+            # La page servie pour une URL est memorisee dans le cache
+            # 'templates' (_get_page_info). `url` est un champ de la page et
+            # non de sa vue : le write ne vide pas ce cache de lui-meme.
+            self.env.registry.clear_cache('templates')
+        return bool(doublons)
