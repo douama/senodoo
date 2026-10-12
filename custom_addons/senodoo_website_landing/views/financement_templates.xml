@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+      Page « Financer sa formation ».
+
+      Elle reprend les blocs de la page d'accueil (barre d'engagements,
+      etapes sur fond bleu nuit, panneau de contact) : les styles sont ceux de
+      landing.scss, financement.scss n'ajoute que ce qui est propre a la page.
+
+      Comme l'accueil, le contenu reste dans un `oe_structure` et demeure
+      modifiable depuis l'editeur de site.
+
+      Chaque appel a l'action renvoie vers /contactus avec un objet
+      pre-rempli : website_crm en fait le titre de la piste, ce qui permet de
+      reperer dans le CRM les demandes nees de cette page.
+    -->
+    <template id="financer_formation" name="Financer sa formation">
+        <t t-call="website.layout" pageName.f="financer-sa-formation">
+            <div id="wrap" class="oe_structure s_senace s_senace_fin">
+
+                <!-- ============ En-tete ============ -->
+                <section class="s_senace_fin_hero" aria-labelledby="senace-fin-title">
+                    <div class="container">
+                        <div class="row align-items-center g-5">
+                            <div class="col-lg-7">
+                                <p class="s_senace_eyebrow">
+                                    <span class="s_senace_eyebrow_mark" aria-hidden="true"/>
+                                    Formation professionnelle · Financement
+                                </p>
+                                <h1 id="senace-fin-title" class="s_senace_title">
+                                    Financer sa formation,
+                                    <span>sans freiner son projet.</span>
+                                </h1>
+                                <p class="s_senace_lead">
+                                    Employeur, fonds de formation, programme d'appui ou
+                                    financement personnel : SENACE vous aide à repérer la
+                                    solution adaptée à votre situation et à réunir un dossier
+                                    complet.
+                                </p>
+                                <div class="s_senace_hero_actions">
+                                    <a href="/contactus?subject=Financement de formation"
+                                       class="btn s_senace_btn_primary">
+                                        Étudier mon financement
+                                        <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                    </a>
+                                    <a href="#solutions" class="btn s_senace_btn_ghost">
+                                        Voir les solutions
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-lg-5">
+                                <nav class="s_senace_fin_summary" aria-label="Les quatre pistes de financement">
+                                    <img src="/senodoo_website_landing/static/src/img/icon-formation.webp"
+                                         class="s_senace_fin_summary_visual" alt=""
+                                         width="512" height="512" decoding="async"
+                                         aria-hidden="true"/>
+                                    <p class="s_senace_fin_summary_title">Quatre pistes à étudier</p>
+                                    <ol class="list-unstyled">
+                                        <li>
+                                            <a href="#employeur"><span>01</span> Votre employeur</a>
+                                        </li>
+                                        <li>
+                                            <a href="#fonds"><span>02</span> Le 3FPT</a>
+                                        </li>
+                                        <li>
+                                            <a href="#entrepreneuriat"><span>03</span> Les programmes d'appui</a>
+                                        </li>
+                                        <li>
+                                            <a href="#personnel"><span>04</span> Le financement personnel</a>
+                                        </li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Engagements ============ -->
+                <section class="s_senace_trust" aria-label="Le rôle de SENACE">
+                    <div class="container">
+                        <div class="s_senace_trust_inner">
+                            <div class="s_senace_trust_intro">
+                                <span>Notre rôle</span>
+                                <strong>Rendre votre projet de formation finançable.</strong>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">01</span>
+                                <p><strong>Un diagnostic</strong> de votre situation avant toute démarche.</p>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">02</span>
+                                <p><strong>Un programme et un devis</strong> prêts à joindre au dossier.</p>
+                            </div>
+                            <div class="s_senace_trust_item">
+                                <span class="s_senace_trust_num">03</span>
+                                <p><strong>Un suivi</strong> jusqu'au démarrage de la formation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Solutions ============ -->
+                <section id="solutions" class="s_senace_section s_senace_fin_solutions"
+                         aria-labelledby="senace-fin-solutions-title">
+                    <div class="container">
+                        <div class="row align-items-end g-4 s_senace_section_head">
+                            <div class="col-lg-8">
+                                <p class="s_senace_kicker">Les solutions de financement</p>
+                                <h2 id="senace-fin-solutions-title">
+                                    Chaque situation a ses pistes.
+                                    <span>Nous vous aidons à trouver la vôtre.</span>
+                                </h2>
+                            </div>
+                            <div class="col-lg-3 offset-lg-1">
+                                <p class="s_senace_section_intro">
+                                    Salarié, demandeur d'emploi, entrepreneur ou en reconversion :
+                                    les solutions se cumulent parfois. Le premier échange sert à
+                                    les identifier.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="s_senace_fin_routes">
+                            <article id="employeur" class="s_senace_fin_route">
+                                <p class="s_senace_fin_route_overline"><span>01</span> Salariés</p>
+                                <h3>Le plan de formation de votre employeur</h3>
+                                <p>
+                                    Votre entreprise peut inscrire la formation dans son plan de
+                                    développement des compétences et la prendre en charge.
+                                </p>
+                                <ul class="list-unstyled s_senace_fin_route_points">
+                                    <li>Devis et programme au nom de l'entreprise</li>
+                                    <li>Calendrier compatible avec l'activité</li>
+                                    <li>Bilan partagé en fin de parcours</li>
+                                </ul>
+                                <a href="/contactus?subject=Financement par l'employeur"
+                                   class="s_senace_link">
+                                    Préparer la demande à mon employeur
+                                    <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </article>
+
+                            <article id="fonds" class="s_senace_fin_route s_senace_fin_route--navy">
+                                <p class="s_senace_fin_route_overline"><span>02</span> Fonds public</p>
+                                <h3>Le 3FPT</h3>
+                                <p>
+                                    Le Fonds de financement de la formation professionnelle et
+                                    technique soutient des formations portées par des entreprises
+                                    comme par des particuliers, selon ses appels et ses critères.
+                                </p>
+                                <ul class="list-unstyled s_senace_fin_route_points">
+                                    <li>Demandes d'entreprises</li>
+                                    <li>Demandes individuelles</li>
+                                    <li>Prise en charge totale ou partielle</li>
+                                </ul>
+                                <a href="/contactus?subject=Financement 3FPT"
+                                   class="s_senace_link">
+                                    Étudier cette piste
+                                    <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </article>
+
+                            <article id="entrepreneuriat" class="s_senace_fin_route s_senace_fin_route--sand">
+                                <p class="s_senace_fin_route_overline"><span>03</span> Porteurs de projet</p>
+                                <h3>Les programmes d'appui à l'entrepreneuriat</h3>
+                                <p>
+                                    Des programmes publics et des partenaires au développement
+                                    associent souvent financement et formation pour créer ou
+                                    développer une activité.
+                                </p>
+                                <ul class="list-unstyled s_senace_fin_route_points">
+                                    <li>Création ou développement d'activité</li>
+                                    <li>Renforcement de capacités</li>
+                                    <li>Appels à candidatures ponctuels</li>
+                                </ul>
+                                <a href="/contactus?subject=Financement porteur de projet"
+                                   class="s_senace_link">
+                                    Faire le point sur mon projet
+                                    <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </article>
+
+                            <article id="personnel" class="s_senace_fin_route s_senace_fin_route--blue">
+                                <p class="s_senace_fin_route_overline"><span>04</span> Particuliers</p>
+                                <h3>Le financement personnel</h3>
+                                <p>
+                                    Vous financez vous-même votre parcours : le coût est connu
+                                    avant l'inscription et les modalités de règlement se
+                                    conviennent ensemble.
+                                </p>
+                                <ul class="list-unstyled s_senace_fin_route_points">
+                                    <li>Devis détaillé avant tout engagement</li>
+                                    <li>Modalités de règlement à convenir</li>
+                                    <li>Facture à votre nom</li>
+                                </ul>
+                                <a href="/contactus?subject=Devis formation"
+                                   class="s_senace_link">
+                                    Demander un devis
+                                    <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                </a>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Accompagnement ============ -->
+                <section id="accompagnement" class="s_senace_section s_senace_method"
+                         aria-labelledby="senace-fin-steps-title">
+                    <div class="container">
+                        <div class="row align-items-end g-4 s_senace_method_head">
+                            <div class="col-lg-7">
+                                <p class="s_senace_kicker">Notre accompagnement</p>
+                                <h2 id="senace-fin-steps-title">
+                                    De la première question<br/>
+                                    au premier jour de formation.
+                                </h2>
+                            </div>
+                            <div class="col-lg-4 offset-lg-1">
+                                <p>
+                                    La demande reste à votre nom ou à celui de votre employeur.
+                                    Nous préparons avec vous ce qui dépend de la formation.
+                                </p>
+                            </div>
+                        </div>
+                        <ol class="row g-0 list-unstyled s_senace_steps">
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">01</span>
+                                    <h3>Diagnostic</h3>
+                                    <p>Votre statut, votre projet et votre calendrier : les pistes se dessinent.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">02</span>
+                                    <h3>Programme et devis</h3>
+                                    <p>Un parcours adapté, chiffré et daté, prêt à être présenté au financeur.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">03</span>
+                                    <h3>Dossier</h3>
+                                    <p>Nous vérifions avec vous les pièces demandées avant le dépôt.</p>
+                                </article>
+                            </li>
+                            <li class="col-md-6 col-xl-3">
+                                <article class="s_senace_step">
+                                    <span class="s_senace_step_num">04</span>
+                                    <h3>Démarrage</h3>
+                                    <p>Dès l'accord obtenu, la formation est planifiée avec vous.</p>
+                                </article>
+                            </li>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- ============ Pieces et questions ============ -->
+                <section id="questions" class="s_senace_section s_senace_fin_faq"
+                         aria-label="Pièces à réunir et questions fréquentes">
+                    <div class="container">
+                        <div class="row g-5">
+                            <div class="col-lg-5">
+                                <p class="s_senace_kicker">Les pièces à réunir</p>
+                                <h2>
+                                    Un dossier complet,
+                                    <span>c'est une réponse plus rapide.</span>
+                                </h2>
+                                <div class="s_senace_fin_docs">
+                                    <div>
+                                        <h3>Fournies par SENACE</h3>
+                                        <ul class="list-unstyled">
+                                            <li>Programme détaillé de la formation</li>
+                                            <li>Devis</li>
+                                            <li>Calendrier prévisionnel</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3>Pour une entreprise</h3>
+                                        <ul class="list-unstyled">
+                                            <li>NINEA et registre de commerce</li>
+                                            <li>Liste des participants</li>
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <h3>Pour un particulier</h3>
+                                        <ul class="list-unstyled">
+                                            <li>Pièce d'identité</li>
+                                            <li>CV et présentation du projet</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <p class="s_senace_fin_docs_note">
+                                    Chaque financeur fixe sa propre liste : nous la vérifions
+                                    avec vous au moment du dépôt.
+                                </p>
+                            </div>
+                            <div class="col-lg-6 offset-lg-1">
+                                <p class="s_senace_kicker">Questions fréquentes</p>
+                                <h2 class="visually-hidden">Questions fréquentes</h2>
+                                <div class="s_senace_fin_questions">
+                                    <details open="open">
+                                        <summary>Qui peut obtenir un financement ?</summary>
+                                        <p>
+                                            Salariés, demandeurs d'emploi, entrepreneurs ou personnes en
+                                            reconversion : chaque profil a ses pistes. Le premier échange
+                                            sert à repérer celles qui correspondent à votre situation.
+                                        </p>
+                                    </details>
+                                    <details>
+                                        <summary>La prise en charge est-elle totale ?</summary>
+                                        <p>
+                                            Cela dépend du financeur et de votre dossier : elle peut être
+                                            totale ou partielle. Le reste à charge éventuel est connu avant
+                                            l'inscription.
+                                        </p>
+                                    </details>
+                                    <details>
+                                        <summary>Combien de temps faut-il prévoir ?</summary>
+                                        <p>
+                                            Chaque financeur a ses délais de traitement. Engagez la
+                                            démarche plusieurs semaines avant la date de formation
+                                            souhaitée.
+                                        </p>
+                                    </details>
+                                    <details>
+                                        <summary>SENACE dépose-t-elle la demande à ma place ?</summary>
+                                        <p>
+                                            La demande reste portée par vous ou par votre employeur. Nous
+                                            fournissons les documents liés à la formation et vous aidons à
+                                            constituer un dossier complet.
+                                        </p>
+                                    </details>
+                                    <details>
+                                        <summary>Le premier échange m'engage-t-il ?</summary>
+                                        <p>
+                                            Non. Il sert à comprendre votre projet et à identifier les
+                                            pistes de financement. Vous décidez ensuite de la suite.
+                                        </p>
+                                    </details>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============ Conversion ============ -->
+                <section id="contact" class="s_senace_section s_senace_contact"
+                         aria-labelledby="senace-fin-contact-title">
+                    <div class="container">
+                        <div class="s_senace_contact_panel">
+                            <div class="row align-items-center g-4">
+                                <div class="col-lg-7">
+                                    <p class="s_senace_kicker">Prochaine étape</p>
+                                    <h2 id="senace-fin-contact-title">
+                                        Votre formation est peut-être<br/>
+                                        déjà finançable.
+                                    </h2>
+                                    <p>
+                                        Présentez-nous votre projet et votre situation. Nous revenons
+                                        vers vous avec les pistes à étudier et les pièces à préparer.
+                                    </p>
+                                </div>
+                                <div class="col-lg-4 offset-lg-1">
+                                    <div class="s_senace_contact_actions">
+                                        <a href="/contactus?subject=Financement de formation"
+                                           class="btn s_senace_btn_light">
+                                            Étudier mon financement
+                                            <i class="fa fa-arrow-right" aria-hidden="true"/>
+                                        </a>
+                                        <a href="tel:+221771100301"
+                                           class="s_senace_phone_link">
+                                            <i class="fa fa-phone" aria-hidden="true"/>
+                                            <span class="o_force_ltr">77 110 03 01</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="s_senace_contact_meta">
+                                <a href="mailto:kadycoulibaly43@yahoo.fr">
+                                    <i class="fa fa-envelope-o" aria-hidden="true"/>
+                                    <span>kadycoulibaly43@yahoo.fr</span>
+                                </a>
+                                <div>
+                                    <i class="fa fa-map-marker" aria-hidden="true"/>
+                                    <span>Keur Massar, Dakar · Sénégal</span>
+                                </div>
+                                <div>
+                                    <i class="fa fa-handshake-o" aria-hidden="true"/>
+                                    <span>Premier échange sans engagement</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </t>
+    </template>
+
+    <record id="financer_formation_page" model="website.page">
+        <field name="url">/financer-sa-formation</field>
+        <field name="view_id" ref="financer_formation"/>
+        <field name="is_published">True</field>
+        <field name="track">True</field>
+        <field name="website_meta_title">Financer sa formation | SENACE</field>
+        <field name="website_meta_description">Employeur, 3FPT, programmes d'appui ou financement personnel : SENACE vous aide à financer votre formation professionnelle à Dakar et à constituer votre dossier.</field>
+    </record>
+
+    <!--
+      Entree du menu principal, apres « Nos accreditations et agrements ».
+      Rattachee a website.main_menu, elle est dupliquee par Odoo dans le menu
+      propre a chaque site (website.menu.create), celui qui est affiche.
+      Le lien a la page la fait suivre un changement d'URL fait depuis
+      l'editeur, et disparaitre si la page est supprimee.
+    -->
+    <record id="menu_senace_financement" model="website.menu">
+        <field name="name">Financer sa formation</field>
+        <field name="url">/financer-sa-formation</field>
+        <field name="page_id" ref="financer_formation_page"/>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">50</field>
+    </record>
+
+</odoo>

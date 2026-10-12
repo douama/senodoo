@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.9.0',
+    'version': '1.10.0',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
@@ -24,6 +24,11 @@ de proposer un parcours de contact coherent sur l'ensemble du site.
 Sous-pages dans le menu principal : la fenetre d'un element de menu propose
 « Sous-menu de », en plus du glisser-deposer natif d'Odoo, et les listes
 deroulantes reprennent les couleurs de l'en-tete.
+
+Page « Financer sa formation » (/financer-sa-formation) : les pistes de
+financement (employeur, 3FPT, programmes d'appui, financement personnel),
+l'accompagnement SENACE, les pieces a reunir et les questions frequentes.
+Ses appels a l'action pre-remplissent l'objet du formulaire de contact.
 """,
     'author': "SEN ACE",
     'license': 'LGPL-3',
@@ -35,12 +40,14 @@ deroulantes reprennent les couleurs de l'en-tete.
         'data/ir_asset.xml',
         'views/landing_templates.xml',
         'views/branding_templates.xml',
+        'views/financement_templates.xml',
     ],
     'assets': {
         'web.assets_frontend': [
             'senodoo_website_landing/static/src/scss/landing.scss',
             'senodoo_website_landing/static/src/scss/header_logo.scss',
             'senodoo_website_landing/static/src/scss/header_menu.scss',
+            'senodoo_website_landing/static/src/scss/financement.scss',
         ],
         'website.assets_editor': [
             'senodoo_website_landing/static/src/js/edit_menu_parent.js',

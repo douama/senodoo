@@ -10,6 +10,10 @@ from odoo.tests import HttpCase, tagged
 
 @tagged('post_install', '-at_install')
 class TestSousMenus(HttpCase):
+    # En 1366 px (taille par defaut des tours), le menu principal deborde :
+    # Odoo replie les derniers elements sous « + », dont le parent cree par
+    # le test. Le tour verifie les sous-menus, pas la largeur de l'en-tete.
+    browser_size = '1920x1080'
 
     def test_sous_menu_depuis_la_fenetre(self):
         website = self.env.ref('website.default_website')
