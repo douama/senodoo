@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="report_layout_letterhead" model="report.layout">
+        <field name="name">Papier à en-tête</field>
+        <field name="sequence">12</field>
+        <field name="view_id" ref="external_layout_letterhead"/>
+    </record>
+
+</odoo>

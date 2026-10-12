@@ -1,0 +1,40 @@
+// Papier a en-tete.
+//
+// Le format A4 par defaut reserve 52 mm en haut et 32 mm en bas, dont 11 mm de
+// marge d'impression : les hauteurs maximales ci-dessous tiennent dedans. Une
+// image trop haute est reduite, jamais rognee ni posee sur le contenu.
+//
+// max-width + max-height plutot que object-fit : wkhtmltopdf (QtWebKit) ignore
+// object-fit et deformerait l'image, alors que les deux bornes conservent ses
+// proportions dans tous les moteurs.
+$o-letterhead-header-max-height: 38mm;
+$o-letterhead-footer-max-height: 17mm;
+$o-letterhead-footer-padding-bottom: 8mm;
+
+.o_letterhead_image {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.o_letterhead_header_image {
+    max-height: $o-letterhead-header-max-height;
+}
+
+.o_letterhead_footer_image {
+    max-height: $o-letterhead-footer-max-height;
+}
+
+// Le coeur place 11 mm de marge sous le texte du pied de page ; avec une image,
+// cette marge passe sous l'image, qui reste ainsi collee au texte.
+.o_body_html, .o_body_pdf.o_css_margins {
+    .footer.o_letterhead_has_image {
+        padding-bottom: $o-letterhead-footer-padding-bottom;
+
+        > .o_footer_content {
+            padding-bottom: map-get($spacers, 1);
+        }
+    }
+}

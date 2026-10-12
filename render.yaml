@@ -109,5 +109,7 @@ services:
       #   senodoo_website_landing      : page d'accueil et identite SENACE
       #   senace_branding     : retire la marque Odoo des pages, des
       #                         e-mails et du client web
+      #   senodoo_report_letterhead    : papier a en-tete (image d'en-tete
+      #                                  et de pied de page) sur les PDF
       - key: ODOO_INSTALL_MODULES
-        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing,senace_branding
+        value: senodoo_app_upgrade,senodoo_knowledge,senodoo_social,senodoo_documents,senodoo_marketing_automation,senodoo_website_landing,senace_branding,senodoo_report_letterhead

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        Mise en page « Papier a en-tete ».
+
+        `company` est une res.company a l'impression, mais l'enregistrement de
+        l'assistant base.document.layout dans l'apercu : les deux exposent les
+        memes noms de champs, d'ou les champs lies cote assistant.
+    -->
+    <template id="external_layout_letterhead" name="Papier à en-tête">
+        <t t-set="letterhead_footer_image" t-value="company.letterhead_footer_image"/>
+
+        <div t-attf-class="o_company_#{company.id}_layout header o_letterhead_header">
+            <img t-if="company.letterhead_header_image"
+                 class="o_letterhead_image o_letterhead_header_image"
+                 t-att-src="image_data_uri(company.letterhead_header_image)"
+                 alt="En-tête"/>
+            <!-- Sans image : logo, adresse et slogan, pour que choisir cette
+                 mise en page avant d'avoir les fichiers ne vide pas l'en-tete. -->
+            <table t-else="" class="table-borderless w-100">
+                <tr>
+                    <td t-if="company.logo" class="align-top pe-3">
+                        <img class="o_company_logo_big" t-att-src="image_data_uri(company.logo)" alt="Logo"/>
+                    </td>
+                    <td class="align-top text-start w-100">
+                        <t t-call="web.company_address_list"/>
+                        <div t-if="not is_html_empty(company.report_header)"
+                             t-field="company.report_header"
+                             class="o_company_tagline fw-bold">Company tagline</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <t t-call="web.external_layout_body">
+            <t t-out="0"/>
+        </t>
+
+        <div t-attf-class="footer o_company_#{company.id}_layout o_letterhead_footer {{letterhead_footer_image and 'o_letterhead_has_image'}} {{report_type != 'pdf' and 'mt-auto'}}">
+            <t t-call="web.external_layout_footer_content"
+               footer_content_classes="letterhead_footer_image and 'pt-1' or 'border-top pt-2'"/>
+            <img t-if="letterhead_footer_image"
+                 class="o_letterhead_image o_letterhead_footer_image"
+                 t-att-src="image_data_uri(letterhead_footer_image)"
+                 alt="Pied de page"/>
+        </div>
+    </template>
+
+</odoo>
