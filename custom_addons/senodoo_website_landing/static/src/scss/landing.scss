@@ -3,6 +3,10 @@
 // Identite : bleu profond, cobalt, ivoire et accent solaire.
 // ===========================================================================
 
+:root {
+    --senace-page-max: 1240px;
+}
+
 // ---------------------------------------------------------------------------
 // Dimensions des images : pourquoi `!important` ici, et seulement ici.
 //
@@ -47,7 +51,7 @@
 
     .container {
         width: calc(100% - 2rem);
-        max-width: 1240px;
+        max-width: var(--senace-page-max);
     }
 
     section[id], article[id] { scroll-margin-top: 6rem; }
@@ -1000,7 +1004,7 @@
     }
 
     @media (min-width: 1280px) {
-        .s_senace_scroll { right: calc((100vw - 1240px) / 2); }
+        .s_senace_scroll { right: calc((100vw - var(--senace-page-max)) / 2); }
     }
 
     @media (max-width: 991.98px) {
@@ -1254,6 +1258,14 @@
         backdrop-filter: blur(16px);
     }
 
+    .navbar > .container,
+    .navbar > .container-fluid {
+        width: calc(100% - 2rem);
+        max-width: var(--senace-page-max);
+        margin-right: auto;
+        margin-left: auto;
+    }
+
     .nav-link {
         color: #34465e !important;
         font-size: .86rem;
@@ -1361,6 +1373,11 @@
     color: rgba(255, 255, 255, .7);
     background: #06172b;
 
+    > .container {
+        width: calc(100% - 2rem);
+        max-width: var(--senace-page-max);
+    }
+
     h5 {
         margin-bottom: 1rem;
         color: #fff;
@@ -1398,6 +1415,11 @@
     color: rgba(255, 255, 255, .5);
     background: #041224 !important;
 
+    .container {
+        width: calc(100% - 2rem);
+        max-width: var(--senace-page-max);
+    }
+
     .text-muted { color: rgba(255, 255, 255, .5) !important; }
 
     a {
@@ -1405,5 +1427,14 @@
         text-decoration: none;
 
         &:hover, &:focus { color: #f2c45d; }
+    }
+}
+
+@media (max-width: 767.98px) {
+    .s_senace_site_header .navbar > .container,
+    .s_senace_site_header .navbar > .container-fluid,
+    #footer .s_senace_footer > .container,
+    #bottom .o_footer_copyright .container {
+        width: calc(100% - 1.25rem);
     }
 }

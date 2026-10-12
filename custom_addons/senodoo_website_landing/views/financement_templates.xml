@@ -23,7 +23,7 @@
                 <section class="s_senace_fin_hero" aria-labelledby="senace-fin-title">
                     <div class="container">
                         <div class="row align-items-center g-5">
-                            <div class="col-lg-7">
+                            <div class="col-lg-6">
                                 <p class="s_senace_eyebrow">
                                     <span class="s_senace_eyebrow_mark" aria-hidden="true"/>
                                     Formation professionnelle · Financement
@@ -33,10 +33,9 @@
                                     <span>sans freiner son projet.</span>
                                 </h1>
                                 <p class="s_senace_lead">
-                                    Employeur, fonds de formation, programme d'appui ou
-                                    financement personnel : SENACE vous aide à repérer la
-                                    solution adaptée à votre situation et à réunir un dossier
-                                    complet.
+                                    SENACE cadre votre projet, identifie les pistes réalistes
+                                    et prépare les pièces de formation qui rendent votre demande
+                                    lisible pour un employeur, un fonds ou un programme d'appui.
                                 </p>
                                 <div class="s_senace_hero_actions">
                                     <a href="/contactus?subject=Financement de formation"
@@ -48,29 +47,55 @@
                                         Voir les solutions
                                     </a>
                                 </div>
+                                <div class="s_senace_fin_hero_metrics"
+                                     aria-label="Repères clés de l'accompagnement financement">
+                                    <div>
+                                        <strong>4</strong>
+                                        <span>pistes étudiées selon votre statut</span>
+                                    </div>
+                                    <div>
+                                        <strong>3</strong>
+                                        <span>pièces formation préparées par SENACE</span>
+                                    </div>
+                                    <div>
+                                        <strong>1</strong>
+                                        <span>interlocuteur du diagnostic au démarrage</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-lg-5">
-                                <nav class="s_senace_fin_summary" aria-label="Les quatre pistes de financement">
-                                    <img src="/senodoo_website_landing/static/src/img/icon-formation.webp"
-                                         class="s_senace_fin_summary_visual" alt=""
-                                         width="512" height="512" decoding="async"
-                                         aria-hidden="true"/>
-                                    <p class="s_senace_fin_summary_title">Quatre pistes à étudier</p>
-                                    <ol class="list-unstyled">
-                                        <li>
-                                            <a href="#employeur"><span>01</span> Votre employeur</a>
-                                        </li>
-                                        <li>
-                                            <a href="#fonds"><span>02</span> Le 3FPT</a>
-                                        </li>
-                                        <li>
-                                            <a href="#entrepreneuriat"><span>03</span> Les programmes d'appui</a>
-                                        </li>
-                                        <li>
-                                            <a href="#personnel"><span>04</span> Le financement personnel</a>
-                                        </li>
-                                    </ol>
-                                </nav>
+                            <div class="col-lg-6">
+                                <aside class="s_senace_fin_hero_panel"
+                                       aria-label="Aperçu de l'accompagnement financement">
+                                    <div class="s_senace_fin_hero_media">
+                                        <img src="/senodoo_website_landing/static/src/img/financement-hero.webp"
+                                             alt="Conseil autour d'un dossier de financement de formation"
+                                             width="1672" height="941" fetchpriority="high"
+                                             decoding="async" loading="eager"/>
+                                    </div>
+                                    <div class="s_senace_fin_panel_footer">
+                                        <div class="s_senace_fin_panel_note">
+                                            <span>Dossier prêt à présenter</span>
+                                            <strong>Programme, devis, calendrier et prochaines étapes.</strong>
+                                        </div>
+                                        <nav class="s_senace_fin_summary" aria-label="Les quatre pistes de financement">
+                                            <p class="s_senace_fin_summary_title">Quatre pistes à étudier</p>
+                                            <ol class="list-unstyled">
+                                                <li>
+                                                    <a href="#employeur"><span>01</span> Votre employeur</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#fonds"><span>02</span> Le 3FPT</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#entrepreneuriat"><span>03</span> Les programmes d'appui</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#personnel"><span>04</span> Le financement personnel</a>
+                                                </li>
+                                            </ol>
+                                        </nav>
+                                    </div>
+                                </aside>
                             </div>
                         </div>
                     </div>
@@ -267,6 +292,15 @@
                                     Un dossier complet,
                                     <span>c'est une réponse plus rapide.</span>
                                 </h2>
+                                <div class="s_senace_fin_docs_media" aria-hidden="true">
+                                    <img src="/senodoo_website_landing/static/src/img/financement-dossier.webp"
+                                         alt="" width="1536" height="1024" loading="lazy"
+                                         decoding="async"/>
+                                    <div class="s_senace_fin_docs_label">
+                                        <span>Préparation</span>
+                                        <strong>Les pièces utiles avant le dépôt.</strong>
+                                    </div>
+                                </div>
                                 <div class="s_senace_fin_docs">
                                     <div>
                                         <h3>Fournies par SENACE</h3>

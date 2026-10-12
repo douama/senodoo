@@ -1,6 +1,6 @@
 {
     'name': "Page d'accueil SENACE",
-    'version': '1.10.1',
+    'version': '1.11.0',
     'category': 'Website',
     'sequence': 200,
     'summary': "Landing page premium des quatre pôles SENACE",
