@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="senodoo_website_landing.MenuDialogParent" t-inherit="website.MenuDialog" t-inherit-mode="extension">
+        <xpath expr="//WebsiteDialog" position="inside">
+            <div t-if="props.parentChoices?.length" class="mb-3 row">
+                <label class="col-form-label col-md-3" for="o_senace_menu_parent">Sous-menu de</label>
+                <div class="col-md-9">
+                    <select id="o_senace_menu_parent" class="form-select" t-on-change="onParentChange">
+                        <option value="root" t-att-selected="!props.parentChoice.parentId">Aucun (menu principal)</option>
+                        <t t-foreach="props.parentChoices" t-as="choice" t-key="choice.id">
+                            <option t-att-value="choice_index"
+                                    t-att-selected="choice.id === props.parentChoice.parentId"
+                                    t-esc="choice.name"/>
+                        </t>
+                    </select>
+                    <small class="form-text">
+                        Le lien s'affichera dans la liste déroulante de ce menu.
+                        Un menu qui reçoit des sous-menus ne mène plus nulle part lui-même :
+                        il ne fait qu'ouvrir sa liste.
+                    </small>
+                </div>
+            </div>
+        </xpath>
+    </t>
+
+</templates>

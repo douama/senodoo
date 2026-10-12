@@ -1,0 +1,47 @@
+// Listes deroulantes du menu principal (sous-pages).
+//
+// Fichier separe de landing.scss, qui reste ton design : on reprend ici ses
+// couleurs et sa typographie pour que les sous-menus ne retombent pas sur le
+// style Bootstrap par defaut.
+.s_senace_site_header .navbar .dropdown-menu:not(.o_mega_menu) {
+    min-width: 15rem;
+    margin-top: .5rem;
+    padding: .45rem;
+    border: 1px solid rgba(7, 26, 51, .08);
+    border-radius: .8rem;
+    background: #fff;
+    box-shadow: 0 18px 40px rgba(7, 26, 51, .12);
+
+    // Les couleurs sont en !important, comme pour .nav-link dans landing.scss :
+    // le theme les impose deja ainsi (.o_cc .dropdown-menu .dropdown-item), et
+    // sans cela le texte d'un element actif restait blanc sur fond blanc.
+    .dropdown-item {
+        padding: .55rem .8rem;
+        border-radius: .55rem;
+        color: #34465e !important;
+        font-size: .86rem;
+        font-weight: 600;
+        white-space: normal;
+
+        &:hover, &:focus, &.active, &:active {
+            color: #0a4da3 !important;
+            background: rgba(10, 77, 163, .06);
+        }
+
+        // Odoo marque actif tout lien vers une ancre de la page courante :
+        // sur l'accueil, /#formation, /#coaching... le seraient tous a la
+        // fois. Seule une vraie sous-page garde la mise en avant.
+        &.active[href*="#"]:not(:hover):not(:focus) {
+            color: #34465e !important;
+            background: transparent;
+        }
+    }
+}
+
+// Le flou d'arriere-plan de la barre (landing.scss) fait d'elle le bloc
+// conteneur de ses descendants en position fixe. Le menu lateral mobile, qui
+// porte aussi les sous-pages, etait ainsi reduit a 48 px de large. La barre
+// mobile garde son fond blanc presque opaque, sans le flou.
+.s_senace_site_header .navbar.o_header_mobile {
+    backdrop-filter: none;
+}
